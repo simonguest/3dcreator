@@ -13,33 +13,36 @@
 </head>
 
 <body>
-<table>
-    <tr>
-        <td></td>
-        <td>
-            <button id="run">Run</button>
-            <button id="pause">Pause</button>
-            <button id="resume">Resume</button>
-            <button id="stop">Stop</button>
-            <button id="debug">Debug</button>
-            <button id="clear">Clear</button>
-            <select id="examples">
-                <option value="" selected="true">Examples...</option>
-                <option value="tbd.json">TBD</option>
-            </select>
-            <button id="export">Export</button>
-            <input type="file" id="import"/>
-        </td>
-    </tr>
-    <tr>
-        <td id="runArea">
+
+<div id="container">
+    <div id="header">
+        <button id="run">Run</button>
+        <button id="pause">Pause</button>
+        <button id="resume">Resume</button>
+        <button id="stop">Stop</button>
+        <button id="debug">Debug</button>
+        <button id="clear">Clear</button>
+        <select id="examples">
+            <option value="" selected="true">Examples...</option>
+            <option value="tbd.json">TBD</option>
+        </select>
+        <button id="export">Export</button>
+        <input type="file" id="import"/>
+    </div>
+    <div id="split">
+        <div id="runArea">
             <canvas id="runAreaCanvas"></canvas>
-        </td>
-        <td id="blocklyArea">
-            Loading workspace...
-        </td>
-    </tr>
-</table>
+        </div>
+        <span id="columnResizer"></span>
+        <div id="blocklyArea">
+            Loading Workspace...
+        </div>
+    </div>
+    <div id="footer">
+        This is the footer
+    </div>
+</div>
+
 <div id="blocklyDiv" style="position: absolute"></div>
 
 <script type="module">
@@ -100,7 +103,7 @@
 
     const clearBlocklyHighlights = () => {
         let highlighted = document.evaluate("//*[contains(@class, 'blocklySelected')]", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-        for (let h=0; h<highlighted.snapshotLength; h++){
+        for (let h = 0; h < highlighted.snapshotLength; h++) {
             highlighted.snapshotItem(h).classList.remove("blocklySelected");
         }
     }
@@ -109,7 +112,7 @@
     let canvas = document.getElementById('runAreaCanvas');
     var engine = new BABYLON.Engine(canvas, true, {preserveDrawingBuffer: true, stencil: true});
     // CreateScene function that creates and return the scene
-    var createScene = function(){
+    var createScene = function () {
         // Create a basic BJS Scene object
         var scene = new BABYLON.Scene(engine);
         // Create a FreeCamera, and set its position to {x: 0, y: 5, z: -10}
@@ -121,22 +124,26 @@
         // Create a basic light, aiming 0, 1, 0 - meaning, to the sky
         var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene);
         // Create a built-in "sphere" shape using the SphereBuilder
-        var sphere = BABYLON.MeshBuilder.CreateSphere('sphere1', {segments: 16, diameter: 2, sideOrientation: BABYLON.Mesh.FRONTSIDE}, scene);
+        var sphere = BABYLON.MeshBuilder.CreateSphere('sphere1', {
+            segments: 16,
+            diameter: 2,
+            sideOrientation: BABYLON.Mesh.FRONTSIDE
+        }, scene);
         // Move the sphere upward 1/2 of its height
         sphere.position.y = 1;
         // Create a built-in "ground" shape;
-        var ground = BABYLON.MeshBuilder.CreateGround("ground1", { width: 6, height: 6, subdivisions: 2, updatable: false }, scene);
+        //var ground = BABYLON.MeshBuilder.CreateGround("ground1", { width: 6, height: 6, subdivisions: 2, updatable: false }, scene);
         // Return the created scene
         return scene;
     }
     // call the createScene function
     var scene = createScene();
     // run the render loop
-    engine.runRenderLoop(function(){
+    engine.runRenderLoop(function () {
         scene.render();
     });
     // the canvas/window resize event handler
-    window.addEventListener('resize', function(){
+    window.addEventListener('resize', function () {
         engine.resize();
     });
 
@@ -257,6 +264,25 @@
             reader.readAsText(file);
         };
 
+        const broadcastColumnResize = (e) => {
+            let windowWidth = window.innerWidth;
+            let runArea = document.getElementById("runArea");
+            runArea.style.width = `${e.clientX / windowWidth * 100}%`;
+
+            let blocklyArea = document.getElementById("blocklyArea");
+            blocklyArea.style.width = `${(window.innerWidth - e.clientX) / windowWidth * 100}%`;
+
+            let columnResizedEvent = new Event('resize');
+            window.dispatchEvent(columnResizedEvent);
+        }
+
+        document.getElementById("columnResizer").onmousedown = (e) => {
+            document.addEventListener("mousemove", broadcastColumnResize);
+            document.onmouseup = (e) => {
+                console.log("done now");
+                document.removeEventListener("mousemove", broadcastColumnResize);
+            }
+        }
     }
 
     init();

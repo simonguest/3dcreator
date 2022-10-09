@@ -9,14 +9,20 @@ body {
     overflow: hidden;
 }
 
-h1 {
-    font-weight: normal;
-    font-size: 140%;
+#container {
+    display: grid;
+    grid-template-rows: 25px calc(100% - 50px) 25px;
+    height: 100%;
 }
 
-table {
-    height: 100%;
-    width: 100%;
+#header {
+    grid-row: 1;
+}
+
+#split {
+    grid-row: 2;
+    display: flex;
+    flex-direction: row;
 }
 
 #runArea {
@@ -25,13 +31,28 @@ table {
 }
 
 #runAreaCanvas {
-    height: 100%;
     width: 100%;
+    height: 100%;
 }
 
 #blocklyArea {
-    height: 100%;
     width: 40%;
     background: #ffffff;
     text-align: center;
+}
+
+#columnResizer {
+    display: block;
+    top: 0;
+    right: 0;
+    margin: 0;
+    width: 4px;
+    height: 100%;
+    padding: 0;
+    cursor: col-resize;
+    border: 1px solid transparent;
+}
+
+#footer {
+    grid-row: 3;
 }
