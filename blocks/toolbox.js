@@ -112,6 +112,36 @@ export let toolbox = {
                 {
                     "kind":"block",
                     "type":"moveForward"
+                },
+                {
+                    "kind":"block",
+                    "type":"createSphere",
+                    "inputs": {
+                        "DIAMETER": {
+                            "block": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 1
+                                }
+                            }
+                        },
+                        "X": {
+                            "block": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 1
+                                }
+                            }
+                        },
+                        "Y": {
+                            "block": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 1
+                                }
+                            }
+                        }
+                    }
                 }
             ]
         },

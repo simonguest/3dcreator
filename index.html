@@ -54,7 +54,10 @@
     import * as control from "./blocks/control/index.js";
     import {toolbox} from "./blocks/toolbox.js";
 
+    import * as TD from "./3d.js";
+
     createCustomBlock("moveForward", control.moveForward);
+    createCustomBlock("createSphere", control.createSphere);
 
     let blocklyArea = document.getElementById('blocklyArea');
     let blocklyDiv = document.getElementById('blocklyDiv');
@@ -110,46 +113,12 @@
 
     /* Babylon init */
     let canvas = document.getElementById('runAreaCanvas');
-    var engine = new BABYLON.Engine(canvas, true, {preserveDrawingBuffer: true, stencil: true});
-    // CreateScene function that creates and return the scene
-    var createScene = function () {
-        // This creates a basic Babylon Scene object (non-mesh)
-        var scene = new BABYLON.Scene(engine);
-        var camera = new BABYLON.ArcRotateCamera("camera", BABYLON.Tools.ToRadians(90), BABYLON.Tools.ToRadians(65), 10, BABYLON.Vector3.Zero(), scene);
+    TD.init(canvas);
+    TD.runRenderLoop();
 
-        // This attaches the camera to the canvas
-        camera.attachControl(canvas, true);
-
-        // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-        var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-
-        // Default intensity is 1. Let's dim the light a small amount
-        light.intensity = 0.7;
-
-        // Our built-in 'ground' shape.
-        var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
-        let groundMaterial = new BABYLON.StandardMaterial("Ground Material", scene);
-        ground.material = groundMaterial;
-
-        // Create a built-in "sphere" shape using the SphereBuilder
-        var sphere = BABYLON.MeshBuilder.CreateSphere('sphere1', {
-            segments: 16,
-            diameter: 2,
-            sideOrientation: BABYLON.Mesh.FRONTSIDE
-        }, scene);
-        sphere.position.y = 1;
-
-        return scene;
-    }
-    // call the createScene function
-    var scene = createScene();
-    // run the render loop
-    engine.runRenderLoop(function () {
-        scene.render();
-    });
     // the canvas/window resize event handler
     window.addEventListener('resize', function () {
-        engine.resize();
+        TD.getEngine().resize();
     });
 
     let runButton = document.getElementById("run");
@@ -166,7 +135,7 @@
         // Generate the required code
         let code = Blockly.JavaScript.workspaceToCode(workspace);
         console.log(code);
-        eval(code + " stop(); ");
+        eval("TD.init(canvas); " + code + " stop(); ");
     }
 
     function stop() {
