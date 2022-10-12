@@ -52,90 +52,169 @@ export let toolbox = {
             ]
         },
         {
-          "kind":"category",
-          "name":"Logic",
-          "contents":[
-              {
-                  "kind": "block",
-                  "type": "logic_compare"
-              },
-              {
-                  "kind":"block",
-                  "type":"controls_if"
-              }
-          ]
-        },
-        {
-          "kind":"category",
-          "name":"Math",
-          "contents":[
-              {
-                  "kind": "block",
-                  "type": "math_number"
-              },
-              {
-                  "kind": "block",
-                  "type": "math_arithmetic"
-              },
-              {
-                  "kind": "block",
-                  "type": "math_modulo"
-              },
-              {
-                  "kind":"block",
-                  "type":"math_random_int",
-                  "inputs": {
-                      "FROM": {
-                          "block": {
-                              "type": "math_number",
-                              "fields": {
-                                  "NUM": 1
-                              }
-                          }
-                      },
-                      "TO": {
-                          "block": {
-                              "type": "math_number",
-                              "fields": {
-                                  "NUM": 100
-                              }
-                          }
-                      }
-                  }
-              }
-          ]
-        },
-        {
-            "kind":"category",
-            "name":"Objects",
+            "kind": "category",
+            "name": "Logic",
             "contents": [
                 {
-                    "kind":"block",
-                    "type":"createSphere",
+                    "kind": "block",
+                    "type": "logic_compare"
+                },
+                {
+                    "kind": "block",
+                    "type": "controls_if"
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "Math",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "math_number"
+                },
+                {
+                    "kind": "block",
+                    "type": "math_arithmetic"
+                },
+                {
+                    "kind": "block",
+                    "type": "math_modulo"
+                },
+                {
+                    "kind": "block",
+                    "type": "math_random_int",
                     "inputs": {
-                        "DIAMETER": {
-                            "block": {
+                        "FROM": {
+                            "shadow": {
                                 "type": "math_number",
                                 "fields": {
                                     "NUM": 1
                                 }
                             }
                         },
-                        "X": {
-                            "block": {
+                        "TO": {
+                            "shadow": {
                                 "type": "math_number",
                                 "fields": {
-                                    "NUM": 1
+                                    "NUM": 100
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "Coordinates",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "coordinates",
+                    "inputs": {
+                        "X": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
                                 }
                             }
                         },
                         "Y": {
-                            "block": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        },
+                        "Z": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "World",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "createGround",
+                    "inputs": {
+                        "WIDTH": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 6
+                                }
+                            }
+                        },
+                        "LENGTH": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 6
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "Objects",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "createSphere",
+                    "inputs": {
+                        "DIAMETER": {
+                            "shadow": {
                                 "type": "math_number",
                                 "fields": {
                                     "NUM": 1
                                 }
-                            }
+                            },
+                        },
+                        "COORDS": {
+                            "block": {
+                                "type": "coordinates",
+                                "inputs": {
+                                    "X": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 0
+                                            }
+                                        }
+                                    },
+                                    "Y": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 0
+                                            }
+                                        }
+                                    },
+                                    "Z": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 0
+                                            }
+                                        }
+                                    }
+                                }
+                            },
                         }
                     }
                 }

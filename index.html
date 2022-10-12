@@ -51,12 +51,17 @@
         Blockly.JavaScript[name] = blockType["transpile"];
     }
 
-    import * as control from "./blocks/objects/index.js";
+    import * as objects from "./blocks/objects/index.js";
+    import * as world from "./blocks/world/index.js";
+    import * as coords from "./blocks/coords/index.js";
+
     import {toolbox} from "./blocks/toolbox.js";
 
-    import {TD} from "./3d.js";
+    import {ThreeD} from "./3d.js";
 
-    createCustomBlock("createSphere", control.createSphere);
+    createCustomBlock("coordinates", coords.coordinates);
+    createCustomBlock("createGround", world.createGround);
+    createCustomBlock("createSphere", objects.createSphere);
 
     let blocklyArea = document.getElementById('blocklyArea');
     let blocklyDiv = document.getElementById('blocklyDiv');
@@ -111,12 +116,12 @@
     }
 
     /* Babylon init */
-    let tD = new TD(document.getElementById('runAreaCanvas'));
-    tD.runRenderLoop();
+    let threeD = new ThreeD(document.getElementById('runAreaCanvas'));
+    threeD.runRenderLoop();
 
     // the canvas/window resize event handler
     window.addEventListener('resize', function () {
-        tD.engine.resize();
+        threeD.engine.resize();
     });
 
     let runButton = document.getElementById("run");
@@ -133,7 +138,7 @@
         // Generate the required code
         let code = Blockly.JavaScript.workspaceToCode(workspace);
         console.log(code);
-        eval("tD.createScene(); " + code + " stop(); ");
+        eval("threeD.createScene(); " + code + " stop(); ");
     }
 
     function stop() {
