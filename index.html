@@ -51,12 +51,11 @@
         Blockly.JavaScript[name] = blockType["transpile"];
     }
 
-    import * as control from "./blocks/control/index.js";
+    import * as control from "./blocks/objects/index.js";
     import {toolbox} from "./blocks/toolbox.js";
 
-    import * as TD from "./3d.js";
+    import {TD} from "./3d.js";
 
-    createCustomBlock("moveForward", control.moveForward);
     createCustomBlock("createSphere", control.createSphere);
 
     let blocklyArea = document.getElementById('blocklyArea');
@@ -112,13 +111,12 @@
     }
 
     /* Babylon init */
-    let canvas = document.getElementById('runAreaCanvas');
-    TD.init(canvas);
-    TD.runRenderLoop();
+    let tD = new TD(document.getElementById('runAreaCanvas'));
+    tD.runRenderLoop();
 
     // the canvas/window resize event handler
     window.addEventListener('resize', function () {
-        TD.getEngine().resize();
+        tD.engine.resize();
     });
 
     let runButton = document.getElementById("run");
@@ -135,7 +133,7 @@
         // Generate the required code
         let code = Blockly.JavaScript.workspaceToCode(workspace);
         console.log(code);
-        eval("TD.init(canvas); " + code + " stop(); ");
+        eval("tD.createScene(); " + code + " stop(); ");
     }
 
     function stop() {

@@ -22,6 +22,6 @@ export let createSphere = {
         let x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_NONE);
         let y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_NONE);
 
-        return `TD.createSphere(${diameter}, ${x}, ${y});`;
+        return `tD.createSphere(${diameter}, ${x}, ${y}, 0);`;
     }
 };

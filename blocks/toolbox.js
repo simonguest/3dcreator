@@ -107,12 +107,8 @@ export let toolbox = {
         },
         {
             "kind":"category",
-            "name":"Drawing",
+            "name":"Objects",
             "contents": [
-                {
-                    "kind":"block",
-                    "type":"moveForward"
-                },
                 {
                     "kind":"block",
                     "type":"createSphere",
