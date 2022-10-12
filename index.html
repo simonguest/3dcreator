@@ -54,6 +54,7 @@
     import * as objects from "./blocks/objects/index.js";
     import * as world from "./blocks/world/index.js";
     import * as coords from "./blocks/coords/index.js";
+    import * as materials from "./blocks/materials/index.js";
 
     import {toolbox} from "./blocks/toolbox.js";
 
@@ -62,6 +63,10 @@
     createCustomBlock("coordinates", coords.coordinates);
     createCustomBlock("createGround", world.createGround);
     createCustomBlock("createSphere", objects.createSphere);
+
+    createCustomBlock("setMaterial", materials.setMaterial);
+    createCustomBlock("none", materials.none);
+    createCustomBlock("earth", materials.earth);
 
     let blocklyArea = document.getElementById('blocklyArea');
     let blocklyDiv = document.getElementById('blocklyDiv');

@@ -222,6 +222,24 @@ export let toolbox = {
         },
         {
             "kind": "category",
+            "name": "Materials",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "setMaterial"
+                },
+                {
+                    "kind": "block",
+                    "type": "none"
+                },
+                {
+                    "kind": "block",
+                    "type": "earth"
+                }
+                ]
+        },
+        {
+            "kind": "category",
             "name": "Variables",
             "custom": "VARIABLE"
         },
