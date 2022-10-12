@@ -2,7 +2,7 @@ export let createSphere = {
     init: function () {
         this.appendValueInput("DIAMETER")
             .setCheck("Number")
-            .appendField("Create Sphere of size ");
+            .appendField("Create Sphere of diameter ");
         this.appendValueInput("COORDS")
             .setCheck("COORDS")
             .appendField("located at ");

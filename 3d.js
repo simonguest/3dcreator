@@ -1,4 +1,8 @@
+import {setMaterial} from "./blocks/materials";
+
 export class ThreeD {
+    material = null;
+
     constructor(canvas) {
         this.canvas = canvas;
         this.engine = new BABYLON.Engine(this.canvas, true, {preserveDrawingBuffer: true, stencil: true});
@@ -21,6 +25,11 @@ export class ThreeD {
 
     createGround = (width, height) => {
         this.ground = BABYLON.MeshBuilder.CreateGround("ground", {width: width, height: height}, this.scene);
+        if (this.material) {
+            let material = new BABYLON.StandardMaterial("Material", this.scene);
+            material.diffuseTexture = new BABYLON.Texture(`./assets/materials/${this.material}`);
+            this.ground.material = material;
+        }
     }
 
     createSphere = (diameter, coords) => {
@@ -32,9 +41,10 @@ export class ThreeD {
         sphere.position.x = coords.x;
         sphere.position.y = coords.y;
         sphere.position.z = coords.z;
+        if (this.material) {
+            let material = new BABYLON.StandardMaterial("Material", this.scene);
+            material.diffuseTexture = new BABYLON.Texture(`./assets/materials/${this.material}`);
+            sphere.material = material;
+        }
     }
-
-    //let groundMaterial = new BABYLON.StandardMaterial("Ground Material", this.scene);
-    // groundMaterial.diffuseTexture = new BABYLON.Texture('../assets/textures/floor.png');
-    // ground.material = groundMaterial;
 }
