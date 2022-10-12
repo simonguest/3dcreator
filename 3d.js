@@ -32,19 +32,49 @@ export class ThreeD {
         }
     }
 
-    createSphere = (diameter, coords) => {
-        let sphere = BABYLON.MeshBuilder.CreateSphere(`sphere-${diameter}-${coords.x}-${coords.y}-${coords.z}`, {
-            segments: 16,
-            diameter: diameter,
-            sideOrientation: BABYLON.Mesh.FRONTSIDE
-        }, this.scene);
-        sphere.position.x = coords.x;
-        sphere.position.y = coords.y;
-        sphere.position.z = coords.z;
+    setPosition = (obj, coords) => {
+        obj.position.x = coords.x;
+        obj.position.y = coords.y;
+        obj.position.z = coords.z;
+    }
+
+    setMaterial = (obj) => {
         if (this.material) {
             let material = new BABYLON.StandardMaterial("Material", this.scene);
             material.diffuseTexture = new BABYLON.Texture(`./assets/materials/${this.material}`);
-            sphere.material = material;
+            obj.material = material;
         }
+    }
+
+
+    createBox = (width, height, depth, coords) => {
+        let box = BABYLON.MeshBuilder.CreateBox(`box-${coords.x}-${coords.y}-${coords.z}`, {
+            height: height,
+            width: width,
+            depth: depth
+        });
+        this.setPosition(box, coords);
+        this.setMaterial(box);
+    }
+
+    createSphere = (diameter, coords) => {
+        let sphere = BABYLON.MeshBuilder.CreateSphere(`sphere-${diameter}-${coords.x}-${coords.y}-${coords.z}`, {
+            segments: 16,
+            diameter: diameter
+        });
+        this.setPosition(sphere, coords);
+        this.setMaterial(sphere);
+    }
+
+    createObject = (obj, coords) => {
+        switch (obj.type) {
+            case "sphere":
+                this.createSphere(obj.diameter, coords);
+                break;
+            case "box":
+                this.createBox(obj.width, obj.height, obj.depth, coords);
+                break;
+        }
+
     }
 }

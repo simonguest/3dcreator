@@ -24,7 +24,7 @@
         <button id="clear">Clear</button>
         <select id="examples">
             <option value="" selected="true">Examples...</option>
-            <option value="tbd.json">TBD</option>
+            <option value="garden.json">Simple Garden</option>
         </select>
         <button id="export">Export</button>
         <input type="file" id="import"/>
@@ -62,11 +62,15 @@
 
     createCustomBlock("coordinates", coords.coordinates);
     createCustomBlock("createGround", world.createGround);
-    createCustomBlock("createSphere", objects.createSphere);
+    createCustomBlock("createObject", world.createObject);
+
+    createCustomBlock("sphere", objects.sphere);
+    createCustomBlock("box", objects.box);
 
     createCustomBlock("setMaterial", materials.setMaterial);
     createCustomBlock("none", materials.none);
     createCustomBlock("earth", materials.earth);
+    createCustomBlock("building", materials.building);
 
     let blocklyArea = document.getElementById('blocklyArea');
     let blocklyDiv = document.getElementById('blocklyDiv');

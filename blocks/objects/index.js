@@ -1,5 +1,7 @@
-import {createSphere} from "./createSphere.js";
+import {sphere} from "./sphere.js";
+import {box} from "./box.js";
 
 export {
-    createSphere
+    sphere,
+    box
 };

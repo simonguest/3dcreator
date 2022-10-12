@@ -166,25 +166,11 @@ export let toolbox = {
                             }
                         }
                     }
-                }
-            ]
-        },
-        {
-            "kind": "category",
-            "name": "Objects",
-            "contents": [
+                },
                 {
-                    "kind": "block",
-                    "type": "createSphere",
+                    "kind":"block",
+                    "type": "createObject",
                     "inputs": {
-                        "DIAMETER": {
-                            "shadow": {
-                                "type": "math_number",
-                                "fields": {
-                                    "NUM": 1
-                                }
-                            },
-                        },
                         "COORDS": {
                             "block": {
                                 "type": "coordinates",
@@ -214,6 +200,56 @@ export let toolbox = {
                                         }
                                     }
                                 }
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "Objects",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "sphere",
+                    "inputs": {
+                        "DIAMETER": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 1
+                                }
+                            },
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "box",
+                    "inputs": {
+                        "HEIGHT": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 1
+                                }
+                            },
+                        },
+                        "WIDTH": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 1
+                                }
+                            },
+                        },
+                        "DEPTH": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 1
+                                }
                             },
                         }
                     }
@@ -235,6 +271,10 @@ export let toolbox = {
                 {
                     "kind": "block",
                     "type": "earth"
+                },
+                {
+                    "kind": "block",
+                    "type": "building"
                 }
                 ]
         },
