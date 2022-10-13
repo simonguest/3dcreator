@@ -21,6 +21,7 @@ export class ThreeD {
     }
 
     createScene = () => {
+        if (this.camera) this.saveCameraState();
         this.scene = new BABYLON.Scene(this.engine);
         this.camera = new BABYLON.ArcRotateCamera("camera", BABYLON.Tools.ToRadians(90), BABYLON.Tools.ToRadians(65), 10, BABYLON.Vector3.Zero(), this.scene);
         this.camera.attachControl(this.canvas, true);
