@@ -117,13 +117,6 @@
         }
     });
 
-    const clearBlocklyHighlights = () => {
-        let highlighted = document.evaluate("//*[contains(@class, 'blocklySelected')]", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-        for (let h = 0; h < highlighted.snapshotLength; h++) {
-            highlighted.snapshotItem(h).classList.remove("blocklySelected");
-        }
-    }
-
     /* Babylon init */
     let threeD = new ThreeD(document.getElementById('runAreaCanvas'));
     threeD.runRenderLoop();

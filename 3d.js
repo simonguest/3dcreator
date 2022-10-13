@@ -8,10 +8,23 @@ export class ThreeD {
         this.createScene()
     }
 
+    saveCameraState = () => {
+        this.cameraState = this.camera.serialize();
+    }
+
+    restoreCameraState = () => {
+        if (this.cameraState) {
+            this.camera.alpha = this.cameraState.alpha;
+            this.camera.beta = this.cameraState.beta;
+            this.camera.radius = this.cameraState.radius;
+        }
+    }
+
     createScene = () => {
         this.scene = new BABYLON.Scene(this.engine);
         this.camera = new BABYLON.ArcRotateCamera("camera", BABYLON.Tools.ToRadians(90), BABYLON.Tools.ToRadians(65), 10, BABYLON.Vector3.Zero(), this.scene);
         this.camera.attachControl(this.canvas, true);
+        this.restoreCameraState();
         this.light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
         this.light.intensity = 0.7;
         this.material = null;
@@ -45,7 +58,6 @@ export class ThreeD {
             obj.material = material;
         }
     }
-
 
     createBox = (width, height, depth, coords) => {
         let box = BABYLON.MeshBuilder.CreateBox(`box-${coords.x}-${coords.y}-${coords.z}`, {
