@@ -1,3 +1,5 @@
+import {javascriptGenerator} from "blockly/javascript";
+
 export let sphere = {
     init: function () {
         this.appendValueInput("DIAMETER")
@@ -9,8 +11,8 @@ export let sphere = {
     },
 
     transpile: function (block) {
-        let diameter = Blockly.JavaScript.valueToCode(block, 'DIAMETER', Blockly.JavaScript.ORDER_NONE);
+        let diameter = javascriptGenerator.valueToCode(block, 'DIAMETER', javascriptGenerator.ORDER_NONE);
 
-        return [`{type: "sphere", diameter: ${diameter}}`, Blockly.JavaScript.ORDER_NONE];
+        return [`{type: "sphere", diameter: ${diameter}}`, javascriptGenerator.ORDER_NONE];
     }
 };

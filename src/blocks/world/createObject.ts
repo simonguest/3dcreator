@@ -1,3 +1,5 @@
+import {javascriptGenerator} from "blockly/javascript";
+
 export let createObject = {
     init: function () {
         this.appendValueInput("OBJECT")
@@ -13,8 +15,8 @@ export let createObject = {
     },
 
     transpile: function (block) {
-        let object = Blockly.JavaScript.valueToCode(block, 'OBJECT', Blockly.JavaScript.ORDER_NONE);
-        let coords = Blockly.JavaScript.valueToCode(block, 'COORDS', Blockly.JavaScript.ORDER_NONE);
+        let object = javascriptGenerator.valueToCode(block, 'OBJECT', javascriptGenerator.ORDER_NONE);
+        let coords = javascriptGenerator.valueToCode(block, 'COORDS', javascriptGenerator.ORDER_NONE);
 
         return `threeD.createObject(${object}, ${coords});`;
     }

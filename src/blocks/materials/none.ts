@@ -1,3 +1,5 @@
+import {javascriptGenerator} from "blockly/javascript";
+
 export let none = {
     init: function() {
         let input = this.appendDummyInput()
@@ -8,6 +10,6 @@ export let none = {
         this.setHelpUrl("");    },
 
     transpile: function (block) {
-        return [`null`, Blockly.JavaScript.ORDER_NONE];
+        return [`null`, javascriptGenerator.ORDER_NONE];
     }
 };

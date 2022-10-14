@@ -1,3 +1,5 @@
+import {javascriptGenerator} from "blockly/javascript";
+
 export let createGround = {
     init: function () {
         this.appendValueInput("WIDTH")
@@ -15,8 +17,8 @@ export let createGround = {
     },
 
     transpile: function (block) {
-        let width = Blockly.JavaScript.valueToCode(block, 'WIDTH', Blockly.JavaScript.ORDER_NONE);
-        let length = Blockly.JavaScript.valueToCode(block, 'LENGTH', Blockly.JavaScript.ORDER_NONE);
+        let width = javascriptGenerator.valueToCode(block, 'WIDTH', javascriptGenerator.ORDER_NONE);
+        let length = javascriptGenerator.valueToCode(block, 'LENGTH', javascriptGenerator.ORDER_NONE);
 
         return `threeD.createGround(${width}, ${length});`;
     }

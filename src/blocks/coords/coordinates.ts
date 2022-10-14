@@ -1,3 +1,5 @@
+import {javascriptGenerator} from "blockly/javascript";
+
 export let coordinates = {
     init: function() {
         this.appendValueInput("X")
@@ -17,10 +19,10 @@ export let coordinates = {
     },
 
     transpile: function (block) {
-        let x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_NONE);
-        let y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_NONE);
-        let z = Blockly.JavaScript.valueToCode(block, 'Z', Blockly.JavaScript.ORDER_NONE);
+        let x = javascriptGenerator.valueToCode(block, 'X', javascriptGenerator.ORDER_NONE);
+        let y = javascriptGenerator.valueToCode(block, 'Y', javascriptGenerator.ORDER_NONE);
+        let z = javascriptGenerator.valueToCode(block, 'Z', javascriptGenerator.ORDER_NONE);
 
-        return [`{x:${x}, y:${y}, z:${z}}`, Blockly.JavaScript.ORDER_NONE];
+        return [`{x:${x}, y:${y}, z:${z}}`, javascriptGenerator.ORDER_NONE];
     }
 };

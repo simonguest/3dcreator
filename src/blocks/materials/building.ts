@@ -1,3 +1,6 @@
+import Blockly from 'blockly';
+import {javascriptGenerator} from "blockly/javascript";
+
 export let building = {
     init: function() {
         let input = this.appendDummyInput()
@@ -14,6 +17,6 @@ export let building = {
     transpile: function (block) {
         let material = block.getFieldValue('MATERIAL');
 
-        return [`"${material}"`, Blockly.JavaScript.ORDER_NONE];
+        return [`"${material}"`, javascriptGenerator.ORDER_NONE];
     }
 };

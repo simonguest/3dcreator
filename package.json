@@ -1,0 +1,31 @@
+{
+  "name": "3dlab",
+  "version": "1.0.0",
+  "description": "",
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "scripts": {
+    "build": "npx parcel build index.html",
+    "server": "npx parcel serve index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonguest/3dlab.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/simonguest/3dlab/issues"
+  },
+  "homepage": "https://github.com/simonguest/3dlab#readme",
+  "dependencies": {
+    "babylonjs": "^5.28.0",
+    "blockly": "^9.0.0"
+  },
+  "devDependencies": {
+    "parcel": "^2.7.0",
+    "parcel-reporter-static-files-copy": "^1.4.0"
+  }
+}

@@ -1,3 +1,5 @@
+import {javascriptGenerator} from "blockly/javascript";
+
 export let setMaterial = {
     init: function () {
         this.appendValueInput("MATERIAL")
@@ -12,8 +14,7 @@ export let setMaterial = {
     },
 
     transpile: function (block) {
-        let material = Blockly.JavaScript.valueToCode(block, 'MATERIAL', Blockly.JavaScript.ORDER_NONE);
-
+        let material = javascriptGenerator.valueToCode(block, 'MATERIAL', javascriptGenerator.ORDER_NONE);
         return `threeD.material = ${material};`;
     }
 };

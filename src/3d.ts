@@ -1,6 +1,14 @@
-import {setMaterial} from "./blocks/materials";
+import * as BABYLON from 'babylonjs';
 
 export class ThreeD {
+    private readonly canvas: any;
+    public readonly engine: BABYLON.Engine;
+    private cameraState: any;
+    private camera: BABYLON.ArcRotateCamera;
+    private scene: BABYLON.Scene;
+    private light: BABYLON.HemisphericLight;
+    private material: BABYLON.StandardMaterial;
+    private ground: BABYLON.GroundMesh;
 
     constructor(canvas) {
         this.canvas = canvas;

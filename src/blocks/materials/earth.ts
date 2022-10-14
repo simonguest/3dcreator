@@ -1,3 +1,6 @@
+import Blockly from 'blockly';
+import {javascriptGenerator} from "blockly/javascript";
+
 export let earth = {
     init: function() {
         let input = this.appendDummyInput()
@@ -15,6 +18,6 @@ export let earth = {
     transpile: function (block) {
         let material = block.getFieldValue('MATERIAL');
 
-        return [`"${material}"`, Blockly.JavaScript.ORDER_NONE];
+        return [`"${material}"`, javascriptGenerator.ORDER_NONE];
     }
 };
