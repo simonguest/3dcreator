@@ -22,7 +22,8 @@
   "homepage": "https://github.com/simonguest/3dlab#readme",
   "dependencies": {
     "babylonjs": "^5.28.0",
-    "blockly": "^9.0.0"
+    "blockly": "^9.0.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "parcel": "^2.7.0",

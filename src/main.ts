@@ -19,6 +19,7 @@ const createCustomBlock = (name, blockType) => {
 createCustomBlock("coordinates", coords.coordinates);
 createCustomBlock("createGround", world.createGround);
 createCustomBlock("createObject", world.createObject);
+createCustomBlock("setPosition", world.setPosition);
 
 createCustomBlock("sphere", objects.sphere);
 createCustomBlock("box", objects.box);

@@ -169,40 +169,11 @@ export let toolbox = {
                 },
                 {
                     "kind":"block",
-                    "type": "createObject",
-                    "inputs": {
-                        "COORDS": {
-                            "block": {
-                                "type": "coordinates",
-                                "inputs": {
-                                    "X": {
-                                        "shadow": {
-                                            "type": "math_number",
-                                            "fields": {
-                                                "NUM": 0
-                                            }
-                                        }
-                                    },
-                                    "Y": {
-                                        "shadow": {
-                                            "type": "math_number",
-                                            "fields": {
-                                                "NUM": 0
-                                            }
-                                        }
-                                    },
-                                    "Z": {
-                                        "shadow": {
-                                            "type": "math_number",
-                                            "fields": {
-                                                "NUM": 0
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    "type": "createObject"
+                },
+                {
+                    "kind":"block",
+                    "type": "setPosition"
                 }
             ]
         },
@@ -253,6 +224,11 @@ export let toolbox = {
                             },
                         }
                     }
+                },
+                {
+                    "kind":"block",
+                    "type":"lists_create_with",
+                    "text":"test"
                 }
             ]
         },

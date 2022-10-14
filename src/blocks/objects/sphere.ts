@@ -1,10 +1,14 @@
 import {javascriptGenerator} from "blockly/javascript";
+import { v4 as uuid } from 'uuid';
 
 export let sphere = {
     init: function () {
         this.appendValueInput("DIAMETER")
             .setCheck("Number")
             .appendField("Sphere of diameter ");
+        this.appendValueInput("COORDS")
+            .setCheck("COORDS")
+            .appendField("at ");
         this.setInputsInline(true);
         this.setOutput(true, "OBJECT");
         this.setColour(330);
@@ -12,7 +16,8 @@ export let sphere = {
 
     transpile: function (block) {
         let diameter = javascriptGenerator.valueToCode(block, 'DIAMETER', javascriptGenerator.ORDER_NONE);
+        let coords = javascriptGenerator.valueToCode(block, 'COORDS', javascriptGenerator.ORDER_NONE);
 
-        return [`{type: "sphere", diameter: ${diameter}}`, javascriptGenerator.ORDER_NONE];
+        return [`{ id: "${uuid()}", type: "sphere", diameter: ${diameter}, coords: ${coords}}`, javascriptGenerator.ORDER_NONE];
     }
 };

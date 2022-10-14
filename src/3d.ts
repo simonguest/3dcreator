@@ -54,12 +54,6 @@ export class ThreeD {
         }
     }
 
-    setPosition = (obj, coords) => {
-        obj.position.x = coords.x;
-        obj.position.y = coords.y;
-        obj.position.z = coords.z;
-    }
-
     setMaterial = (obj) => {
         if (this.material) {
             let material = new BABYLON.StandardMaterial("Material", this.scene);
@@ -68,34 +62,52 @@ export class ThreeD {
         }
     }
 
-    createBox = (width, height, depth, coords) => {
-        let box = BABYLON.MeshBuilder.CreateBox(`box-${coords.x}-${coords.y}-${coords.z}`, {
-            height: height,
-            width: width,
-            depth: depth
+    createBox = (obj) => {
+        let box = BABYLON.MeshBuilder.CreateBox(obj.id, {
+            height: obj.height,
+            width: obj.width,
+            depth: obj.depth
         });
-        this.setPosition(box, coords);
+        box.position.x = obj.coords.x;
+        box.position.y = obj.coords.y;
+        box.position.z = obj.coords.z;
         this.setMaterial(box);
     }
 
-    createSphere = (diameter, coords) => {
-        let sphere = BABYLON.MeshBuilder.CreateSphere(`sphere-${diameter}-${coords.x}-${coords.y}-${coords.z}`, {
+    createSphere = (obj) => {
+        let sphere = BABYLON.MeshBuilder.CreateSphere(obj.id, {
             segments: 16,
-            diameter: diameter
+            diameter: obj.diameter
         });
-        this.setPosition(sphere, coords);
+        sphere.position.x = obj.coords.x;
+        sphere.position.y = obj.coords.y;
+        sphere.position.z = obj.coords.z;
         this.setMaterial(sphere);
+        console.log(sphere);
     }
 
-    createObject = (obj, coords) => {
-        switch (obj.type) {
-            case "sphere":
-                this.createSphere(obj.diameter, coords);
-                break;
-            case "box":
-                this.createBox(obj.width, obj.height, obj.depth, coords);
-                break;
+    createObject = (obj) => {
+        if (obj.length) {
+            // Array of objects
+            obj.forEach(o => this.createObject(o));
         }
 
+        switch (obj.type) {
+            case "sphere":
+                this.createSphere(obj);
+                break;
+            case "box":
+                this.createBox(obj);
+                break;
+        }
+    }
+
+    setPosition = (obj, coords) => {
+        let mesh = this.scene.getMeshById(obj.id);
+        if (mesh){
+            mesh.position.x = coords.x;
+            mesh.position.y = coords.y;
+            mesh.position.z = coords.z;
+        }
     }
 }
