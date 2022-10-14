@@ -46,13 +46,13 @@ let workspace = Blockly.inject('blocklyDiv', {
 });
 let onresize = function () {
     // Compute the absolute coordinates and dimensions of blocklyArea.
-    let element = blocklyArea;
+    let element: HTMLElement = blocklyArea;
     let x = 0;
     let y = 0;
     do {
         x += element.offsetLeft;
         y += element.offsetTop;
-        element = element.offsetParent;
+        element = element.offsetParent as HTMLElement;
     } while (element);
     // Position blocklyDiv over blocklyArea.
     blocklyDiv.style.left = x + 'px';
