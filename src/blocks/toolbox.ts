@@ -173,6 +173,10 @@ export let toolbox = {
                 },
                 {
                     "kind":"block",
+                    "type": "mergeObjects"
+                },
+                {
+                    "kind":"block",
                     "type": "setPosition"
                 }
             ]

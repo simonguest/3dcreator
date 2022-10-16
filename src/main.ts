@@ -19,6 +19,7 @@ const createCustomBlock = (name, blockType) => {
 createCustomBlock("coordinates", coords.coordinates);
 createCustomBlock("createGround", world.createGround);
 createCustomBlock("createObject", world.createObject);
+createCustomBlock("mergeObjects", world.mergeObjects);
 createCustomBlock("setPosition", world.setPosition);
 
 createCustomBlock("sphere", objects.sphere);
@@ -37,7 +38,7 @@ let workspace = Blockly.inject('blocklyDiv', {
     toolboxPosition: "start",
     move: {
         scrollbars: {
-            horizontal: false,
+            horizontal: true,
             vertical: true
         },
         drag: true,
