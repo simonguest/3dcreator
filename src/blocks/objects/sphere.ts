@@ -17,6 +17,7 @@ export let sphere = {
     transpile: function (block) {
         let diameter = javascriptGenerator.valueToCode(block, 'DIAMETER', javascriptGenerator.ORDER_NONE);
         let coords = javascriptGenerator.valueToCode(block, 'COORDS', javascriptGenerator.ORDER_NONE);
+        if (coords === "") coords = "{ x: 0, y: 0, z: 0}";
 
         return [`{ id: "${uuid()}", type: "sphere", diameter: ${diameter}, coords: ${coords}}`, javascriptGenerator.ORDER_NONE];
     }

@@ -102,6 +102,11 @@ export class ThreeD {
         }
     }
 
+    mergeObjects = (objs) => {
+        console.log("MERGE OBJECTS FN");
+        console.log(objs);
+    }
+
     setPosition = (obj, coords) => {
         let mesh = this.scene.getMeshById(obj.id);
         if (mesh){

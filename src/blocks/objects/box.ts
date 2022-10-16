@@ -25,6 +25,7 @@ export let box = {
         let width = javascriptGenerator.valueToCode(block, 'WIDTH', javascriptGenerator.ORDER_NONE);
         let depth = javascriptGenerator.valueToCode(block, 'DEPTH', javascriptGenerator.ORDER_NONE);
         let coords = javascriptGenerator.valueToCode(block, 'COORDS', javascriptGenerator.ORDER_NONE);
+        if (coords === "") coords = "{ x: 0, y: 0, z: 0}";
 
         return [`{ id: "${uuid()}", type: "box", height: ${height}, width: ${width}, depth: ${depth}, coords: ${coords}}`, javascriptGenerator.ORDER_NONE];
     }
