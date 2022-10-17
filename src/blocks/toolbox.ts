@@ -146,8 +146,22 @@ export let toolbox = {
             "name": "World",
             "contents": [
                 {
+                    "kind":"block",
+                    "type": "create"
+                },
+                {
+                    "kind":"block",
+                    "type": "move"
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "Objects",
+            "contents": [
+                {
                     "kind": "block",
-                    "type": "createGround",
+                    "type": "ground",
                     "inputs": {
                         "WIDTH": {
                             "shadow": {
@@ -157,7 +171,7 @@ export let toolbox = {
                                 }
                             }
                         },
-                        "LENGTH": {
+                        "DEPTH": {
                             "shadow": {
                                 "type": "math_number",
                                 "fields": {
@@ -167,24 +181,6 @@ export let toolbox = {
                         }
                     }
                 },
-                {
-                    "kind":"block",
-                    "type": "createObject"
-                },
-                {
-                    "kind":"block",
-                    "type": "mergeObjects"
-                },
-                {
-                    "kind":"block",
-                    "type": "setPosition"
-                }
-            ]
-        },
-        {
-            "kind": "category",
-            "name": "Objects",
-            "contents": [
                 {
                     "kind": "block",
                     "type": "sphere",
@@ -231,8 +227,7 @@ export let toolbox = {
                 },
                 {
                     "kind":"block",
-                    "type":"lists_create_with",
-                    "text":"test"
+                    "type": "merge"
                 }
             ]
         },

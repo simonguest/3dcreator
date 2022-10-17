@@ -4,9 +4,9 @@ import Blockly from 'blockly';
 
 let RANGE_MAX = 10;
 
-export let mergeObjects = {
+export let merge = {
     init: function () {
-        this.setColour(100);
+        this.setColour(200);
         this.setInputsInline(false);
         this.appendDummyInput()
             .appendField("Merge")

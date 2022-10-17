@@ -45,15 +45,6 @@ export class ThreeD {
         }).bind(this));
     }
 
-    createGround = (width, height) => {
-        this.ground = BABYLON.MeshBuilder.CreateGround("ground", {width: width, height: height}, this.scene);
-        if (this.material) {
-            let material = new BABYLON.StandardMaterial("Material", this.scene);
-            material.diffuseTexture = new BABYLON.Texture(`./assets/materials/${this.material}`);
-            this.ground.material = material;
-        }
-    }
-
     setMaterial = (obj) => {
         if (this.material) {
             let material = new BABYLON.StandardMaterial("Material", this.scene);
@@ -86,10 +77,19 @@ export class ThreeD {
         console.log(sphere);
     }
 
-    createObject = (obj) => {
+    createGround = (obj) => {
+        this.ground = BABYLON.MeshBuilder.CreateGround("ground", {width: obj.width, height: obj.depth}, this.scene);
+        if (this.material) {
+            let material = new BABYLON.StandardMaterial("Material", this.scene);
+            material.diffuseTexture = new BABYLON.Texture(`./assets/materials/${this.material}`);
+            this.ground.material = material;
+        }
+    }
+
+    create = (obj) => {
         if (obj.length) {
             // Array of objects
-            obj.forEach(o => this.createObject(o));
+            obj.forEach(o => this.create(o));
         }
 
         switch (obj.type) {
@@ -99,11 +99,14 @@ export class ThreeD {
             case "box":
                 this.createBox(obj);
                 break;
+            case "ground":
+                this.createGround(obj);
+                break;
             case "merged":
                 let meshes = [];
                 obj.objs.forEach(childObj => {
                     //TODO: Check if the object has already been created
-                    this.createObject(childObj);
+                    this.create(childObj);
                     meshes.push(this.scene.getMeshById(childObj.id));
                 });
                 let mergedMesh = BABYLON.Mesh.MergeMeshes(meshes, true, true, undefined, false, true);
@@ -112,7 +115,7 @@ export class ThreeD {
         }
     }
 
-    setPosition = (obj, coords) => {
+    move = (obj, coords) => {
         let mesh = this.scene.getMeshById(obj.id);
         if (mesh){
             mesh.position.x = coords.x;

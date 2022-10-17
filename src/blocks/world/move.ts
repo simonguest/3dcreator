@@ -1,23 +1,23 @@
 import {javascriptGenerator} from "blockly/javascript";
 
-export let setPosition = {
+export let move = {
     init: function () {
         this.appendValueInput("OBJECT")
             .setCheck(["OBJECT"])
-            .appendField("Set Position");
+            .appendField("Move");
         this.appendValueInput("COORDS")
             .setCheck("COORDS")
             .appendField("to ");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(330);
+        this.setColour(250);
     },
 
     transpile: function (block) {
         let object = javascriptGenerator.valueToCode(block, 'OBJECT', javascriptGenerator.ORDER_NONE);
         let coords = javascriptGenerator.valueToCode(block, 'COORDS', javascriptGenerator.ORDER_NONE);
 
-        return `threeD.setPosition(${object}, ${coords});`;
+        return `threeD.move(${object}, ${coords});`;
     }
 };

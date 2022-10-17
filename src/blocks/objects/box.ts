@@ -17,7 +17,7 @@ export let box = {
             .appendField("at ");
         this.setInputsInline(true);
         this.setOutput(true, "OBJECT");
-        this.setColour(330);
+        this.setColour(200);
     },
 
     transpile: function (block) {
