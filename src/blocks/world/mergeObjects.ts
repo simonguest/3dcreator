@@ -1,4 +1,5 @@
 import {javascriptGenerator} from "blockly/javascript";
+import { v4 as uuid } from 'uuid';
 import Blockly from 'blockly';
 
 let RANGE_MAX = 10;
@@ -76,6 +77,6 @@ export let mergeObjects = {
             let object = javascriptGenerator.valueToCode(block, `in${o}`, javascriptGenerator.ORDER_NONE);
             if (object !== "") objects.push(object);
         }
-        return [`threeD.mergeObjects([${objects.toString()}])`, javascriptGenerator.ORDER_NONE];
+        return [`{id:"${uuid()}", type: "merged", objs:[${objects.toString()}]}`, javascriptGenerator.ORDER_NONE];
     }
 };

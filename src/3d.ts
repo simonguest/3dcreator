@@ -99,12 +99,17 @@ export class ThreeD {
             case "box":
                 this.createBox(obj);
                 break;
+            case "merged":
+                let meshes = [];
+                obj.objs.forEach(childObj => {
+                    //TODO: Check if the object has already been created
+                    this.createObject(childObj);
+                    meshes.push(this.scene.getMeshById(childObj.id));
+                });
+                let mergedMesh = BABYLON.Mesh.MergeMeshes(meshes, true, true, undefined, false, true);
+                mergedMesh.id = obj.id;
+                break;
         }
-    }
-
-    mergeObjects = (objs) => {
-        console.log("MERGE OBJECTS FN");
-        console.log(objs);
     }
 
     setPosition = (obj, coords) => {

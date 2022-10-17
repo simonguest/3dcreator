@@ -97,7 +97,7 @@ async function run() {
 
     // Generate the required code
     let code = javascriptGenerator.workspaceToCode(workspace);
-    console.log(code);
+    console.log(`CODE: ${code}`);
     eval("threeD.createScene(); " + code + " stop(); ");
 }
 
