@@ -151,7 +151,70 @@ export let toolbox = {
                 },
                 {
                     "kind":"block",
-                    "type": "move"
+                    "type": "move",
+                    "inputs": {
+                        "COORDS": {
+                            "block": {
+                                "type":"coordinates",
+                                "inputs": {
+                                    "X": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 0
+                                            }
+                                        }
+                                    },
+                                    "Y": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 0
+                                            }
+                                        }
+                                    },
+                                    "Z": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 0
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind":"block",
+                    "type":"size",
+                    "inputs": {
+                        "X": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        },
+                        "Y": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        },
+                        "Z": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
                 }
             ]
         },
@@ -171,11 +234,19 @@ export let toolbox = {
                                 }
                             }
                         },
-                        "DEPTH": {
+                        "LENGTH": {
                             "shadow": {
                                 "type": "math_number",
                                 "fields": {
                                     "NUM": 6
+                                }
+                            }
+                        },
+                        "MATERIAL": {
+                            "shadow": {
+                                "type": "none",
+                                "fields": {
+                                    "NUM": "NONE"
                                 }
                             }
                         }
@@ -185,13 +256,75 @@ export let toolbox = {
                     "kind": "block",
                     "type": "sphere",
                     "inputs": {
-                        "DIAMETER": {
-                            "shadow": {
-                                "type": "math_number",
-                                "fields": {
-                                    "NUM": 1
+                        "SIZE": {
+                            "block": {
+                                "type":"size",
+                                "inputs": {
+                                    "X": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 1
+                                            }
+                                        }
+                                    },
+                                    "Y": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 1
+                                            }
+                                        }
+                                    },
+                                    "Z": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 1
+                                            }
+                                        }
+                                    }
                                 }
-                            },
+                            }
+                        },
+                        "COORDS": {
+                            "block": {
+                                "type":"coordinates",
+                                "inputs": {
+                                    "X": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 0
+                                            }
+                                        }
+                                    },
+                                    "Y": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 0
+                                            }
+                                        }
+                                    },
+                                    "Z": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 0
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "MATERIAL": {
+                            "shadow": {
+                                "type": "none",
+                                "fields": {
+                                    "NUM": "NONE"
+                                }
+                            }
                         }
                     }
                 },
@@ -199,29 +332,75 @@ export let toolbox = {
                     "kind": "block",
                     "type": "box",
                     "inputs": {
-                        "HEIGHT": {
-                            "shadow": {
-                                "type": "math_number",
-                                "fields": {
-                                    "NUM": 1
+                        "SIZE": {
+                            "block": {
+                                "type":"size",
+                                "inputs": {
+                                    "X": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 1
+                                            }
+                                        }
+                                    },
+                                    "Y": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 1
+                                            }
+                                        }
+                                    },
+                                    "Z": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 1
+                                            }
+                                        }
+                                    }
                                 }
-                            },
+                            }
                         },
-                        "WIDTH": {
-                            "shadow": {
-                                "type": "math_number",
-                                "fields": {
-                                    "NUM": 1
+                        "COORDS": {
+                            "block": {
+                                "type":"coordinates",
+                                "inputs": {
+                                    "X": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 0
+                                            }
+                                        }
+                                    },
+                                    "Y": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 0
+                                            }
+                                        }
+                                    },
+                                    "Z": {
+                                        "shadow": {
+                                            "type": "math_number",
+                                            "fields": {
+                                                "NUM": 0
+                                            }
+                                        }
+                                    }
                                 }
-                            },
+                            }
                         },
-                        "DEPTH": {
+                        "MATERIAL": {
                             "shadow": {
-                                "type": "math_number",
+                                "type": "none",
                                 "fields": {
-                                    "NUM": 1
+                                    "NUM": "NONE"
                                 }
-                            },
+                            }
                         }
                     }
                 },
@@ -235,10 +414,6 @@ export let toolbox = {
             "kind": "category",
             "name": "Materials",
             "contents": [
-                {
-                    "kind": "block",
-                    "type": "setMaterial"
-                },
                 {
                     "kind": "block",
                     "type": "none"

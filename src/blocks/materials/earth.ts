@@ -6,8 +6,8 @@ export let earth = {
         let input = this.appendDummyInput()
             .appendField('Earth: ');
         let options = [
-            [{'src': '../assets/materials/dirt.jpg', 'width': 50, 'height': 50, 'alt': 'Dirt'}, 'dirt.jpg'],
-            [{'src': '../assets/materials/grass.png', 'width': 50, 'height': 50, 'alt': 'Grass'}, 'grass.png']
+            [{'src': '../assets/materials/dirt.jpg', 'width': 25, 'height': 25, 'alt': 'Dirt'}, 'dirt.jpg'],
+            [{'src': '../assets/materials/grass.png', 'width': 25, 'height': 25, 'alt': 'Grass'}, 'grass.png']
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
         this.setOutput(true, "MATERIAL");

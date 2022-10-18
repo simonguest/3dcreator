@@ -19,13 +19,13 @@ const createCustomBlock = (name, blockType) => {
 createCustomBlock("coordinates", coords.coordinates);
 createCustomBlock("create", world.create);
 createCustomBlock("move", world.move);
+createCustomBlock("size", world.size);
 
 createCustomBlock("sphere", objects.sphere);
 createCustomBlock("box", objects.box);
 createCustomBlock("ground", objects.ground);
 createCustomBlock("merge", objects.merge);
 
-createCustomBlock("setMaterial", materials.setMaterial);
 createCustomBlock("none", materials.none);
 createCustomBlock("earth", materials.earth);
 createCustomBlock("building", materials.building);

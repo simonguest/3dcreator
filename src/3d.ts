@@ -45,50 +45,48 @@ export class ThreeD {
         }).bind(this));
     }
 
-    setMaterial = (obj) => {
-        if (this.material) {
-            let material = new BABYLON.StandardMaterial("Material", this.scene);
-            material.diffuseTexture = new BABYLON.Texture(`./assets/materials/${this.material}`);
-            obj.material = material;
-        }
+    setMaterial = (obj, material) => {
+        if (material === null) return;
+
+        let loadedMaterial = new BABYLON.StandardMaterial("Material", this.scene);
+        loadedMaterial.diffuseTexture = new BABYLON.Texture(`./assets/materials/${material}`);
+        obj.material = loadedMaterial;
+
     }
 
     createBox = (obj) => {
         let box = BABYLON.MeshBuilder.CreateBox(obj.id, {
-            height: obj.height,
-            width: obj.width,
-            depth: obj.depth
+            height: obj.size.y,
+            width: obj.size.x,
+            depth: obj.size.z
         });
         box.position.x = obj.coords.x;
         box.position.y = obj.coords.y;
         box.position.z = obj.coords.z;
-        this.setMaterial(box);
+        this.setMaterial(box, obj.material);
     }
 
     createSphere = (obj) => {
         let sphere = BABYLON.MeshBuilder.CreateSphere(obj.id, {
             segments: 16,
-            diameter: obj.diameter
+            diameterX: obj.size.x,
+            diameterY: obj.size.y,
+            diameterZ: obj.size.z
         });
         sphere.position.x = obj.coords.x;
         sphere.position.y = obj.coords.y;
         sphere.position.z = obj.coords.z;
-        this.setMaterial(sphere);
-        console.log(sphere);
+        this.setMaterial(sphere, obj.material);
     }
 
     createGround = (obj) => {
-        this.ground = BABYLON.MeshBuilder.CreateGround("ground", {width: obj.width, height: obj.depth}, this.scene);
-        if (this.material) {
-            let material = new BABYLON.StandardMaterial("Material", this.scene);
-            material.diffuseTexture = new BABYLON.Texture(`./assets/materials/${this.material}`);
-            this.ground.material = material;
-        }
+        if (this.ground) this.ground.dispose();
+        this.ground = BABYLON.MeshBuilder.CreateGround(obj.id, {width: obj.width, height: obj.length}, this.scene);
+        this.setMaterial(this.ground, obj.material);
     }
 
     create = (obj) => {
-        if (obj.length) {
-            // Array of objects
+        if (obj.constructor === Array) {
             obj.forEach(o => this.create(o));
         }
 
@@ -117,7 +115,7 @@ export class ThreeD {
 
     move = (obj, coords) => {
         let mesh = this.scene.getMeshById(obj.id);
-        if (mesh){
+        if (mesh) {
             mesh.position.x = coords.x;
             mesh.position.y = coords.y;
             mesh.position.z = coords.z;

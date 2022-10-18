@@ -6,7 +6,7 @@ export let building = {
         let input = this.appendDummyInput()
             .appendField('Building: ');
         let options = [
-            [{'src': '../assets/materials/brick.jpg', 'width': 50, 'height': 50, 'alt': 'Brick'}, 'brick.jpg'],
+            [{'src': '../assets/materials/brick.jpg', 'width': 25, 'height': 25, 'alt': 'Brick'}, 'brick.jpg'],
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
         this.setOutput(true, "MATERIAL");

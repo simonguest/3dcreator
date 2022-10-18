@@ -8,7 +8,7 @@ export let move = {
         this.appendValueInput("COORDS")
             .setCheck("COORDS")
             .appendField("to ");
-        this.setInputsInline(true);
+        this.setInputsInline(false);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(250);
