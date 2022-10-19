@@ -253,6 +253,10 @@ export let toolbox = {
                     }
                 },
                 {
+                    "kind":"block",
+                    "type":"skybox"
+                },
+                {
                     "kind": "block",
                     "type": "sphere",
                     "inputs": {

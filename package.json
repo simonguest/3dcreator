@@ -7,8 +7,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "build": "npx parcel build index.html",
-    "server": "npx parcel serve index.html -p 55000"
+    "build": "rm -rf ./dist && rm -rf ./parcel-cache && npx parcel build index.html",
+    "server": "npm run build && npx parcel serve index.html -p 55000"
   },
   "repository": {
     "type": "git",

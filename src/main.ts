@@ -24,6 +24,7 @@ createCustomBlock("size", world.size);
 createCustomBlock("sphere", objects.sphere);
 createCustomBlock("box", objects.box);
 createCustomBlock("ground", objects.ground);
+createCustomBlock("skybox", objects.skybox);
 createCustomBlock("merge", objects.merge);
 
 createCustomBlock("none", materials.none);
