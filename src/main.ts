@@ -25,7 +25,9 @@ createCustomBlock("sphere", objects.sphere);
 createCustomBlock("box", objects.box);
 createCustomBlock("ground", objects.ground);
 createCustomBlock("skybox", objects.skybox);
+
 createCustomBlock("merge", objects.merge);
+createCustomBlock("rotate", objects.rotate);
 
 createCustomBlock("none", materials.none);
 createCustomBlock("earth", materials.earth);

@@ -146,16 +146,16 @@ export let toolbox = {
             "name": "World",
             "contents": [
                 {
-                    "kind":"block",
+                    "kind": "block",
                     "type": "create"
                 },
                 {
-                    "kind":"block",
+                    "kind": "block",
                     "type": "move",
                     "inputs": {
                         "COORDS": {
                             "block": {
-                                "type":"coordinates",
+                                "type": "coordinates",
                                 "inputs": {
                                     "X": {
                                         "shadow": {
@@ -187,8 +187,8 @@ export let toolbox = {
                     }
                 },
                 {
-                    "kind":"block",
-                    "type":"size",
+                    "kind": "block",
+                    "type": "size",
                     "inputs": {
                         "X": {
                             "shadow": {
@@ -253,8 +253,8 @@ export let toolbox = {
                     }
                 },
                 {
-                    "kind":"block",
-                    "type":"skybox"
+                    "kind": "block",
+                    "type": "skybox"
                 },
                 {
                     "kind": "block",
@@ -262,7 +262,7 @@ export let toolbox = {
                     "inputs": {
                         "SIZE": {
                             "block": {
-                                "type":"size",
+                                "type": "size",
                                 "inputs": {
                                     "X": {
                                         "shadow": {
@@ -293,7 +293,7 @@ export let toolbox = {
                         },
                         "COORDS": {
                             "block": {
-                                "type":"coordinates",
+                                "type": "coordinates",
                                 "inputs": {
                                     "X": {
                                         "shadow": {
@@ -338,7 +338,7 @@ export let toolbox = {
                     "inputs": {
                         "SIZE": {
                             "block": {
-                                "type":"size",
+                                "type": "size",
                                 "inputs": {
                                     "X": {
                                         "shadow": {
@@ -369,7 +369,7 @@ export let toolbox = {
                         },
                         "COORDS": {
                             "block": {
-                                "type":"coordinates",
+                                "type": "coordinates",
                                 "inputs": {
                                     "X": {
                                         "shadow": {
@@ -409,8 +409,22 @@ export let toolbox = {
                     }
                 },
                 {
-                    "kind":"block",
+                    "kind": "block",
                     "type": "merge"
+                },
+                {
+                    "kind": "block",
+                    "type": "rotate",
+                    "inputs": {
+                        "DEGREES": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 45
+                                }
+                            }
+                        }
+                    }
                 }
             ]
         },
@@ -430,7 +444,7 @@ export let toolbox = {
                     "kind": "block",
                     "type": "building"
                 }
-                ]
+            ]
         },
         {
             "kind": "category",

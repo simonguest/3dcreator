@@ -135,4 +135,17 @@ export class ThreeD {
             mesh.position.z = coords.z;
         }
     }
+
+    private convertToRadians = (degrees) => {
+        return degrees * (Math.PI / 180);
+    }
+
+    rotate = (obj, axis, degrees) =>{
+        console.log(obj);
+        let mesh = this.scene.getMeshById(obj.id);
+        console.log(mesh);
+        if (mesh) {
+            mesh.rotation[axis] = this.convertToRadians(degrees);
+        }
+    }
 }
