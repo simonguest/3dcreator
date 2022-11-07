@@ -27,7 +27,7 @@ createCustomBlock("ground", objects.ground);
 createCustomBlock("skybox", objects.skybox);
 
 createCustomBlock("merge", objects.merge);
-createCustomBlock("rotate", objects.rotate);
+//createCustomBlock("rotate", objects.rotate);
 
 createCustomBlock("none", materials.none);
 createCustomBlock("earth", materials.earth);
@@ -70,11 +70,12 @@ window.addEventListener('resize', onresize, false);
 onresize();
 Blockly.svgResize(workspace);
 
-workspace.addChangeListener((ev) => {
+workspace.addChangeListener(async (ev) => {
     if ((ev.type === Blockly.Events.BLOCK_MOVE) || (ev.type === Blockly.Events.BLOCK_CHANGE) || (ev.type === Blockly.Events.BLOCK_DELETE) || (ev.type === Blockly.Events.BLOCK_CREATE)) {
         console.log("Writing workspace to session storage");
         let json = Blockly.serialization.workspaces.save(workspace);
         sessionStorage.setItem("workspace", JSON.stringify(json));
+        await run();
     }
 });
 

@@ -2,10 +2,18 @@ import {javascriptGenerator} from "blockly/javascript";
 import Blockly from 'blockly';
 
 export let rotate = {
+    getFirstVar: function() {
+        let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace());
+        if (varModels.length > 0){
+            return varModels[0]["name"];
+        } else {
+            return "item";
+        }
+    },
     init: function () {
-        this.appendValueInput("OBJECT")
-            .setCheck(["OBJECT", "Array"])
-            .appendField("Rotate");
+        this.appendDummyInput()
+            .appendField("Rotate")
+            .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR");
         this.appendValueInput("DEGREES")
             .setCheck("Number")
             .appendField("on")
@@ -20,10 +28,10 @@ export let rotate = {
     },
 
     transpile: function (block) {
-        let object = javascriptGenerator.valueToCode(block, 'OBJECT', javascriptGenerator.ORDER_NONE);
+        let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
         let axis = block.getFieldValue("AXIS");
         let degrees = javascriptGenerator.valueToCode(block, 'DEGREES', javascriptGenerator.ORDER_NONE);
 
-        return `threeD.rotate(${object}, "${axis}", ${degrees});`;
+        return `threeD.rotate(${variable}, "${axis}", ${degrees});`;
     }
 };

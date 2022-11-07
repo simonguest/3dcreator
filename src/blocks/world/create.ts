@@ -13,6 +13,8 @@ export let create = {
 
     transpile: function (block) {
         let object = javascriptGenerator.valueToCode(block, 'OBJECT', javascriptGenerator.ORDER_NONE);
+        console.log(object);
+        if (object === "") return "";
 
         return `threeD.create(${object});`;
     }
