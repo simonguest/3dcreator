@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let skybox = {
     init: function () {
         let input = this.appendDummyInput()
-            .appendField('Sky: ');
+            .appendField('Set sky to: ');
         let options = [
             [{'src': '../assets/skyboxes/skybox/skybox_nx.jpg', 'width': 25, 'height': 25, 'alt': 'Clouds'}, 'skybox'],
             [{'src': '../assets/skyboxes/skybox2/skybox2_nx.jpg', 'width': 25, 'height': 25, 'alt': 'City'}, 'skybox2'],
@@ -12,8 +12,9 @@ export let skybox = {
 
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'SKYBOX');
-        this.setOutput(true, "OBJECT");
-        this.setColour(200);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(250);
         this.setTooltip("");
         this.setHelpUrl("");
     },
@@ -21,6 +22,6 @@ export let skybox = {
     transpile: function (block) {
         let skybox = block.getFieldValue('SKYBOX');
 
-        return [`{ type: "skybox", asset: "${skybox}"}`, javascriptGenerator.ORDER_NONE];
+        return `threeD.createSkybox({ type: "skybox", asset: "${skybox}"});`;
     }
 };

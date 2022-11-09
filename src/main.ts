@@ -16,6 +16,8 @@ const createCustomBlock = (name, blockType) => {
     javascriptGenerator[name] = blockType["transpile"];
 }
 
+createCustomBlock("skybox", world.skybox);
+
 createCustomBlock("coordinates", coords.coordinates);
 createCustomBlock("create", world.create);
 createCustomBlock("move", world.move);
@@ -24,7 +26,6 @@ createCustomBlock("size", world.size);
 createCustomBlock("sphere", objects.sphere);
 createCustomBlock("box", objects.box);
 createCustomBlock("ground", objects.ground);
-createCustomBlock("skybox", objects.skybox);
 
 createCustomBlock("merge", objects.merge);
 //createCustomBlock("rotate", objects.rotate);

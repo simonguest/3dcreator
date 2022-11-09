@@ -111,9 +111,6 @@ export class ThreeD {
             case "ground":
                 this.createGround(obj);
                 break;
-            case "skybox":
-                this.createSkybox(obj);
-                break;
             case "merged":
                 let meshes = [];
                 obj.objs.forEach(childObj => {

@@ -147,6 +147,10 @@ export let toolbox = {
             "contents": [
                 {
                     "kind": "block",
+                    "type": "skybox"
+                },
+                {
+                    "kind": "block",
                     "type": "create"
                 },
                 {
@@ -251,10 +255,6 @@ export let toolbox = {
                             }
                         }
                     }
-                },
-                {
-                    "kind": "block",
-                    "type": "skybox"
                 },
                 {
                     "kind": "block",
@@ -411,20 +411,6 @@ export let toolbox = {
                 {
                     "kind": "block",
                     "type": "merge"
-                },
-                {
-                    "kind": "block",
-                    "type": "rotate",
-                    "inputs": {
-                        "DEGREES": {
-                            "shadow": {
-                                "type": "math_number",
-                                "fields": {
-                                    "NUM": 45
-                                }
-                            }
-                        }
-                    }
                 }
             ]
         },
