@@ -17,6 +17,7 @@ const createCustomBlock = (name, blockType) => {
 }
 
 createCustomBlock("skybox", world.skybox);
+createCustomBlock("ground", world.ground);
 
 createCustomBlock("coordinates", coords.coordinates);
 createCustomBlock("create", world.create);
@@ -25,7 +26,6 @@ createCustomBlock("size", world.size);
 
 createCustomBlock("sphere", objects.sphere);
 createCustomBlock("box", objects.box);
-createCustomBlock("ground", objects.ground);
 
 createCustomBlock("merge", objects.merge);
 //createCustomBlock("rotate", objects.rotate);

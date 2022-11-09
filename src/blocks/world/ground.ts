@@ -5,16 +5,17 @@ export let ground = {
     init: function () {
         this.appendValueInput("LENGTH")
             .setCheck("Number")
-            .appendField("Ground with length");
+            .appendField("Set ground to");
         this.appendValueInput("WIDTH")
             .setCheck("Number")
-            .appendField("and width");
+            .appendField("x");
         this.appendValueInput("MATERIAL")
             .setCheck("MATERIAL")
             .appendField("with material");
-        this.setInputsInline(false);
-        this.setOutput(true, "OBJECT");
-        this.setColour(200);
+        this.setInputsInline(true);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(250);
         this.setTooltip("");
         this.setHelpUrl("");
     },
@@ -24,6 +25,6 @@ export let ground = {
         let length = javascriptGenerator.valueToCode(block, 'LENGTH', javascriptGenerator.ORDER_NONE);
         let material = javascriptGenerator.valueToCode(block, 'MATERIAL', javascriptGenerator.ORDER_NONE);
 
-        return [`{ id: "${uuid()}", type: "ground", width: ${width}, length:${length}, material:${material} }`, javascriptGenerator.ORDER_NONE];
+        return `threeD.createGround({ id: "${uuid()}", type: "ground", width: ${width}, length:${length}, material:${material} });`;
     }
 };

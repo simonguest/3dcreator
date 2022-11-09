@@ -151,6 +151,36 @@ export let toolbox = {
                 },
                 {
                     "kind": "block",
+                    "type": "ground",
+                    "inputs": {
+                        "WIDTH": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 6
+                                }
+                            }
+                        },
+                        "LENGTH": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 6
+                                }
+                            }
+                        },
+                        "MATERIAL": {
+                            "shadow": {
+                                "type": "none",
+                                "fields": {
+                                    "NUM": "NONE"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
                     "type": "create"
                 },
                 {
@@ -226,36 +256,6 @@ export let toolbox = {
             "kind": "category",
             "name": "Objects",
             "contents": [
-                {
-                    "kind": "block",
-                    "type": "ground",
-                    "inputs": {
-                        "WIDTH": {
-                            "shadow": {
-                                "type": "math_number",
-                                "fields": {
-                                    "NUM": 6
-                                }
-                            }
-                        },
-                        "LENGTH": {
-                            "shadow": {
-                                "type": "math_number",
-                                "fields": {
-                                    "NUM": 6
-                                }
-                            }
-                        },
-                        "MATERIAL": {
-                            "shadow": {
-                                "type": "none",
-                                "fields": {
-                                    "NUM": "NONE"
-                                }
-                            }
-                        }
-                    }
-                },
                 {
                     "kind": "block",
                     "type": "sphere",
