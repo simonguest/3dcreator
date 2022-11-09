@@ -1,14 +1,14 @@
 import {skybox} from "./skybox";
 import {ground} from "./ground";
 
-import {create} from "./create";
+import {createShape} from "./createShape";
 import {move} from "./move";
 import {size} from "./size";
 
 export {
     skybox,
     ground,
-    create,
+    createShape,
     move,
     size,
 };

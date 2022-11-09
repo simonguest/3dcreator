@@ -2,7 +2,7 @@ import Blockly from 'blockly';
 import {javascriptGenerator} from 'blockly/javascript';
 
 
-import * as objects from "./blocks/objects";
+import * as shapes from "./blocks/shapes";
 import * as world from "./blocks/world";
 import * as coords from "./blocks/coords";
 import * as materials from "./blocks/materials";
@@ -19,15 +19,17 @@ const createCustomBlock = (name, blockType) => {
 createCustomBlock("skybox", world.skybox);
 createCustomBlock("ground", world.ground);
 
+createCustomBlock("sphere", shapes.sphere);
+createCustomBlock("createShape", world.createShape);
+
 createCustomBlock("coordinates", coords.coordinates);
-createCustomBlock("create", world.create);
 createCustomBlock("move", world.move);
 createCustomBlock("size", world.size);
 
-createCustomBlock("sphere", objects.sphere);
-createCustomBlock("box", objects.box);
 
-createCustomBlock("merge", objects.merge);
+createCustomBlock("box", shapes.box);
+
+createCustomBlock("merge", shapes.merge);
 //createCustomBlock("rotate", objects.rotate);
 
 createCustomBlock("none", materials.none);

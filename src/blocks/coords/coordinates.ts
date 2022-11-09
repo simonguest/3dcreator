@@ -23,6 +23,6 @@ export let coordinates = {
         let y = javascriptGenerator.valueToCode(block, 'Y', javascriptGenerator.ORDER_NONE);
         let z = javascriptGenerator.valueToCode(block, 'Z', javascriptGenerator.ORDER_NONE);
 
-        return [`{x:${x}, y:${y}, z:${z}}`, javascriptGenerator.ORDER_NONE];
+        return [`[{x:${x}, y:${y}, z:${z}}]`, javascriptGenerator.ORDER_NONE];
     }
 };

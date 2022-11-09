@@ -54,28 +54,28 @@ export class ThreeD {
 
     }
 
-    createBox = (obj) => {
+    createBox = (obj, coords) => {
         let box = BABYLON.MeshBuilder.CreateBox(obj.id, {
             height: obj.size.y,
             width: obj.size.x,
             depth: obj.size.z
         });
-        box.position.x = obj.coords.x;
-        box.position.y = obj.coords.y;
-        box.position.z = obj.coords.z;
+        box.position.x = coords.x;
+        box.position.y = coords.y;
+        box.position.z = coords.z;
         this.setMaterial(box, obj.material);
     }
 
-    createSphere = (obj) => {
+    createSphere = (obj, coords) => {
         let sphere = BABYLON.MeshBuilder.CreateSphere(obj.id, {
             segments: 16,
             diameterX: obj.size.x,
             diameterY: obj.size.y,
             diameterZ: obj.size.z
         });
-        sphere.position.x = obj.coords.x;
-        sphere.position.y = obj.coords.y;
-        sphere.position.z = obj.coords.z;
+        sphere.position.x = coords.x;
+        sphere.position.y = coords.y;
+        sphere.position.z = coords.z;
         this.setMaterial(sphere, obj.material);
     }
 
@@ -96,28 +96,30 @@ export class ThreeD {
         skybox.material = skyboxMaterial;
     }
 
-    create = (obj) => {
-        if (obj.constructor === Array) {
-            obj.forEach(o => this.create(o));
-        }
+    createShape = (objArray, coordsArray) => {
+        let obj = objArray[0];
+        let coords = coordsArray[0];
+        // if (obj.constructor === Array) {
+        //     obj.forEach(o => this.createShape(o));
+        // }
 
         switch (obj.type) {
             case "sphere":
-                this.createSphere(obj);
+                this.createSphere(obj, coords);
                 break;
             case "box":
-                this.createBox(obj);
+                this.createBox(obj, coords);
                 break;
-            case "merged":
-                let meshes = [];
-                obj.objs.forEach(childObj => {
-                    //TODO: Check if the object has already been created
-                    this.create(childObj);
-                    meshes.push(this.scene.getMeshById(childObj.id));
-                });
-                let mergedMesh = BABYLON.Mesh.MergeMeshes(meshes, true, true, undefined, false, true);
-                mergedMesh.id = obj.id;
-                break;
+            // case "merged":
+            //     let meshes = [];
+            //     obj.objs.forEach(childObj => {
+            //         //TODO: Check if the object has already been created
+            //         this.createShape(childObj);
+            //         meshes.push(this.scene.getMeshById(childObj.id));
+            //     });
+            //     let mergedMesh = BABYLON.Mesh.MergeMeshes(meshes, true, true, undefined, false, true);
+            //     mergedMesh.id = obj.id;
+            //     break;
         }
     }
 
