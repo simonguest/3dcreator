@@ -311,6 +311,10 @@ export let toolbox = {
                 },
                 {
                     "kind": "block",
+                    "type": "merge"
+                },
+                {
+                    "kind": "block",
                     "type": "coordinates",
                     "inputs": {
                         "X": {
@@ -434,10 +438,6 @@ export let toolbox = {
                             }
                         }
                     }
-                },
-                {
-                    "kind": "block",
-                    "type": "merge"
                 },
                 {
                     "kind": "block",

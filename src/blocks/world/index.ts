@@ -7,6 +7,7 @@ import {move} from "./move";
 import {rotate} from "./rotate";
 import {clone} from "./clone";
 import {remove} from "./remove";
+import {merge} from "./merge";
 
 import {coordinates} from "./coordinates";
 
@@ -19,5 +20,6 @@ export {
     rotate,
     clone,
     remove,
+    merge,
     coordinates,
 };

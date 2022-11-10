@@ -5,11 +5,20 @@ import Blockly from 'blockly';
 let RANGE_MAX = 10;
 
 export let merge = {
+    getFirstVar: function() {
+        let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace());
+        if (varModels.length > 0){
+            return varModels[0]["name"];
+        } else {
+            return "item";
+        }
+    },
     init: function () {
-        this.setColour(200);
+        this.setColour(250);
         this.setInputsInline(false);
         this.appendDummyInput()
-            .appendField("Merge")
+            .appendField("Merge into")
+            .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
             .appendField(new Blockly.FieldImage(
                 "https://fonts.gstatic.com/s/i/materialiconsoutlined/remove/v4/24px.svg?download=true",
                 15,
@@ -26,7 +35,8 @@ export let merge = {
                 }));
         this.appendValueInput('in1')
         this.appendValueInput('in2')
-        this.setOutput(true, 'OBJECT');
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
     },
 
     mutationToDom: function () {
@@ -72,11 +82,13 @@ export let merge = {
     },
 
     transpile: function (block) {
+        let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
+
         let objects = [];
         for (let o = 1; o < this.inputList.length; o++){
             let object = javascriptGenerator.valueToCode(block, `in${o}`, javascriptGenerator.ORDER_NONE);
             if (object !== "") objects.push(object);
         }
-        return [`{id:"${uuid()}", type: "merged", objs:[${objects.toString()}]}`, javascriptGenerator.ORDER_NONE];
+        return `${variable} = [{id: "${uuid()}"}]; threeD.merge(${variable}, [${objects.toString()}]);`;
     }
 };

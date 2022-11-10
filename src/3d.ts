@@ -149,6 +149,18 @@ export class ThreeD {
         }
     }
 
+    merge = (objArray, objectsToMerge) => {
+        let obj = objArray[0];
+        let meshes = [];
+        objectsToMerge.forEach(childObj => {
+            //TODO: Check if the object has already been created
+            //this.createShape(childObj);
+            meshes.push(this.scene.getMeshById(childObj[0].id));
+        });
+        let mergedMesh = BABYLON.Mesh.MergeMeshes(meshes, true, true, undefined, false, true);
+        mergedMesh.id = obj.id;
+    }
+
     private convertToRadians = (degrees) => {
         return degrees * (Math.PI / 180);
     }

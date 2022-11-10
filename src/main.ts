@@ -29,9 +29,8 @@ createCustomBlock("move", world.move);
 createCustomBlock("rotate", world.rotate);
 createCustomBlock("clone", world.clone);
 createCustomBlock("remove", world.remove);
+createCustomBlock("merge", world.merge);
 createCustomBlock("coordinates", world.coordinates);
-
-createCustomBlock("merge", shapes.merge);
 
 createCustomBlock("none", materials.none);
 createCustomBlock("earth", materials.earth);
