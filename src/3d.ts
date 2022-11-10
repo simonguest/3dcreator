@@ -123,7 +123,9 @@ export class ThreeD {
         }
     }
 
-    move = (obj, coords) => {
+    move = (objArray, coordsArray) => {
+        let obj = objArray[0];
+        let coords = coordsArray[0];
         let mesh = this.scene.getMeshById(obj.id);
         if (mesh) {
             mesh.position.x = coords.x;
