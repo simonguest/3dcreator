@@ -343,6 +343,10 @@ export let toolbox = {
                 },
                 {
                     "kind": "block",
+                    "type": "remove"
+                },
+                {
+                    "kind": "block",
                     "type": "size",
                     "inputs": {
                         "X": {

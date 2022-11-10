@@ -6,6 +6,7 @@ import {createShapeAs} from "./createShapeAs";
 import {move} from "./move";
 import {rotate} from "./rotate";
 import {clone} from "./clone";
+import {remove} from "./remove";
 
 import {size} from "./size";
 
@@ -17,5 +18,6 @@ export {
     move,
     rotate,
     clone,
+    remove,
     size,
 };

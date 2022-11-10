@@ -132,6 +132,12 @@ export class ThreeD {
         this.move([clonedMesh], coordsArray);
     }
 
+    remove = (objArray) => {
+        let obj = objArray[0];
+        let mesh = this.scene.getMeshById(obj.id);
+        this.scene.removeMesh(mesh);
+    }
+
     move = (objArray, coordsArray) => {
         let obj = objArray[0];
         let coords = coordsArray[0];
