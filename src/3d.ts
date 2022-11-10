@@ -100,9 +100,6 @@ export class ThreeD {
     createShape = (objArray, coordsArray) => {
         let obj = objArray[0];
         let coords = coordsArray[0];
-        // if (obj.constructor === Array) {
-        //     obj.forEach(o => this.createShape(o));
-        // }
 
         switch (obj.type) {
             case "sphere":
@@ -111,16 +108,6 @@ export class ThreeD {
             case "box":
                 this.createBox(obj, coords);
                 break;
-            // case "merged":
-            //     let meshes = [];
-            //     obj.objs.forEach(childObj => {
-            //         //TODO: Check if the object has already been created
-            //         this.createShape(childObj);
-            //         meshes.push(this.scene.getMeshById(childObj.id));
-            //     });
-            //     let mergedMesh = BABYLON.Mesh.MergeMeshes(meshes, true, true, undefined, false, true);
-            //     mergedMesh.id = obj.id;
-            //     break;
         }
     }
 
@@ -128,14 +115,18 @@ export class ThreeD {
         let obj = objArray[0];
         let coords = coordsArray[0];
         let mesh = this.scene.getMeshById(obj.id);
-        let clonedMesh = mesh.clone(`${uuid()}`, null, null);
-        this.move([clonedMesh], coordsArray);
+        if (mesh) {
+            let clonedMesh = mesh.clone(`${uuid()}`, null, null);
+            this.move([clonedMesh], coordsArray);
+        }
     }
 
     remove = (objArray) => {
         let obj = objArray[0];
         let mesh = this.scene.getMeshById(obj.id);
-        this.scene.removeMesh(mesh);
+        if (mesh) {
+            this.scene.removeMesh(mesh);
+        }
     }
 
     move = (objArray, coordsArray) => {
@@ -152,6 +143,7 @@ export class ThreeD {
     merge = (objArray, objectsToMerge) => {
         let obj = objArray[0];
         let meshes = [];
+        if (objectsToMerge.length === 0) return;
         objectsToMerge.forEach(childObj => {
             //TODO: Check if the object has already been created
             //this.createShape(childObj);
