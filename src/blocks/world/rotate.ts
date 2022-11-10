@@ -24,7 +24,7 @@ export let rotate = {
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(200);
+        this.setColour(250);
     },
 
     transpile: function (block) {

@@ -292,6 +292,20 @@ export let toolbox = {
                 },
                 {
                     "kind": "block",
+                    "type": "rotate",
+                    "inputs": {
+                        "DEGREES": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 45
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
                     "type": "size",
                     "inputs": {
                         "X": {

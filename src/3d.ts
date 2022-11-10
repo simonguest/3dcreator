@@ -138,7 +138,8 @@ export class ThreeD {
         return degrees * (Math.PI / 180);
     }
 
-    rotate = (obj, axis, degrees) =>{
+    rotate = (objArray, axis, degrees) =>{
+        let obj = objArray[0];
         let mesh = this.scene.getMeshById(obj.id);
         if (mesh) {
             mesh.rotation[axis] = this.convertToRadians(degrees);

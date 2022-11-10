@@ -20,18 +20,17 @@ createCustomBlock("skybox", world.skybox);
 createCustomBlock("ground", world.ground);
 
 createCustomBlock("sphere", shapes.sphere);
+createCustomBlock("box", shapes.box);
 createCustomBlock("createShape", world.createShape);
 createCustomBlock("createShapeAs", world.createShapeAs);
 
-createCustomBlock("coordinates", coords.coordinates);
 createCustomBlock("move", world.move);
+createCustomBlock("rotate", world.rotate);
+
+createCustomBlock("coordinates", coords.coordinates);
 createCustomBlock("size", world.size);
 
-
-createCustomBlock("box", shapes.box);
-
 createCustomBlock("merge", shapes.merge);
-//createCustomBlock("rotate", objects.rotate);
 
 createCustomBlock("none", materials.none);
 createCustomBlock("earth", materials.earth);

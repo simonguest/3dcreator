@@ -4,6 +4,7 @@ import {ground} from "./ground";
 import {createShape} from "./createShape";
 import {createShapeAs} from "./createShapeAs";
 import {move} from "./move";
+import {rotate} from "./rotate";
 import {size} from "./size";
 
 export {
@@ -12,5 +13,6 @@ export {
     createShape,
     createShapeAs,
     move,
+    rotate,
     size,
 };
