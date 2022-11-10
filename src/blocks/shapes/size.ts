@@ -13,7 +13,7 @@ export let size = {
             .appendField("w:");
         this.setInputsInline(true);
         this.setOutput(true, "SIZE");
-        this.setColour(250);
+        this.setColour(200);
         this.setTooltip("");
         this.setHelpUrl("");
     },

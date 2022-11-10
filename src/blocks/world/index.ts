@@ -8,7 +8,7 @@ import {rotate} from "./rotate";
 import {clone} from "./clone";
 import {remove} from "./remove";
 
-import {size} from "./size";
+import {coordinates} from "./coordinates";
 
 export {
     skybox,
@@ -19,5 +19,5 @@ export {
     rotate,
     clone,
     remove,
-    size,
+    coordinates,
 };

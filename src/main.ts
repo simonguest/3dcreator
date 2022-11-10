@@ -21,15 +21,15 @@ createCustomBlock("ground", world.ground);
 
 createCustomBlock("sphere", shapes.sphere);
 createCustomBlock("box", shapes.box);
+createCustomBlock("size", shapes.size);
+
 createCustomBlock("createShape", world.createShape);
 createCustomBlock("createShapeAs", world.createShapeAs);
 createCustomBlock("move", world.move);
 createCustomBlock("rotate", world.rotate);
 createCustomBlock("clone", world.clone);
 createCustomBlock("remove", world.remove);
-
-createCustomBlock("coordinates", coords.coordinates);
-createCustomBlock("size", world.size);
+createCustomBlock("coordinates", world.coordinates);
 
 createCustomBlock("merge", shapes.merge);
 
