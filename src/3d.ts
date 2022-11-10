@@ -1,4 +1,5 @@
 import * as BABYLON from 'babylonjs';
+import { v4 as uuid } from 'uuid';
 
 export class ThreeD {
     private readonly canvas: any;
@@ -121,6 +122,14 @@ export class ThreeD {
             //     mergedMesh.id = obj.id;
             //     break;
         }
+    }
+
+    clone = (objArray, coordsArray) => {
+        let obj = objArray[0];
+        let coords = coordsArray[0];
+        let mesh = this.scene.getMeshById(obj.id);
+        let clonedMesh = mesh.clone(`${uuid()}`, null, null);
+        this.move([clonedMesh], coordsArray);
     }
 
     move = (objArray, coordsArray) => {

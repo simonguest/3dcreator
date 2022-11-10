@@ -23,9 +23,9 @@ createCustomBlock("sphere", shapes.sphere);
 createCustomBlock("box", shapes.box);
 createCustomBlock("createShape", world.createShape);
 createCustomBlock("createShapeAs", world.createShapeAs);
-
 createCustomBlock("move", world.move);
 createCustomBlock("rotate", world.rotate);
+createCustomBlock("clone", world.clone);
 
 createCustomBlock("coordinates", coords.coordinates);
 createCustomBlock("size", world.size);
