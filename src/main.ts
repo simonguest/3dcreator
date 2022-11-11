@@ -33,6 +33,8 @@ createCustomBlock("merge", world.merge);
 createCustomBlock("coordinates", world.coordinates);
 
 createCustomBlock("none", materials.none);
+createCustomBlock("matte", materials.matte);
+createCustomBlock("glass", materials.glass);
 createCustomBlock("earth", materials.earth);
 createCustomBlock("building", materials.building);
 

@@ -18,6 +18,6 @@ export let earth = {
     transpile: function (block) {
         let material = block.getFieldValue('MATERIAL');
 
-        return [`"${material}"`, javascriptGenerator.ORDER_NONE];
+        return [`[ { image: "${material}" } ]`, javascriptGenerator.ORDER_NONE];
     }
 };

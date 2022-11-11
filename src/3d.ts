@@ -46,12 +46,31 @@ export class ThreeD {
         }).bind(this));
     }
 
-    setMaterial = (obj, material) => {
-        if (material === null) return;
+    setMaterial = (obj, materialArray) => {
+        if (materialArray === null) return; // none selected
+        let material = materialArray[0];
 
-        let loadedMaterial = new BABYLON.StandardMaterial("Material", this.scene);
-        loadedMaterial.diffuseTexture = new BABYLON.Texture(`./assets/materials/${material}`);
-        obj.material = loadedMaterial;
+        if (material.texture === "matte"){
+            let matte = new BABYLON.StandardMaterial("matte", this.scene);
+            matte.diffuseColor = BABYLON.Color3.FromHexString(material.color);
+            obj.material = matte;
+            return;
+        }
+
+        if (material.texture === "glass"){
+            let glass = new BABYLON.StandardMaterial("glass", this.scene);
+            glass.diffuseColor = BABYLON.Color3.FromHexString(material.color);
+            glass.alpha = 0.5;
+            obj.material = glass;
+            return;
+        }
+
+        if (material.image) {
+            let loadedMaterial = new BABYLON.StandardMaterial("Material", this.scene);
+            loadedMaterial.diffuseTexture = new BABYLON.Texture(`./assets/materials/${material.image}`);
+            obj.material = loadedMaterial;
+            return;
+        }
 
     }
 

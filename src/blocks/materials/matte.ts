@@ -1,14 +1,11 @@
 import Blockly from 'blockly';
 import {javascriptGenerator} from "blockly/javascript";
 
-export let building = {
+export let matte = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Building: ');
-        let options = [
-            [{'src': '../assets/materials/brick.jpg', 'width': 25, 'height': 25, 'alt': 'Brick'}, 'brick.jpg'],
-        ];
-        input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
+            .appendField('Matte Color: ')
+            .appendField(new Blockly.FieldColour('#ff4040',null), 'MATERIAL');
         this.setOutput(true, "MATERIAL");
         this.setColour(100);
         this.setTooltip("");
@@ -17,6 +14,6 @@ export let building = {
     transpile: function (block) {
         let material = block.getFieldValue('MATERIAL');
 
-        return [`[ { image: "${material}" } ]`, javascriptGenerator.ORDER_NONE];
+        return [`[ { texture: "matte", color: "${material}" } ]`, javascriptGenerator.ORDER_NONE];
     }
 };

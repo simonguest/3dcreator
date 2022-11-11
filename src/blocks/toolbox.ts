@@ -481,6 +481,14 @@ export let toolbox = {
                 },
                 {
                     "kind": "block",
+                    "type": "matte"
+                },
+                {
+                    "kind": "block",
+                    "type": "glass"
+                },
+                {
+                    "kind": "block",
                     "type": "earth"
                 },
                 {
