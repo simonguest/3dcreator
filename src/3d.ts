@@ -159,6 +159,14 @@ export class ThreeD {
         }
     }
 
+    moveAlong = (objArray, axis, steps) => {
+        let obj = objArray[0];
+        let mesh = this.scene.getMeshById(obj.id);
+        if (mesh) {
+            mesh.position[axis] += steps;
+        }
+    }
+
     merge = (objArray, objectsToMerge) => {
         let obj = objArray[0];
         let meshes = [];
@@ -180,7 +188,11 @@ export class ThreeD {
         let obj = objArray[0];
         let mesh = this.scene.getMeshById(obj.id);
         if (mesh) {
-            mesh.rotation[axis] = this.convertToRadians(degrees);
+            mesh.rotation[axis] += this.convertToRadians(degrees);
         }
+    }
+
+    createAnimationLoop = (name, statements) => {
+        this.scene.onBeforeRenderObservable.add(statements);
     }
 }

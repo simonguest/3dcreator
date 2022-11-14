@@ -4,8 +4,8 @@ import {javascriptGenerator} from 'blockly/javascript';
 
 import * as shapes from "./blocks/shapes";
 import * as world from "./blocks/world";
-import * as coords from "./blocks/coords";
 import * as materials from "./blocks/materials";
+import * as animation from "./blocks/animation";
 
 import {toolbox} from "./blocks/toolbox";
 
@@ -26,6 +26,7 @@ createCustomBlock("size", shapes.size);
 createCustomBlock("createShape", world.createShape);
 createCustomBlock("createShapeAs", world.createShapeAs);
 createCustomBlock("move", world.move);
+createCustomBlock("moveAlong", world.moveAlong);
 createCustomBlock("rotate", world.rotate);
 createCustomBlock("clone", world.clone);
 createCustomBlock("remove", world.remove);
@@ -37,6 +38,8 @@ createCustomBlock("matte", materials.matte);
 createCustomBlock("glass", materials.glass);
 createCustomBlock("earth", materials.earth);
 createCustomBlock("building", materials.building);
+
+createCustomBlock("animationLoop", animation.loop);
 
 let blocklyArea = document.getElementById('blocklyArea');
 let blocklyDiv = document.getElementById('blocklyDiv');
@@ -186,7 +189,7 @@ async function init() {
         let a = document.createElement("a"),
             url = URL.createObjectURL(file);
         a.href = url;
-        a.download = "3d-artist-workspace.json";
+        a.download = "3d-workspace.json";
         document.body.appendChild(a);
         a.click();
         setTimeout(function () {

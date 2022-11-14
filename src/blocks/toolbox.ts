@@ -256,6 +256,20 @@ export let toolbox = {
                 },
                 {
                     "kind": "block",
+                    "type": "moveAlong",
+                    "inputs": {
+                        "STEPS": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
                     "type": "rotate",
                     "inputs": {
                         "DEGREES": {
@@ -494,6 +508,16 @@ export let toolbox = {
                 {
                     "kind": "block",
                     "type": "building"
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "Animations",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "animationLoop"
                 }
             ]
         },

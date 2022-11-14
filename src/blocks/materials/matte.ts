@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let matte = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Matte Color: ')
+            .appendField('Matte color: ')
             .appendField(new Blockly.FieldColour('#ff4040',null), 'MATERIAL');
         this.setOutput(true, "MATERIAL");
         this.setColour(100);
