@@ -38,6 +38,7 @@ createCustomBlock("matte", materials.matte);
 createCustomBlock("glass", materials.glass);
 createCustomBlock("earth", materials.earth);
 createCustomBlock("building", materials.building);
+createCustomBlock("planets", materials.planets);
 
 createCustomBlock("animationLoop", animation.loop);
 

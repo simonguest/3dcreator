@@ -508,6 +508,10 @@ export let toolbox = {
                 {
                     "kind": "block",
                     "type": "building"
+                },
+                {
+                    "kind": "block",
+                    "type": "planets"
                 }
             ]
         },
