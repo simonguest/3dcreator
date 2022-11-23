@@ -5,6 +5,7 @@ import * as shapes from "./blocks/shapes";
 import * as world from "./blocks/world";
 import * as materials from "./blocks/materials";
 import * as animation from "./blocks/animation";
+import * as events from "./blocks/events";
 
 import { toolbox } from "./blocks/toolbox";
 
@@ -42,6 +43,8 @@ createCustomBlock("planets", materials.planets);
 
 createCustomBlock("animationLoop", animation.loop);
 createCustomBlock("animationStart", animation.start);
+
+createCustomBlock("onClick", events.onClick);
 
 let blocklyArea = document.getElementById("blocklyArea");
 let blocklyDiv = document.getElementById("blocklyDiv");
@@ -93,7 +96,7 @@ const getUniqueNameForAnimationLoop = (prefix, block) => {
 
   while (true) {
     var newName = prefix + "_" + counter;
-
+    //@ts-ignore
     if (!existingNames.includes(newName)) {
       return newName;
     }
@@ -159,6 +162,7 @@ workspace.addChangeListener(async (ev) => {
                   changedBlock.getFieldValue("NAME");
                 // Quickly switch dropdown selection to force refresh of selected text
                 let currentValue = block.getField("ANIMATIONS").getValue();
+                //@ts-ignore
                 block.getField("ANIMATIONS").getOptions(false);
                 block.getField("ANIMATIONS").setValue("none");
                 block.getField("ANIMATIONS").setValue(currentValue);

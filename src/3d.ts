@@ -18,6 +18,7 @@ export class ThreeD {
     }
 
     private runningAnimations: string[] = [];
+    private actionManagers = [];
 
     saveCameraState = () => {
         this.cameraState = this.camera.serialize();
@@ -41,6 +42,12 @@ export class ThreeD {
         this.light.intensity = 0.7;
         this.material = null;
         this.runningAnimations = [];
+        this.actionManagers.forEach((actionManager) => {
+            actionManager.actions.forEach(action => {
+                actionManager.unregisterAction(action);
+            });
+        });
+        this.actionManagers = [];
     }
 
     runRenderLoop = () => {
@@ -86,7 +93,9 @@ export class ThreeD {
         box.position.x = coords.x;
         box.position.y = coords.y;
         box.position.z = coords.z;
-        this.setMaterial(box, obj.material);
+        this.setMaterial(box, obj.material)
+        box.actionManager = new BABYLON.ActionManager(this.scene);
+        this.actionManagers.push(box.actionManager);
     }
 
     createSphere = (obj, coords) => {
@@ -196,12 +205,30 @@ export class ThreeD {
     }
 
     createAnimationLoop = (name: string, statements) => {
-        if (this.runningAnimations.indexOf(name) > -1){
-            this.scene.onBeforeRenderObservable.add(statements);
+        {
+            this.scene.onBeforeRenderObservable.add(() => {
+                if (this.runningAnimations.indexOf(name) > -1)
+                    statements();
+            });
         }
     }
 
     startAnimation = (name: string) => {
         this.runningAnimations.push(name);
+    }
+
+    onClick = (objArray, statements) => {
+        let obj = objArray[0];
+        let mesh = this.scene.getMeshById(obj.id);
+        if (mesh) {
+            mesh.actionManager.registerAction(
+                new BABYLON.ExecuteCodeAction(
+                    {
+                        trigger: BABYLON.ActionManager.OnPickTrigger
+                    },
+                    statements
+                )
+            );
+        }
     }
 }

@@ -531,6 +531,16 @@ export let toolbox = {
         },
         {
             "kind": "category",
+            "name": "Events", 
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "onClick"
+                }
+            ]
+        },
+        {
+            "kind": "category",
             "name": "Variables",
             "custom": "VARIABLE"
         },

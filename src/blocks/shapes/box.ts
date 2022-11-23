@@ -1,5 +1,4 @@
 import {javascriptGenerator} from "blockly/javascript";
-import { v4 as uuid } from 'uuid';
 
 export let box = {
     init: function () {
@@ -19,6 +18,6 @@ export let box = {
         if (size === "") size = "{ x: 0, y: 0, z: 0}";
         let material = javascriptGenerator.valueToCode(block, 'MATERIAL', javascriptGenerator.ORDER_NONE);
 
-        return [`[{ id: "${uuid()}", type: "box", size: ${size}, material: ${material}}]`, javascriptGenerator.ORDER_NONE];
+        return [`[{ id: "${block.id}", type: "box", size: ${size}, material: ${material}}]`, javascriptGenerator.ORDER_NONE];
     }
 };
