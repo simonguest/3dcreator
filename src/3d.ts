@@ -17,6 +17,8 @@ export class ThreeD {
         this.createScene()
     }
 
+    private runningAnimations: string[] = [];
+
     saveCameraState = () => {
         this.cameraState = this.camera.serialize();
     }
@@ -38,6 +40,7 @@ export class ThreeD {
         this.light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
         this.light.intensity = 0.7;
         this.material = null;
+        this.runningAnimations = [];
     }
 
     runRenderLoop = () => {
@@ -192,7 +195,13 @@ export class ThreeD {
         }
     }
 
-    createAnimationLoop = (name, statements) => {
-        this.scene.onBeforeRenderObservable.add(statements);
+    createAnimationLoop = (name: string, statements) => {
+        if (this.runningAnimations.indexOf(name) > -1){
+            this.scene.onBeforeRenderObservable.add(statements);
+        }
+    }
+
+    startAnimation = (name: string) => {
+        this.runningAnimations.push(name);
     }
 }

@@ -44,6 +44,6 @@ export let start = {
 
   transpile: function (block) {
     let animation = block.getFieldValue("ANIMATIONS");
-    return `console.log("Starting anim: ${animation}");`;
+    return `threeD.startAnimation("${animation}");`;
   },
 };
