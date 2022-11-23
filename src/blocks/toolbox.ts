@@ -522,6 +522,10 @@ export let toolbox = {
                 {
                     "kind": "block",
                     "type": "animationLoop"
+                },
+                {
+                    "kind": "block",
+                    "type": "animationStart"
                 }
             ]
         },

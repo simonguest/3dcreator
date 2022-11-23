@@ -17,7 +17,6 @@ export let createShape = {
     transpile: function (block) {
         let object = javascriptGenerator.valueToCode(block, 'OBJECT', javascriptGenerator.ORDER_NONE);
         let coords = javascriptGenerator.valueToCode(block, 'COORDS', javascriptGenerator.ORDER_NONE);
-        console.log(object);
         if (object === "") return "";
         if (coords === "") return "";
 

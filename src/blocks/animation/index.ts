@@ -1,5 +1,7 @@
 import { loop } from "./loop";
+import { start } from "./start";
 
 export{
-    loop
+    loop,
+    start
 }
