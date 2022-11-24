@@ -41,6 +41,7 @@ createCustomBlock("glass", materials.glass);
 createCustomBlock("earth", materials.earth);
 createCustomBlock("building", materials.building);
 createCustomBlock("planets", materials.planets);
+createCustomBlock("sports", materials.sports);
 
 createCustomBlock("animationLoop", animation.loop);
 createCustomBlock("animationStart", animation.start);

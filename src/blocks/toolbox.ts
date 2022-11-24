@@ -516,6 +516,10 @@ export let toolbox = {
                 {
                     "kind": "block",
                     "type": "planets"
+                },
+                {
+                    "kind": "block",
+                    "type": "sports"
                 }
             ]
         },
@@ -550,7 +554,7 @@ export let toolbox = {
         {
             "kind": "category",
             "name": "Variables",
-            "custom": "VARIABLE"
+            "custom": "VARIABLE",
         },
         {
             "kind": "category",
