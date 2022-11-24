@@ -17,7 +17,7 @@ export class ThreeD {
         this.createScene()
     }
 
-    private runningAnimations: string[] = [];
+    private runningAnimations = {};
     private actionManagers = [];
 
     saveCameraState = () => {
@@ -35,13 +35,13 @@ export class ThreeD {
     createScene = () => {
         if (this.camera) this.saveCameraState();
         this.scene = new BABYLON.Scene(this.engine);
-        this.camera = new BABYLON.ArcRotateCamera("camera", BABYLON.Tools.ToRadians(90), BABYLON.Tools.ToRadians(65), 10, BABYLON.Vector3.Zero(), this.scene);
+        this.camera = new BABYLON.ArcRotateCamera("camera", BABYLON.Tools.ToRadians(-90), BABYLON.Tools.ToRadians(65), 10, BABYLON.Vector3.Zero(), this.scene);
         this.camera.attachControl(this.canvas, true);
         this.restoreCameraState();
         this.light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
         this.light.intensity = 0.7;
         this.material = null;
-        this.runningAnimations = [];
+        this.runningAnimations = {};
         this.actionManagers.forEach((actionManager) => {
             actionManager.actions.forEach(action => {
                 actionManager.unregisterAction(action);
@@ -109,6 +109,8 @@ export class ThreeD {
         sphere.position.y = coords.y;
         sphere.position.z = coords.z;
         this.setMaterial(sphere, obj.material);
+        sphere.actionManager = new BABYLON.ActionManager(this.scene);
+        this.actionManagers.push(sphere.actionManager);
     }
 
     createGround = (obj) => {
@@ -207,14 +209,18 @@ export class ThreeD {
     createAnimationLoop = (name: string, statements) => {
         {
             this.scene.onBeforeRenderObservable.add(() => {
-                if (this.runningAnimations.indexOf(name) > -1)
+                if (this.runningAnimations[name] === true)
                     statements();
             });
         }
     }
 
     startAnimation = (name: string) => {
-        this.runningAnimations.push(name);
+        this.runningAnimations[name] = true;
+    }
+
+    stopAnimation = (name: string) => {
+        delete this.runningAnimations[name];
     }
 
     onClick = (objArray, statements) => {
@@ -229,6 +235,14 @@ export class ThreeD {
                     statements
                 )
             );
+        }
+    }
+
+    getPosition = (objArray, axis) => {
+        let obj = objArray[0];
+        let mesh = this.scene.getMeshById(obj.id);
+        if (mesh) {
+            return mesh.position[axis];
         }
     }
 }

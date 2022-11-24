@@ -12,6 +12,8 @@ import {merge} from "./merge";
 
 import {coordinates} from "./coordinates";
 
+import { getPosition } from "./getPosition";
+
 export {
     skybox,
     ground,
@@ -24,4 +26,5 @@ export {
     remove,
     merge,
     coordinates,
+    getPosition,
 };

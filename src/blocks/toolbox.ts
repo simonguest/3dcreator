@@ -356,6 +356,10 @@ export let toolbox = {
                             }
                         }
                     }
+                },
+                {
+                    "kind": "block",
+                    "type": "getPosition"
                 }
             ]
         },
@@ -526,6 +530,10 @@ export let toolbox = {
                 {
                     "kind": "block",
                     "type": "animationStart"
+                }, 
+                {
+                    "kind": "block",
+                    "type": "animationStop"
                 }
             ]
         },

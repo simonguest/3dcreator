@@ -33,6 +33,7 @@ createCustomBlock("clone", world.clone);
 createCustomBlock("remove", world.remove);
 createCustomBlock("merge", world.merge);
 createCustomBlock("coordinates", world.coordinates);
+createCustomBlock("getPosition", world.getPosition);
 
 createCustomBlock("none", materials.none);
 createCustomBlock("matte", materials.matte);
@@ -43,6 +44,7 @@ createCustomBlock("planets", materials.planets);
 
 createCustomBlock("animationLoop", animation.loop);
 createCustomBlock("animationStart", animation.start);
+createCustomBlock("animationStop", animation.stop);
 
 createCustomBlock("onClick", events.onClick);
 
@@ -132,14 +134,14 @@ workspace.addChangeListener(async (ev) => {
             }
             // Iterate through all of the start animation blocks to add to drop down
             allBlocks.forEach((block) => {
-              if (block.type === "animationStart") {
+              if (block.type === "animationStart" || block.type === "animationStop") {
                 block["dropdownOptions"][newBlock.id] =
                   newBlock.getFieldValue("NAME");
               }
             });
           }
 
-          if (newBlock.type === "animationStart") {
+          if (newBlock.type === "animationStart" || newBlock.type === "animationStop") {
             let loops = [];
             // Add the animation loops to the dropdown
             allBlocks.forEach(function (block) {
@@ -157,7 +159,7 @@ workspace.addChangeListener(async (ev) => {
             // Iterate through all of the start animation blocks to update the drop downs
             allBlocks.forEach((block) => {
               // Update the dropdown list
-              if (block.type === "animationStart") {
+              if (block.type === "animationStart" || block.type === "animationStop") {
                 block["dropdownOptions"][changedBlock.id] =
                   changedBlock.getFieldValue("NAME");
                 // Quickly switch dropdown selection to force refresh of selected text
@@ -174,7 +176,7 @@ workspace.addChangeListener(async (ev) => {
           // Iterate through all of the start animation blocks to update the drop downs
           allBlocks.forEach((block) => {
             // Update the dropdown list
-            if (block.type === "animationStart") {
+            if (block.type === "animationStart" || block.type === "animationStop") {
               delete block["dropdownOptions"][eventBlockId];
               let currentValue = block.getField("ANIMATIONS").getValue();
               if (currentValue === eventBlockId) {

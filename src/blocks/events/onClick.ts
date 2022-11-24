@@ -18,7 +18,7 @@ export let onClick = {
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(0);
+        this.setColour(295);
     },
 
     transpile: function (block) {
