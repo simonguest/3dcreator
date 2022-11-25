@@ -224,6 +224,7 @@ export class ThreeD {
     }
 
     onClick = (objArray, statements) => {
+        if (objArray === undefined) return;
         let obj = objArray[0];
         let mesh = this.scene.getMeshById(obj.id);
         if (mesh) {
