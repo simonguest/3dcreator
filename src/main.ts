@@ -208,39 +208,15 @@ window.addEventListener("resize", function () {
   threeD.engine.resize();
 });
 
-let runButton = document.getElementById("run");
-let stopButton = document.getElementById("stop");
-let pauseButton = document.getElementById("pause");
-let resumeButton = document.getElementById("resume");
+let resetButton = document.getElementById("reset");
 
-async function run() {
+async function run(reset?: boolean) {
   console.log("Running");
-  runButton.setAttribute("disabled", "true");
-  stopButton.removeAttribute("disabled");
-  pauseButton.removeAttribute("disabled");
 
   // Generate the required code
   let code = javascriptGenerator.workspaceToCode(workspace);
   console.log(`CODE: ${code}`);
-  eval("threeD.createScene(); " + code + " stop(); ");
-}
-
-function stop() {
-  console.log("Stopping...");
-  stopButton.setAttribute("disabled", "true");
-  runButton.removeAttribute("disabled");
-  pauseButton.setAttribute("disabled", "true");
-  resumeButton.setAttribute("disabled", "true");
-}
-
-function pause() {
-  pauseButton.setAttribute("disabled", "true");
-  resumeButton.removeAttribute("disabled");
-}
-
-function resume() {
-  resumeButton.setAttribute("disabled", "true");
-  pauseButton.removeAttribute("disabled");
+  eval(`threeD.createScene(${reset}); ${code} stop();`);
 }
 
 async function init() {
@@ -249,32 +225,10 @@ async function init() {
   if (jsonStr)
     Blockly.serialization.workspaces.load(JSON.parse(jsonStr), workspace);
 
-  runButton.onmousedown = async (e) => {
+  resetButton.onmousedown = async (e) => {
     e.preventDefault();
-    console.log("run button pressed");
-    await run();
-  };
-
-  pauseButton.onmousedown = (e) => {
-    e.preventDefault();
-    console.log("pause button pressed");
-    pause();
-  };
-
-  resumeButton.onmousedown = (e) => {
-    e.preventDefault();
-    console.log("resume button pressed");
-    resume();
-  };
-
-  stopButton.onclick = (e) => {
-    e.preventDefault();
-    console.log("stop button pressed");
-    stop();
-  };
-
-  document.getElementById("debug").onclick = () => {
-    console.log("debug button pressed");
+    console.log("reset button pressed");
+    await run(true);
   };
 
   document.getElementById("clear").onclick = () => {

@@ -32,12 +32,12 @@ export class ThreeD {
         }
     }
 
-    createScene = () => {
+    createScene = (reset?: boolean) => {
         if (this.camera) this.saveCameraState();
         this.scene = new BABYLON.Scene(this.engine);
         this.camera = new BABYLON.ArcRotateCamera("camera", BABYLON.Tools.ToRadians(-90), BABYLON.Tools.ToRadians(65), 10, BABYLON.Vector3.Zero(), this.scene);
         this.camera.attachControl(this.canvas, true);
-        this.restoreCameraState();
+        if (reset !== true) this.restoreCameraState();
         this.light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
         this.light.intensity = 0.7;
         this.material = null;
