@@ -6,6 +6,7 @@ import * as world from "./blocks/world";
 import * as materials from "./blocks/materials";
 import * as animation from "./blocks/animation";
 import * as events from "./blocks/events";
+import * as math from "./blocks/math";
 
 import { toolbox } from "./blocks/toolbox";
 
@@ -48,6 +49,8 @@ createCustomBlock("animationStart", animation.start);
 createCustomBlock("animationStop", animation.stop);
 
 createCustomBlock("onClick", events.onClick);
+
+createCustomBlock("debug", math.debug);
 
 let blocklyArea = document.getElementById("blocklyArea");
 let blocklyDiv = document.getElementById("blocklyDiv");
