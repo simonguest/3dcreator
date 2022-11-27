@@ -1,4 +1,5 @@
 import * as BABYLON from 'babylonjs';
+window.CANNON = require('cannon');
 import { v4 as uuid } from 'uuid';
 
 export class ThreeD {
@@ -19,6 +20,7 @@ export class ThreeD {
 
     private runningAnimations = {};
     private actionManagers = [];
+    private physicsEnabled: boolean = false;
 
     saveCameraState = () => {
         this.cameraState = this.camera.serialize();
@@ -32,7 +34,8 @@ export class ThreeD {
         }
     }
 
-    createScene = (reset?: boolean) => {
+    createScene = (reset?: boolean, physics?: boolean) => {
+        console.log("Creating scene");
         if (this.camera) this.saveCameraState();
         this.scene = new BABYLON.Scene(this.engine);
         this.camera = new BABYLON.ArcRotateCamera("camera", BABYLON.Tools.ToRadians(-90), BABYLON.Tools.ToRadians(65), 10, BABYLON.Vector3.Zero(), this.scene);
@@ -48,6 +51,16 @@ export class ThreeD {
             });
         });
         this.actionManagers = [];
+        if (physics === true){
+            console.log("Enabling physics");
+            let gravityVector = new BABYLON.Vector3(0,-9.81, 0);
+            let physicsPlugin = new BABYLON.CannonJSPlugin();
+            this.scene.enablePhysics(gravityVector, physicsPlugin);
+            this.physicsEnabled = true;
+        } else {
+            this.physicsEnabled = false;
+            this.scene.disablePhysicsEngine();
+        }
     }
 
     runRenderLoop = () => {
@@ -96,6 +109,9 @@ export class ThreeD {
         this.setMaterial(box, obj.material)
         box.actionManager = new BABYLON.ActionManager(this.scene);
         this.actionManagers.push(box.actionManager);
+        if (this.physicsEnabled === true) {
+            box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 2, restitution: 0.7, friction: 2.0 }, this.scene);
+        }
     }
 
     createSphere = (obj, coords) => {
@@ -111,12 +127,18 @@ export class ThreeD {
         this.setMaterial(sphere, obj.material);
         sphere.actionManager = new BABYLON.ActionManager(this.scene);
         this.actionManagers.push(sphere.actionManager);
+        if (this.physicsEnabled === true) {
+            sphere.physicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 2, restitution: 0.7, friction: 2.0 }, this.scene);
+        }
     }
 
     createGround = (obj) => {
         if (this.ground) this.ground.dispose();
         this.ground = BABYLON.MeshBuilder.CreateGround(obj.id, {width: obj.width, height: obj.length}, this.scene);
         this.setMaterial(this.ground, obj.material);
+        if (this.physicsEnabled === true) {
+            this.ground.physicsImpostor = new BABYLON.PhysicsImpostor(this.ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.7, friction: 2.0 }, this.scene);
+        }
     }
 
     createSkybox = (obj) => {
@@ -202,7 +224,8 @@ export class ThreeD {
         let obj = objArray[0];
         let mesh = this.scene.getMeshById(obj.id);
         if (mesh) {
-            mesh.rotation[axis] += this.convertToRadians(degrees);
+            //mesh.rotation[axis] += this.convertToRadians(degrees);
+            mesh.rotate(BABYLON.Axis[axis], this.convertToRadians(degrees));
         }
     }
 

@@ -266,9 +266,6 @@ export let toolbox = {
             MATERIAL: {
               shadow: {
                 type: "none",
-                fields: {
-                  NUM: "NONE",
-                },
               },
             },
           },

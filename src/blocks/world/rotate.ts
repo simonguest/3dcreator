@@ -17,7 +17,7 @@ export let rotate = {
         this.appendValueInput("DEGREES")
             .setCheck("Number")
             .appendField("on")
-            .appendField(new Blockly.FieldDropdown([["x", "x"], ["y", "y"], ["z", "z"]]), "AXIS")
+            .appendField(new Blockly.FieldDropdown([["x", "X"], ["y", "Y"], ["z", "Z"]]), "AXIS")
             .appendField("axis by");
         this.appendDummyInput()
             .appendField("degrees");

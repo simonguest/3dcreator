@@ -110,6 +110,8 @@ const getUniqueNameForAnimationLoop = (prefix, block) => {
   }
 };
 
+let physicsEnabled = false;
+
 workspace.addChangeListener(async (ev) => {
   if (
     ev.type === Blockly.Events.BLOCK_MOVE ||
@@ -198,7 +200,7 @@ workspace.addChangeListener(async (ev) => {
     sessionStorage.setItem("workspace", JSON.stringify(json));
 
     // Refresh the scene
-    await run();
+    await run(false, physicsEnabled);
   }
 });
 
@@ -212,14 +214,15 @@ window.addEventListener("resize", function () {
 });
 
 let resetButton = document.getElementById("reset");
+let physicsButton = document.getElementById("physics");
 
-async function run(reset?: boolean) {
+async function run(reset?: boolean, physics?: boolean) {
   console.log("Running");
 
   // Generate the required code
   let code = javascriptGenerator.workspaceToCode(workspace);
   console.log(`CODE: ${code}`);
-  eval(`threeD.createScene(${reset}); ${code} stop();`);
+  eval(`threeD.createScene(${reset}, ${physics}); ${code} stop();`);
 }
 
 async function init() {
@@ -228,11 +231,29 @@ async function init() {
   if (jsonStr)
     Blockly.serialization.workspaces.load(JSON.parse(jsonStr), workspace);
 
-  resetButton.onmousedown = async (e) => {
+  resetButton.onmouseup = async (e) => {
     e.preventDefault();
     console.log("reset button pressed");
-    await run(true);
+    await run(true, physicsEnabled);
   };
+
+  physicsButton.onmouseup = async (e) => {
+    e.preventDefault();
+    console.log("physics button pressed");
+    if (physicsButton.getAttribute("data-enabled") === "false"){
+      console.log("Physics engine enabled");
+      physicsButton.setAttribute("data-enabled", "true");
+      physicsButton.innerText = "Disable Physics";
+      physicsEnabled = true;
+      await run(false, true);
+    } else {
+      console.log("Physics engine disabled");
+      physicsButton.setAttribute("data-enabled", "false");
+      physicsButton.innerText = "Enable Physics";
+      physicsEnabled = false;
+      await run(false, false);
+    }
+  }
 
   document.getElementById("clear").onclick = () => {
     console.log("clear session button pressed");

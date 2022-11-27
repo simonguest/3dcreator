@@ -23,9 +23,11 @@
   "dependencies": {
     "babylonjs": "^5.28.0",
     "blockly": "^9.0.0",
+    "cannon": "^0.6.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/node": "^18.11.9",
     "parcel": "^2.7.0",
     "parcel-reporter-static-files-copy": "^1.4.0"
   }
