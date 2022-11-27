@@ -7,6 +7,7 @@ import * as materials from "./blocks/materials";
 import * as animation from "./blocks/animation";
 import * as events from "./blocks/events";
 import * as math from "./blocks/math";
+import * as physics from "./blocks/physics";
 
 import { toolbox } from "./blocks/toolbox";
 
@@ -49,6 +50,8 @@ createCustomBlock("animationStart", animation.start);
 createCustomBlock("animationStop", animation.stop);
 
 createCustomBlock("onClick", events.onClick);
+
+createCustomBlock("applyForce", physics.applyForce);
 
 createCustomBlock("debug", math.debug);
 

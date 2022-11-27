@@ -532,9 +532,6 @@ export let toolbox = {
             MATERIAL: {
               shadow: {
                 type: "none",
-                fields: {
-                  NUM: "NONE",
-                },
               },
             },
           },
@@ -576,10 +573,7 @@ export let toolbox = {
             },
             MATERIAL: {
               shadow: {
-                type: "none",
-                fields: {
-                  NUM: "NONE",
-                },
+                type: "none"
               },
             },
           },
@@ -649,6 +643,26 @@ export let toolbox = {
           type: "sports",
         },
       ],
+    },
+    {
+      kind: "category",
+      name: "Physics",
+      contents: [
+        {
+          kind: "block",
+          type: "applyForce",
+          inputs: {
+            UNITS: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 5,
+                },
+              },
+            },
+          }
+        }
+      ]
     },
     {
       kind: "category",

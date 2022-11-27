@@ -110,7 +110,7 @@ export class ThreeD {
         box.actionManager = new BABYLON.ActionManager(this.scene);
         this.actionManagers.push(box.actionManager);
         if (this.physicsEnabled === true) {
-            box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 2, restitution: 0.7, friction: 2.0 }, this.scene);
+            box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.7, friction: 2.0 }, this.scene);
         }
     }
 
@@ -128,7 +128,7 @@ export class ThreeD {
         sphere.actionManager = new BABYLON.ActionManager(this.scene);
         this.actionManagers.push(sphere.actionManager);
         if (this.physicsEnabled === true) {
-            sphere.physicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 2, restitution: 0.7, friction: 2.0 }, this.scene);
+            sphere.physicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, restitution: 0.7, friction: 2.0 }, this.scene);
         }
     }
 
@@ -267,6 +267,17 @@ export class ThreeD {
         let mesh = this.scene.getMeshById(obj.id);
         if (mesh) {
             return mesh.position[axis];
+        }
+    }
+
+    applyForce = (objArray, axis, units) => {
+        let obj = objArray[0];
+        let mesh = this.scene.getMeshById(obj.id);
+        if (mesh && this.physicsEnabled === true) {
+            let vector = { x: 0, y: 0, z: 0};
+            vector[axis] = units;
+            let direction = new BABYLON.Vector3(vector.x, vector.y, vector.z));
+            mesh.physicsImpostor.applyForce(direction.scale(50), mesh.getAbsolutePosition());
         }
     }
 }
