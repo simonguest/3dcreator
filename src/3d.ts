@@ -121,6 +121,28 @@ export class ThreeD {
     }
   };
 
+  private createTorus = (obj, coords) => {
+    let torus = BABYLON.MeshBuilder.CreateTorus(obj.id, {
+      diameter: obj.size.d,
+      thickness: obj.size.t,
+      tessellation: obj.size.s,
+    });
+    torus.position.x = coords.x;
+    torus.position.y = coords.y;
+    torus.position.z = coords.z;
+    this.setMaterial(torus, obj.material);
+    torus.actionManager = new BABYLON.ActionManager(this.scene);
+    this.actionManagers.push(torus.actionManager);
+    if (this.physicsEnabled === true) {
+      torus.physicsImpostor = new BABYLON.PhysicsImpostor(
+        torus,
+        BABYLON.PhysicsImpostor.BoxImpostor,
+        { mass: 1, restitution: 0.7, friction: 1.0 },
+        this.scene
+      );
+    }
+  };
+
   private createCylinder = (obj, coords) => {
     let cylinder = BABYLON.MeshBuilder.CreateCylinder(obj.id, {
       height: obj.size.h,
@@ -135,7 +157,7 @@ export class ThreeD {
     if (this.physicsEnabled === true) {
       cylinder.physicsImpostor = new BABYLON.PhysicsImpostor(
         cylinder,
-        BABYLON.PhysicsImpostor.BoxImpostor,
+        BABYLON.PhysicsImpostor.CylinderImpostor,
         { mass: 1, restitution: 0.7, friction: 1.0 },
         this.scene
       );
@@ -228,6 +250,9 @@ export class ThreeD {
         break;
       case "cylinder":
         this.createCylinder(obj, coords);
+        break;
+      case "torus":
+        this.createTorus(obj, coords);
         break;
     }
   };

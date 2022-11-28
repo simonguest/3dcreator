@@ -591,6 +591,41 @@ export let toolbox = {
             },
           },
         },
+        {
+          kind: "block",
+          type: "torus",
+          inputs: {
+            D: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 1,
+                },
+              },
+            },
+            T: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 0.5,
+                },
+              },
+            },
+            S: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 32,
+                },
+              },
+            },
+            MATERIAL: {
+              shadow: {
+                type: "none",
+              },
+            },
+          },
+        },
       ],
     },
     {
