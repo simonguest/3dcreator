@@ -97,6 +97,22 @@ export class ThreeD {
 
     }
 
+    createCylinder = (obj, coords) => {
+        let cylinder = BABYLON.MeshBuilder.CreateCylinder(obj.id, {
+            height: obj.size.y,
+            diameter: obj.size.z
+        });
+        cylinder.position.x = coords.x;
+        cylinder.position.y = coords.y;
+        cylinder.position.z = coords.z;
+        this.setMaterial(cylinder, obj.material)
+        cylinder.actionManager = new BABYLON.ActionManager(this.scene);
+        this.actionManagers.push(cylinder.actionManager);
+        if (this.physicsEnabled === true) {
+            cylinder.physicsImpostor = new BABYLON.PhysicsImpostor(cylinder, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.7, friction: 1.0 }, this.scene);
+        }
+    }
+
     createBox = (obj, coords) => {
         let box = BABYLON.MeshBuilder.CreateBox(obj.id, {
             height: obj.size.y,
@@ -110,7 +126,7 @@ export class ThreeD {
         box.actionManager = new BABYLON.ActionManager(this.scene);
         this.actionManagers.push(box.actionManager);
         if (this.physicsEnabled === true) {
-            box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.7, friction: 2.0 }, this.scene);
+            box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.7, friction: 1.0 }, this.scene);
         }
     }
 
@@ -128,7 +144,7 @@ export class ThreeD {
         sphere.actionManager = new BABYLON.ActionManager(this.scene);
         this.actionManagers.push(sphere.actionManager);
         if (this.physicsEnabled === true) {
-            sphere.physicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, restitution: 0.7, friction: 2.0 }, this.scene);
+            sphere.physicsImpostor = new BABYLON.PhysicsImpostor(sphere, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, restitution: 0.7, friction: 1.0 }, this.scene);
         }
     }
 
@@ -137,7 +153,7 @@ export class ThreeD {
         this.ground = BABYLON.MeshBuilder.CreateGround(obj.id, {width: obj.width, height: obj.length}, this.scene);
         this.setMaterial(this.ground, obj.material);
         if (this.physicsEnabled === true) {
-            this.ground.physicsImpostor = new BABYLON.PhysicsImpostor(this.ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.7, friction: 2.0 }, this.scene);
+            this.ground.physicsImpostor = new BABYLON.PhysicsImpostor(this.ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.7, friction: 1.0 }, this.scene);
         }
     }
 
@@ -162,6 +178,9 @@ export class ThreeD {
                 break;
             case "box":
                 this.createBox(obj, coords);
+                break;
+            case "cylinder":
+                this.createCylinder(obj, coords);
                 break;
         }
     }
@@ -276,7 +295,7 @@ export class ThreeD {
         if (mesh && this.physicsEnabled === true) {
             let vector = { x: 0, y: 0, z: 0};
             vector[axis] = units;
-            let direction = new BABYLON.Vector3(vector.x, vector.y, vector.z));
+            let direction = new BABYLON.Vector3(vector.x, vector.y, vector.z);
             mesh.physicsImpostor.applyForce(direction.scale(50), mesh.getAbsolutePosition());
         }
     }

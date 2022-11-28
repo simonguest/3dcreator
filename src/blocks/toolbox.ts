@@ -580,6 +580,48 @@ export let toolbox = {
         },
         {
           kind: "block",
+          type: "cylinder",
+          inputs: {
+            SIZE: {
+              block: {
+                type: "size",
+                inputs: {
+                  X: {
+                    shadow: {
+                      type: "math_number",
+                      fields: {
+                        NUM: 1,
+                      },
+                    },
+                  },
+                  Y: {
+                    shadow: {
+                      type: "math_number",
+                      fields: {
+                        NUM: 1,
+                      },
+                    },
+                  },
+                  Z: {
+                    shadow: {
+                      type: "math_number",
+                      fields: {
+                        NUM: 1,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            MATERIAL: {
+              shadow: {
+                type: "none"
+              },
+            },
+          },
+        },
+        {
+          kind: "block",
           type: "size",
           inputs: {
             X: {

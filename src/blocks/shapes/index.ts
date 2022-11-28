@@ -1,10 +1,7 @@
-import {sphere} from "./sphere";
-import {box} from "./box";
+import { sphere } from "./sphere";
+import { box } from "./box";
+import { cylinder } from "./cylinder";
 
-import {size} from "./size";
+import { size } from "./size";
 
-export {
-    sphere,
-    box,
-    size
-};
+export { sphere, box, cylinder, size };

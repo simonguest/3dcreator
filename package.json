@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "build": "rm -rf ./dist && rm -rf ./parcel-cache && npx parcel build index.html",
+    "build": "rm -rf ./dist && rm -rf ./.parcel-cache && npx parcel build index.html",
     "server": "npm run build && npx parcel serve index.html -p 55000"
   },
   "repository": {
@@ -27,8 +27,8 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "parcel": "^2.8.0",
     "@types/node": "^18.11.9",
-    "parcel": "^2.7.0",
     "parcel-reporter-static-files-copy": "^1.4.0"
   }
 }
