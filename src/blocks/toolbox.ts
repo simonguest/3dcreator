@@ -172,67 +172,67 @@ export let toolbox = {
           type: "math_constant",
         },
         {
-            kind: "block",
-            type: "math_number_property",
-            inputs: {
-              NUMBER_TO_CHECK: {
-                shadow: {
-                  type: "math_number",
-                  fields: {
-                    NUM: 10,
-                  },
+          kind: "block",
+          type: "math_number_property",
+          inputs: {
+            NUMBER_TO_CHECK: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 10,
                 },
               },
             },
           },
-          {
-            kind: "block",
-            type: "math_round",
-            inputs: {
-              NUM: {
-                shadow: {
-                  type: "math_number",
-                  fields: {
-                    NUM: 1.3,
-                  },
+        },
+        {
+          kind: "block",
+          type: "math_round",
+          inputs: {
+            NUM: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 1.3,
                 },
               },
             },
           },
-          {
-            kind: "block",
-            type: "math_constrain",
-            inputs: {
-              VALUE: {
-                shadow: {
-                  type: "math_number",
-                  fields: {
-                    NUM: 50,
-                  },
+        },
+        {
+          kind: "block",
+          type: "math_constrain",
+          inputs: {
+            VALUE: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 50,
                 },
               },
-              LOW: {
-                shadow: {
-                  type: "math_number",
-                  fields: {
-                    NUM: 5,
-                  },
+            },
+            LOW: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 5,
                 },
               },
-              HIGH: {
-                shadow: {
-                  type: "math_number",
-                  fields: {
-                    NUM: 100,
-                  },
+            },
+            HIGH: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 100,
                 },
               },
             },
           },
-          {
-            "kind":"block",
-            "type":"debug"
-          }
+        },
+        {
+          kind: "block",
+          type: "debug",
+        },
       ],
     },
     {
@@ -498,34 +498,27 @@ export let toolbox = {
           kind: "block",
           type: "sphere",
           inputs: {
-            SIZE: {
-              block: {
-                type: "size",
-                inputs: {
-                  X: {
-                    shadow: {
-                      type: "math_number",
-                      fields: {
-                        NUM: 1,
-                      },
-                    },
-                  },
-                  Y: {
-                    shadow: {
-                      type: "math_number",
-                      fields: {
-                        NUM: 1,
-                      },
-                    },
-                  },
-                  Z: {
-                    shadow: {
-                      type: "math_number",
-                      fields: {
-                        NUM: 1,
-                      },
-                    },
-                  },
+            L: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 1,
+                },
+              },
+            },
+            H: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 1,
+                },
+              },
+            },
+            W: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 1,
                 },
               },
             },
@@ -540,40 +533,33 @@ export let toolbox = {
           kind: "block",
           type: "box",
           inputs: {
-            SIZE: {
-              block: {
-                type: "size",
-                inputs: {
-                  X: {
-                    shadow: {
-                      type: "math_number",
-                      fields: {
-                        NUM: 1,
-                      },
-                    },
-                  },
-                  Y: {
-                    shadow: {
-                      type: "math_number",
-                      fields: {
-                        NUM: 1,
-                      },
-                    },
-                  },
-                  Z: {
-                    shadow: {
-                      type: "math_number",
-                      fields: {
-                        NUM: 1,
-                      },
-                    },
-                  },
+            H: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 1,
+                },
+              },
+            },
+            W: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 1,
+                },
+              },
+            },
+            L: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 1,
                 },
               },
             },
             MATERIAL: {
               shadow: {
-                type: "none"
+                type: "none",
               },
             },
           },
@@ -582,70 +568,25 @@ export let toolbox = {
           kind: "block",
           type: "cylinder",
           inputs: {
-            SIZE: {
-              block: {
-                type: "size",
-                inputs: {
-                  X: {
-                    shadow: {
-                      type: "math_number",
-                      fields: {
-                        NUM: 1,
-                      },
-                    },
-                  },
-                  Y: {
-                    shadow: {
-                      type: "math_number",
-                      fields: {
-                        NUM: 1,
-                      },
-                    },
-                  },
-                  Z: {
-                    shadow: {
-                      type: "math_number",
-                      fields: {
-                        NUM: 1,
-                      },
-                    },
-                  },
+            H: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 1,
+                },
+              },
+            },
+            D: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 1,
                 },
               },
             },
             MATERIAL: {
               shadow: {
-                type: "none"
-              },
-            },
-          },
-        },
-        {
-          kind: "block",
-          type: "size",
-          inputs: {
-            X: {
-              shadow: {
-                type: "math_number",
-                fields: {
-                  NUM: 0,
-                },
-              },
-            },
-            Y: {
-              shadow: {
-                type: "math_number",
-                fields: {
-                  NUM: 0,
-                },
-              },
-            },
-            Z: {
-              shadow: {
-                type: "math_number",
-                fields: {
-                  NUM: 0,
-                },
+                type: "none",
               },
             },
           },
@@ -702,9 +643,9 @@ export let toolbox = {
                 },
               },
             },
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       kind: "category",

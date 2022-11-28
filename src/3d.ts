@@ -23,11 +23,11 @@ export class ThreeD {
   private actionManagers = [];
   private physicsEnabled: boolean = false;
 
-  saveCameraState = () => {
+  private saveCameraState = () => {
     this.cameraState = this.camera.serialize();
   };
 
-  restoreCameraState = () => {
+  private restoreCameraState = () => {
     if (this.cameraState) {
       this.camera.alpha = this.cameraState.alpha;
       this.camera.beta = this.cameraState.beta;
@@ -35,7 +35,7 @@ export class ThreeD {
     }
   };
 
-  createScene = (reset?: boolean, physics?: boolean) => {
+  public createScene = (reset?: boolean, physics?: boolean) => {
     console.log("Creating scene");
     // If existing camera, save the state
     if (this.camera) this.saveCameraState();
@@ -86,7 +86,7 @@ export class ThreeD {
     }
   };
 
-  runRenderLoop = () => {
+  public runRenderLoop = () => {
     this.engine.runRenderLoop(
       function () {
         this.scene.render();
@@ -94,7 +94,7 @@ export class ThreeD {
     );
   };
 
-  setMaterial = (obj, materialArray) => {
+  private setMaterial = (obj, materialArray) => {
     if (materialArray === null) return; // none selected
     let material = materialArray[0];
 
@@ -121,10 +121,10 @@ export class ThreeD {
     }
   };
 
-  createCylinder = (obj, coords) => {
+  private createCylinder = (obj, coords) => {
     let cylinder = BABYLON.MeshBuilder.CreateCylinder(obj.id, {
-      height: obj.size.y,
-      diameter: obj.size.z,
+      height: obj.size.h,
+      diameter: obj.size.d,
     });
     cylinder.position.x = coords.x;
     cylinder.position.y = coords.y;
@@ -142,11 +142,11 @@ export class ThreeD {
     }
   };
 
-  createBox = (obj, coords) => {
+  private createBox = (obj, coords) => {
     let box = BABYLON.MeshBuilder.CreateBox(obj.id, {
-      height: obj.size.y,
-      width: obj.size.x,
-      depth: obj.size.z,
+      height: obj.size.h,
+      width: obj.size.w,
+      depth: obj.size.l,
     });
     box.position.x = coords.x;
     box.position.y = coords.y;
@@ -164,12 +164,12 @@ export class ThreeD {
     }
   };
 
-  createSphere = (obj, coords) => {
+  private createSphere = (obj, coords) => {
     let sphere = BABYLON.MeshBuilder.CreateSphere(obj.id, {
       segments: 16,
-      diameterX: obj.size.x,
-      diameterY: obj.size.y,
-      diameterZ: obj.size.z,
+      diameterX: obj.size.w,
+      diameterY: obj.size.h,
+      diameterZ: obj.size.l,
     });
     sphere.position.x = coords.x;
     sphere.position.y = coords.y;
@@ -187,7 +187,7 @@ export class ThreeD {
     }
   };
 
-  createGround = (obj) => {
+  public createGround = (obj) => {
     if (this.ground) this.ground.dispose();
     this.ground = BABYLON.MeshBuilder.CreateGround(obj.id, { width: obj.width, height: obj.length }, this.scene);
     this.setMaterial(this.ground, obj.material);
@@ -201,7 +201,7 @@ export class ThreeD {
     }
   };
 
-  createSkybox = (obj) => {
+  public createSkybox = (obj) => {
     let skybox = BABYLON.MeshBuilder.CreateBox("skyBox", { size: 1000.0 }, this.scene);
     let skyboxMaterial = new BABYLON.StandardMaterial("skyBox", this.scene);
     skyboxMaterial.backFaceCulling = false;
@@ -215,7 +215,7 @@ export class ThreeD {
     skybox.material = skyboxMaterial;
   };
 
-  createShape = (objArray, coordsArray) => {
+  public createShape = (objArray, coordsArray) => {
     let obj = objArray[0];
     let coords = coordsArray[0];
 
@@ -232,7 +232,7 @@ export class ThreeD {
     }
   };
 
-  clone = (objArray, coordsArray) => {
+  public clone = (objArray, coordsArray) => {
     let obj = objArray[0];
     let coords = coordsArray[0];
     let mesh = this.scene.getMeshById(obj.id);
@@ -242,7 +242,7 @@ export class ThreeD {
     }
   };
 
-  remove = (objArray) => {
+  public remove = (objArray) => {
     let obj = objArray[0];
     let mesh = this.scene.getMeshById(obj.id);
     if (mesh) {
@@ -250,7 +250,7 @@ export class ThreeD {
     }
   };
 
-  move = (objArray, coordsArray) => {
+  public move = (objArray, coordsArray) => {
     let obj = objArray[0];
     let coords = coordsArray[0];
     let mesh = this.scene.getMeshById(obj.id);
@@ -261,7 +261,7 @@ export class ThreeD {
     }
   };
 
-  moveAlong = (objArray, axis, steps) => {
+  public moveAlong = (objArray, axis, steps) => {
     let obj = objArray[0];
     let mesh = this.scene.getMeshById(obj.id);
     if (mesh) {
@@ -269,7 +269,7 @@ export class ThreeD {
     }
   };
 
-  merge = (objArray, objectsToMerge) => {
+  public merge = (objArray, objectsToMerge) => {
     let obj = objArray[0];
     let meshes = [];
     if (objectsToMerge.length === 0) return;
@@ -286,7 +286,7 @@ export class ThreeD {
     return degrees * (Math.PI / 180);
   };
 
-  rotate = (objArray, axis, degrees) => {
+  public rotate = (objArray, axis, degrees) => {
     let obj = objArray[0];
     let mesh = this.scene.getMeshById(obj.id);
     if (mesh) {
@@ -294,7 +294,7 @@ export class ThreeD {
     }
   };
 
-  createAnimationLoop = (name: string, statements) => {
+  public createAnimationLoop = (name: string, statements) => {
     {
       this.scene.onBeforeRenderObservable.add(() => {
         if (this.runningAnimations[name] === true) statements();
@@ -302,15 +302,15 @@ export class ThreeD {
     }
   };
 
-  startAnimation = (name: string) => {
+  public startAnimation = (name: string) => {
     this.runningAnimations[name] = true;
   };
 
-  stopAnimation = (name: string) => {
+  public stopAnimation = (name: string) => {
     delete this.runningAnimations[name];
   };
 
-  onClick = (objArray, statements) => {
+  public onClick = (objArray, statements) => {
     if (objArray === undefined) return;
     let obj = objArray[0];
     let mesh = this.scene.getMeshById(obj.id);
@@ -326,7 +326,7 @@ export class ThreeD {
     }
   };
 
-  onKeyPress = (key, statements) => {
+  public onKeyPress = (key, statements) => {
     this.scene.actionManager.registerAction(
       new BABYLON.ExecuteCodeAction(
         {
@@ -338,7 +338,7 @@ export class ThreeD {
     );
   };
 
-  getPosition = (objArray, axis) => {
+  public getPosition = (objArray, axis) => {
     let obj = objArray[0];
     let mesh = this.scene.getMeshById(obj.id);
     if (mesh) {
@@ -346,7 +346,7 @@ export class ThreeD {
     }
   };
 
-  applyForce = (objArray, axis, units) => {
+  public applyForce = (objArray, axis, units) => {
     let obj = objArray[0];
     let mesh = this.scene.getMeshById(obj.id);
     if (mesh && this.physicsEnabled === true) {

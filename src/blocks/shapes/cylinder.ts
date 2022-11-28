@@ -1,23 +1,24 @@
-import {javascriptGenerator} from "blockly/javascript";
+import { javascriptGenerator } from "blockly/javascript";
 
 export let cylinder = {
-    init: function () {
-        this.appendValueInput("SIZE")
-            .setCheck("SIZE")
-            .appendField("Cylinder of size ");
-        this.appendValueInput("MATERIAL")
-            .setCheck("MATERIAL")
-            .appendField("with material");
-        this.setInputsInline(false);
-        this.setOutput(true, "OBJECT");
-        this.setColour(200);
-    },
+  init: function () {
+    this.appendDummyInput().appendField("Cylinder ");
+    this.appendValueInput("H").setCheck("Number").appendField("h:");
+    this.appendValueInput("D").setCheck("Number").appendField("d:");
+    this.appendValueInput("MATERIAL").setCheck("MATERIAL").appendField("with material");
+    this.setInputsInline(true);
+    this.setOutput(true, "OBJECT");
+    this.setColour(200);
+  },
 
-    transpile: function (block) {
-        let size = javascriptGenerator.valueToCode(block, 'SIZE', javascriptGenerator.ORDER_NONE);
-        if (size === "") size = "{ x: 0, y: 0, z: 0}";
-        let material = javascriptGenerator.valueToCode(block, 'MATERIAL', javascriptGenerator.ORDER_NONE);
+  transpile: function (block) {
+    let d = javascriptGenerator.valueToCode(block, "D", javascriptGenerator.ORDER_NONE);
+    let h = javascriptGenerator.valueToCode(block, "H", javascriptGenerator.ORDER_NONE);
+    let material = javascriptGenerator.valueToCode(block, "MATERIAL", javascriptGenerator.ORDER_NONE);
 
-        return [`[{ id: "${block.id}", type: "cylinder", size: ${size}, material: ${material}}]`, javascriptGenerator.ORDER_NONE];
-    }
+    return [
+      `[{ id: "${block.id}", type: "cylinder", size: { d: ${d}, h: ${h}}, material: ${material}}]`,
+      javascriptGenerator.ORDER_NONE,
+    ];
+  },
 };
