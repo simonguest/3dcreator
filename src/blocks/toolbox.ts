@@ -732,6 +732,10 @@ export let toolbox = {
           kind: "block",
           type: "onClick",
         },
+        {
+          kind: "block",
+          type: "onKeyPress",
+        },
       ],
     },
     {

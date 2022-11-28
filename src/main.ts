@@ -51,6 +51,7 @@ createCustomBlock("animationStart", animation.start);
 createCustomBlock("animationStop", animation.stop);
 
 createCustomBlock("onClick", events.onClick);
+createCustomBlock("onKeyPress", events.onKeyPress);
 
 createCustomBlock("applyForce", physics.applyForce);
 
