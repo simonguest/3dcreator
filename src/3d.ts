@@ -385,6 +385,8 @@ export class ThreeD {
     });
     let mergedMesh = BABYLON.Mesh.MergeMeshes(meshes, true, true, undefined, false, true);
     mergedMesh.id = obj.id;
+    mergedMesh.actionManager = new BABYLON.ActionManager(this.scene);
+    this.actionManagers.push(mergedMesh.actionManager);
   };
 
   private convertToRadians = (degrees) => {
