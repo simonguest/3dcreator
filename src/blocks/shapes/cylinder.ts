@@ -3,10 +3,10 @@ import { javascriptGenerator } from "blockly/javascript";
 export let cylinder = {
   init: function () {
     this.appendDummyInput().appendField("Cylinder");
-    this.appendValueInput("H").setCheck("Number").appendField("h:");
-    this.appendValueInput("D").setCheck("Number").appendField("d:");
+    this.appendValueInput("H").setCheck("Number").appendField("height");
+    this.appendValueInput("D").setCheck("Number").appendField("diameter");
     this.appendValueInput("MATERIAL").setCheck("MATERIAL").appendField("material");
-    this.setInputsInline(true);
+    this.setInputsInline(false);
     this.setOutput(true, "OBJECT");
     this.setColour(200);
     this.setTooltip("A cylinder with height and diameter");

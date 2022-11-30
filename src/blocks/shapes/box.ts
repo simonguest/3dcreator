@@ -3,11 +3,11 @@ import { javascriptGenerator } from "blockly/javascript";
 export let box = {
   init: function () {
     this.appendDummyInput().appendField("Box ");
-    this.appendValueInput("W").setCheck("Number").appendField("w:");
-    this.appendValueInput("H").setCheck("Number").appendField("h:");
-    this.appendValueInput("L").setCheck("Number").appendField("l:");
-    this.appendValueInput("MATERIAL").setCheck("MATERIAL").appendField("with material");
-    this.setInputsInline(true);
+    this.appendValueInput("W").setCheck("Number").appendField("width");
+    this.appendValueInput("H").setCheck("Number").appendField("height");
+    this.appendValueInput("L").setCheck("Number").appendField("length");
+    this.appendValueInput("MATERIAL").setCheck("MATERIAL").appendField("material");
+    this.setInputsInline(false);
     this.setOutput(true, "OBJECT");
     this.setColour(200);
     this.setTooltip("A box with width, height, and length");

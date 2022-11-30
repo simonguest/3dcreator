@@ -143,6 +143,77 @@ export class ThreeD {
     }
   };
 
+  private createRamp = (obj, coords) => {
+    // Halve the w, h, and l to position the triangle in the middle prior to extrusion
+    let width = obj.size.w / 2;
+    let height = obj.size.h / 2;
+    let length = obj.size.l / 2;
+    var triangle = [new BABYLON.Vector3(0-width, 0-height, 0), new BABYLON.Vector3(width, 0-height, 0), new BABYLON.Vector3(width, height, 0)];
+    triangle.push(triangle[0]);
+    let extrudePath = [new BABYLON.Vector3(0, 0, 0-length), new BABYLON.Vector3(0, 0, length)];
+    let ramp = BABYLON.MeshBuilder.ExtrudeShape(
+      obj.id,
+      { shape: triangle, path: extrudePath, cap: BABYLON.Mesh.CAP_ALL },
+      this.scene
+    );
+    ramp.position.x = coords.x;
+    ramp.position.y = coords.y;
+    ramp.position.z = coords.z;
+    this.setMaterial(ramp, obj.material);
+    ramp.actionManager = new BABYLON.ActionManager(this.scene);
+    this.actionManagers.push(ramp.actionManager);
+    if (this.physicsEnabled === true) {
+      ramp.physicsImpostor = new BABYLON.PhysicsImpostor(
+        ramp,
+        BABYLON.PhysicsImpostor.BoxImpostor,
+        { mass: 1, restitution: 0.7, friction: 1.0 }
+      );
+    }
+  };
+
+  private createCapsule = (obj, coords) => {
+    let capsule = BABYLON.MeshBuilder.CreateCapsule(obj.id, {
+      height: obj.size.h,
+      radius: obj.size.d / 2,
+    });
+    capsule.position.x = coords.x;
+    capsule.position.y = coords.y;
+    capsule.position.z = coords.z;
+    this.setMaterial(capsule, obj.material);
+    capsule.actionManager = new BABYLON.ActionManager(this.scene);
+    this.actionManagers.push(capsule.actionManager);
+    if (this.physicsEnabled === true) {
+      capsule.physicsImpostor = new BABYLON.PhysicsImpostor(
+        capsule,
+        BABYLON.PhysicsImpostor.CylinderImpostor,
+        { mass: 1, restitution: 0.7, friction: 1.0 },
+        this.scene
+      );
+    }
+  };
+
+  private createCone = (obj, coords) => {
+    let cone = BABYLON.MeshBuilder.CreateCylinder(obj.id, {
+      height: obj.size.h,
+      diameterTop: obj.size.t,
+      diameterBottom: obj.size.b,
+    });
+    cone.position.x = coords.x;
+    cone.position.y = coords.y;
+    cone.position.z = coords.z;
+    this.setMaterial(cone, obj.material);
+    cone.actionManager = new BABYLON.ActionManager(this.scene);
+    this.actionManagers.push(cone.actionManager);
+    if (this.physicsEnabled === true) {
+      cone.physicsImpostor = new BABYLON.PhysicsImpostor(
+        cone,
+        BABYLON.PhysicsImpostor.CylinderImpostor,
+        { mass: 1, restitution: 0.7, friction: 1.0 },
+        this.scene
+      );
+    }
+  };
+
   private createCylinder = (obj, coords) => {
     let cylinder = BABYLON.MeshBuilder.CreateCylinder(obj.id, {
       height: obj.size.h,
@@ -251,8 +322,17 @@ export class ThreeD {
       case "cylinder":
         this.createCylinder(obj, coords);
         break;
+      case "cone":
+        this.createCone(obj, coords);
+        break;
       case "torus":
         this.createTorus(obj, coords);
+        break;
+      case "capsule":
+        this.createCapsule(obj, coords);
+        break;
+      case "ramp":
+        this.createRamp(obj, coords);
         break;
     }
   };
