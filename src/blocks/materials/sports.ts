@@ -6,8 +6,8 @@ export let sports = {
         let input = this.appendDummyInput()
             .appendField('Sport: ');
         let options = [
-            [{'src': '../assets/materials/soccerball.png', 'width': 25, 'height': 25, 'alt': 'Soccer'}, 'soccerball.png'],
-            [{'src': '../assets/materials/tennis.png', 'width': 25, 'height': 25, 'alt': 'Tennis'}, 'tennis.png'],
+            [{'src': '../assets/materials/sports/soccerball.png', 'width': 25, 'height': 25, 'alt': 'Soccer'}, 'sports/soccerball.png'],
+            [{'src': '../assets/materials/sports/tennis.png', 'width': 25, 'height': 25, 'alt': 'Tennis'}, 'sports/tennis.png'],
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
         this.setOutput(true, "MATERIAL");

@@ -45,8 +45,9 @@ createCustomBlock("getPosition", world.getPosition);
 createCustomBlock("none", materials.none);
 createCustomBlock("matte", materials.matte);
 createCustomBlock("glass", materials.glass);
-createCustomBlock("earth", materials.earth);
-createCustomBlock("building", materials.building);
+createCustomBlock("floors", materials.floors);
+createCustomBlock("walls", materials.walls);
+createCustomBlock("groundMaterial", materials.groundMaterial);
 createCustomBlock("planets", materials.planets);
 createCustomBlock("sports", materials.sports);
 

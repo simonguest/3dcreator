@@ -1,5 +1,6 @@
 import * as BABYLON from "babylonjs";
 import { ActionManager } from "babylonjs";
+import { load } from "blockly/core/serialization/workspaces";
 import * as CANNON from "cannon";
 window.CANNON = CANNON;
 import { v4 as uuid } from "uuid";
@@ -12,7 +13,7 @@ export class ThreeD {
   private scene: BABYLON.Scene;
   private light: BABYLON.HemisphericLight;
   private material: BABYLON.StandardMaterial;
-  private ground: BABYLON.GroundMesh;
+  private ground: BABYLON.Mesh;
 
   constructor(canvas) {
     this.canvas = canvas;
@@ -309,7 +310,18 @@ export class ThreeD {
 
   public createGround = (obj) => {
     if (this.ground) this.ground.dispose();
-    this.ground = BABYLON.MeshBuilder.CreateGround(obj.id, { width: obj.width, height: obj.length }, this.scene);
+    let width = obj.width;
+    let length = obj.length;
+    let tileSize = obj.tileSize;
+
+    let grid = {
+        'h' : width / tileSize,
+        'w' : width / tileSize
+    };
+	
+    this.ground = BABYLON.MeshBuilder.CreateTiledGround(obj.id, {xmin: 0-(width/2), zmin: 0-(length/2), xmax: width/2, zmax: length/2, subdivisions: grid});
+
+
     this.setMaterial(this.ground, obj.material);
     if (this.physicsEnabled === true) {
       this.ground.physicsImpostor = new BABYLON.PhysicsImpostor(

@@ -263,6 +263,14 @@ export let toolbox = {
                 },
               },
             },
+            TILESIZE: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 6,
+                },
+              },
+            },
             MATERIAL: {
               shadow: {
                 type: "none",
@@ -673,11 +681,15 @@ export let toolbox = {
         },
         {
           kind: "block",
-          type: "earth",
+          type: "groundMaterial",
         },
         {
           kind: "block",
-          type: "building",
+          type: "walls",
+        },
+        {
+          kind: "block",
+          type: "floors",
         },
         {
           kind: "block",

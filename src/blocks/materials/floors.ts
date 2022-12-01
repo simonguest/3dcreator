@@ -1,13 +1,12 @@
 import Blockly from 'blockly';
 import {javascriptGenerator} from "blockly/javascript";
 
-export let planets = {
+export let floors = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Planet: ');
+            .appendField('Floor: ');
         let options = [
-            [{'src': '../assets/materials/planets/earth.jpg', 'width': 25, 'height': 25, 'alt': 'Earth'}, 'planets/earth.jpg'],
-            [{'src': '../assets/materials/planets/jupiter.jpg', 'width': 25, 'height': 25, 'alt': 'Jupiter'}, 'planets/jupiter.jpg'],
+            [{'src': '../assets/materials/floors/WoodFloor051_1K_Color.jpg', 'width': 25, 'height': 25, 'alt': 'Birch'}, 'floors/WoodFloor051_1K_Color.jpg'],
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
         this.setOutput(true, "MATERIAL");
