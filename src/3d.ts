@@ -1,6 +1,7 @@
 import * as BABYLON from "babylonjs";
 import { ActionManager } from "babylonjs";
-window.CANNON = require("cannon");
+import * as CANNON from "cannon";
+window.CANNON = CANNON;
 import { v4 as uuid } from "uuid";
 
 export class ThreeD {
@@ -136,7 +137,7 @@ export class ThreeD {
     if (this.physicsEnabled === true) {
       torus.physicsImpostor = new BABYLON.PhysicsImpostor(
         torus,
-        BABYLON.PhysicsImpostor.BoxImpostor,
+        BABYLON.PhysicsImpostor.SphereImpostor,
         { mass: 1, restitution: 0.7, friction: 1.0 },
         this.scene
       );
@@ -148,9 +149,13 @@ export class ThreeD {
     let width = obj.size.w / 2;
     let height = obj.size.h / 2;
     let length = obj.size.l / 2;
-    var triangle = [new BABYLON.Vector3(0-width, 0-height, 0), new BABYLON.Vector3(width, 0-height, 0), new BABYLON.Vector3(width, height, 0)];
+    var triangle = [
+      new BABYLON.Vector3(0 - width, 0 - height, 0),
+      new BABYLON.Vector3(width, 0 - height, 0),
+      new BABYLON.Vector3(width, height, 0),
+    ];
     triangle.push(triangle[0]);
-    let extrudePath = [new BABYLON.Vector3(0, 0, 0-length), new BABYLON.Vector3(0, 0, length)];
+    let extrudePath = [new BABYLON.Vector3(0, 0, 0 - length), new BABYLON.Vector3(0, 0, length)];
     let ramp = BABYLON.MeshBuilder.ExtrudeShape(
       obj.id,
       { shape: triangle, path: extrudePath, cap: BABYLON.Mesh.CAP_ALL },
@@ -163,11 +168,11 @@ export class ThreeD {
     ramp.actionManager = new BABYLON.ActionManager(this.scene);
     this.actionManagers.push(ramp.actionManager);
     if (this.physicsEnabled === true) {
-      ramp.physicsImpostor = new BABYLON.PhysicsImpostor(
-        ramp,
-        BABYLON.PhysicsImpostor.BoxImpostor,
-        { mass: 1, restitution: 0.7, friction: 1.0 }
-      );
+      ramp.physicsImpostor = new BABYLON.PhysicsImpostor(ramp, BABYLON.PhysicsImpostor.BoxImpostor, {
+        mass: 1,
+        restitution: 0.7,
+        friction: 1.0,
+      });
     }
   };
 
@@ -257,6 +262,28 @@ export class ThreeD {
     }
   };
 
+  private createWall = (obj, coords) => {
+    let wall = BABYLON.MeshBuilder.CreateTiledPlane(obj.id, {
+      height: obj.size.h,
+      width: obj.size.w,
+      tileSize: obj.size.s
+    });
+    wall.position.x = coords.x;
+    wall.position.y = coords.y;
+    wall.position.z = coords.z;
+    this.setMaterial(wall, obj.material);
+    wall.actionManager = new BABYLON.ActionManager(this.scene);
+    this.actionManagers.push(wall.actionManager);
+    if (this.physicsEnabled === true) {
+      wall.physicsImpostor = new BABYLON.PhysicsImpostor(
+        wall,
+        BABYLON.PhysicsImpostor.BoxImpostor,
+        { mass: 0, restitution: 0.7, friction: 1.0 },
+        this.scene
+      );
+    }
+  };
+
   private createSphere = (obj, coords) => {
     let sphere = BABYLON.MeshBuilder.CreateSphere(obj.id, {
       segments: 16,
@@ -318,6 +345,9 @@ export class ThreeD {
         break;
       case "box":
         this.createBox(obj, coords);
+        break;
+      case "wall":
+        this.createWall(obj, coords);
         break;
       case "cylinder":
         this.createCylinder(obj, coords);

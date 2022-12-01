@@ -24,6 +24,7 @@ createCustomBlock("ground", world.ground);
 
 createCustomBlock("sphere", shapes.sphere);
 createCustomBlock("box", shapes.box);
+createCustomBlock("wall", shapes.wall);
 createCustomBlock("cylinder", shapes.cylinder);
 createCustomBlock("cone", shapes.cone);
 createCustomBlock("torus", shapes.torus);
