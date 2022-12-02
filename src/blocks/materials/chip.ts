@@ -1,12 +1,12 @@
 import Blockly from 'blockly';
 import {javascriptGenerator} from "blockly/javascript";
 
-export let walls = {
+export let chip = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Wall: ');
+            .appendField('Circuit Board: ');
         let options = [
-            [{'src': '../assets/materials/walls/Bricks057_1K_Color.jpg', 'width': 25, 'height': 25, 'alt': 'Red Brick Wall'}, 'walls/Bricks057_1K_Color.jpg'],
+            [{'src': '../assets/materials/chip/Chip001_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Chip001'}, 'chip/Chip001'],
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
         this.setOutput(true, "MATERIAL");
@@ -17,6 +17,6 @@ export let walls = {
     transpile: function (block) {
         let material = block.getFieldValue('MATERIAL');
 
-        return [`[ { image: "${material}" } ]`, javascriptGenerator.ORDER_NONE];
+        return [`[ { pbr: "${material}" } ]`, javascriptGenerator.ORDER_NONE];
     }
 };

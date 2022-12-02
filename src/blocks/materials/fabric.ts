@@ -1,12 +1,12 @@
 import Blockly from 'blockly';
 import {javascriptGenerator} from "blockly/javascript";
 
-export let floors = {
+export let fabric = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Floor: ');
+            .appendField('Fabric: ');
         let options = [
-            [{'src': '../assets/materials/floors/WoodFloor051_1K_Color.jpg', 'width': 25, 'height': 25, 'alt': 'Birch'}, 'floors/WoodFloor051_1K_Color.jpg'],
+            [{'src': '../assets/materials/fabric/Fabric026_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Fabric026'}, 'fabric/Fabric026'],
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
         this.setOutput(true, "MATERIAL");
@@ -17,6 +17,6 @@ export let floors = {
     transpile: function (block) {
         let material = block.getFieldValue('MATERIAL');
 
-        return [`[ { image: "${material}" } ]`, javascriptGenerator.ORDER_NONE];
+        return [`[ { pbr: "${material}" } ]`, javascriptGenerator.ORDER_NONE];
     }
 };

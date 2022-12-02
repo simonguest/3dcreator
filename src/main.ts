@@ -13,6 +13,7 @@ import { toolbox } from "./blocks/toolbox";
 
 import { ThreeD } from "./3d";
 import { _BabylonLoaderRegistered } from "babylonjs";
+import { create } from "domain";
 
 const createCustomBlock = (name, blockType) => {
   Blockly.Blocks[name] = blockType;
@@ -45,11 +46,19 @@ createCustomBlock("getPosition", world.getPosition);
 createCustomBlock("none", materials.none);
 createCustomBlock("matte", materials.matte);
 createCustomBlock("glass", materials.glass);
-createCustomBlock("floors", materials.floors);
-createCustomBlock("walls", materials.walls);
-createCustomBlock("groundMaterial", materials.groundMaterial);
+createCustomBlock("bricks", materials.bricks);
+createCustomBlock("carpet", materials.carpet);
+createCustomBlock("chip", materials.chip);
+createCustomBlock("fabric", materials.fabric);
+createCustomBlock("grass", materials.grass);
+createCustomBlock("marble", materials.marble);
 createCustomBlock("planets", materials.planets);
+createCustomBlock("roofingtiles", materials.roofingtiles);
+createCustomBlock("snow", materials.snow);
 createCustomBlock("sports", materials.sports);
+createCustomBlock("tiles", materials.tiles);
+createCustomBlock("wood", materials.wood);
+createCustomBlock("woodfloor", materials.woodfloor);
 
 createCustomBlock("animationLoop", animation.loop);
 createCustomBlock("animationStart", animation.start);

@@ -681,23 +681,55 @@ export let toolbox = {
         },
         {
           kind: "block",
-          type: "groundMaterial",
+          type: "bricks",
         },
         {
           kind: "block",
-          type: "walls",
+          type: "carpet",
         },
         {
           kind: "block",
-          type: "floors",
+          type: "chip",
         },
         {
           kind: "block",
-          type: "planets",
+          type: "fabric",
+        },
+        {
+          kind: "block",
+          type: "grass",
+        },
+        {
+          kind: "block",
+          type: "marble",
+        },
+        { 
+          kind: "block",
+          type: "planets" 
+        },
+        {
+          kind: "block",
+          type: "roofingtiles",
+        },
+        {
+          kind: "block",
+          type: "snow",
         },
         {
           kind: "block",
           type: "sports",
+        },
+        {
+          kind: "block",
+          type: "tiles",
+        },
+        {
+          kind: "block",
+          type: "wood",
+        },
+        {
+          kind: "block",
+          type: "woodfloor",
         },
       ],
     },

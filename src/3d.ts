@@ -11,7 +11,7 @@ export class ThreeD {
   private cameraState: any;
   private camera: BABYLON.ArcRotateCamera;
   private scene: BABYLON.Scene;
-  private light: BABYLON.HemisphericLight;
+  private light: BABYLON.DirectionalLight;
   private material: BABYLON.StandardMaterial;
   private ground: BABYLON.Mesh;
 
@@ -62,8 +62,8 @@ export class ThreeD {
     );
     this.camera.attachControl(this.canvas, true);
     if (reset !== true) this.restoreCameraState();
-    this.light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
-    this.light.intensity = 0.7;
+    this.light = new BABYLON.DirectionalLight("light", new BABYLON.Vector3(0, -9, 0), this.scene);
+    this.light.intensity = 0.5;
     this.material = null;
     this.runningAnimations = {};
 
@@ -119,6 +119,19 @@ export class ThreeD {
       let loadedMaterial = new BABYLON.StandardMaterial("Material", this.scene);
       loadedMaterial.diffuseTexture = new BABYLON.Texture(`./assets/materials/${material.image}`);
       obj.material = loadedMaterial;
+      return;
+    }
+
+    if (material.pbr) {
+      const PBR_RESOLUTION="1K";
+      let pbrMaterial = new BABYLON.PBRMaterial("PBRMaterial", this.scene);
+      pbrMaterial.lightmapTexture = new BABYLON.Texture(`./assets/materials/${material.pbr}_${PBR_RESOLUTION}_Color.jpg`);
+      pbrMaterial.microSurfaceTexture = new BABYLON.Texture(`./assets/materials/${material.pbr}_${PBR_RESOLUTION}_Roughness.jpg`);
+      pbrMaterial.bumpTexture = new BABYLON.Texture(`./assets/materials/${material.pbr}_${PBR_RESOLUTION}_NormalDX.jpg`);
+      // pbrMaterial.roughness = 0.1;
+      pbrMaterial.bumpTexture.level = 10;
+      pbrMaterial.metallic = 0;
+      obj.material = pbrMaterial;
       return;
     }
   };

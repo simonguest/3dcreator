@@ -1,12 +1,12 @@
 import Blockly from 'blockly';
 import {javascriptGenerator} from "blockly/javascript";
 
-export let groundMaterial = {
+export let tiles = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Ground: ');
+            .appendField('Tiles: ');
         let options = [
-            [{'src': '../assets/materials/ground/Gravel025_1K_Color.jpg', 'width': 25, 'height': 25, 'alt': 'Gravel'}, 'ground/Gravel025_1K_Color.jpg'],
+            [{'src': '../assets/materials/tiles/Tiles053_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Tiles053'}, 'tiles/Tiles053'],
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
         this.setOutput(true, "MATERIAL");
@@ -17,6 +17,6 @@ export let groundMaterial = {
     transpile: function (block) {
         let material = block.getFieldValue('MATERIAL');
 
-        return [`[ { image: "${material}" } ]`, javascriptGenerator.ORDER_NONE];
+        return [`[ { pbr: "${material}" } ]`, javascriptGenerator.ORDER_NONE];
     }
 };
