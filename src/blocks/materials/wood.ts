@@ -18,6 +18,6 @@ export let wood = {
     transpile: function (block) {
         let material = block.getFieldValue('MATERIAL');
 
-        return [`[ { pbr: "${material}" } ]`, javascriptGenerator.ORDER_NONE];
+        return [`[ { pbr: "${material}", metallic: 0.5 } ]`, javascriptGenerator.ORDER_NONE];
     }
 };

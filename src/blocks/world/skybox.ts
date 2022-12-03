@@ -6,10 +6,10 @@ export let skybox = {
         let input = this.appendDummyInput()
             .appendField('Set sky to: ');
         let options = [
-            [{'src': '../assets/skyboxes/skybox/skybox_nx.jpg', 'width': 25, 'height': 25, 'alt': 'Clouds'}, 'skybox'],
-            [{'src': '../assets/skyboxes/skybox2/skybox2_nx.jpg', 'width': 25, 'height': 25, 'alt': 'City'}, 'skybox2'],
-            [{'src': '../assets/skyboxes/TropicalSunnyDay/TropicalSunnyDay_nx.jpg', 'width': 25, 'height': 25, 'alt': 'Airplane Window'}, 'TropicalSunnyDay'],
-
+            [{'src': '../assets/env/clouds_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'clouds'}, 'clouds'],
+            [{'src': '../assets/env/deep_space_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'deep_space'}, 'deep_space'],
+            [{'src': '../assets/env/orlando_stadium_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'orlando_stadium'}, 'orlando_stadium'],
+            
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'SKYBOX');
         this.setPreviousStatement(true, null);
@@ -22,6 +22,6 @@ export let skybox = {
     transpile: function (block) {
         let skybox = block.getFieldValue('SKYBOX');
 
-        return `threeD.createSkybox({ type: "skybox", asset: "${skybox}"});`;
+        return `threeD.createSkybox({ asset: "${skybox}"});`;
     }
 };

@@ -14,6 +14,7 @@ export class ThreeD {
   private light: BABYLON.DirectionalLight;
   private material: BABYLON.StandardMaterial;
   private ground: BABYLON.Mesh;
+  private hdrSkyboxTexture: BABYLON.CubeTexture;
 
   constructor(canvas) {
     this.canvas = canvas;
@@ -63,7 +64,7 @@ export class ThreeD {
     this.camera.attachControl(this.canvas, true);
     if (reset !== true) this.restoreCameraState();
     this.light = new BABYLON.DirectionalLight("light", new BABYLON.Vector3(0, -9, 0), this.scene);
-    this.light.intensity = 0.5;
+    this.light.intensity = 0.7;
     this.material = null;
     this.runningAnimations = {};
 
@@ -123,11 +124,17 @@ export class ThreeD {
     }
 
     if (material.pbr) {
-      const PBR_RESOLUTION="1K";
+      const PBR_RESOLUTION = "1K";
       let pbrMaterial = new BABYLON.PBRMaterial("PBRMaterial", this.scene);
-      pbrMaterial.lightmapTexture = new BABYLON.Texture(`./assets/materials/${material.pbr}_${PBR_RESOLUTION}_Color.jpg`);
-      pbrMaterial.microSurfaceTexture = new BABYLON.Texture(`./assets/materials/${material.pbr}_${PBR_RESOLUTION}_Roughness.jpg`);
-      pbrMaterial.bumpTexture = new BABYLON.Texture(`./assets/materials/${material.pbr}_${PBR_RESOLUTION}_NormalDX.jpg`);
+      pbrMaterial.lightmapTexture = new BABYLON.Texture(
+        `./assets/materials/${material.pbr}_${PBR_RESOLUTION}_Color.jpg`
+      );
+      pbrMaterial.microSurfaceTexture = new BABYLON.Texture(
+        `./assets/materials/${material.pbr}_${PBR_RESOLUTION}_Roughness.jpg`
+      );
+      pbrMaterial.bumpTexture = new BABYLON.Texture(
+        `./assets/materials/${material.pbr}_${PBR_RESOLUTION}_NormalDX.jpg`
+      );
       pbrMaterial.roughness = material.roughness || 1;
       pbrMaterial.bumpTexture.level = material.bumpLevel || 5;
       pbrMaterial.metallic = material.metallic || 0;
@@ -280,7 +287,7 @@ export class ThreeD {
     let wall = BABYLON.MeshBuilder.CreateTiledPlane(obj.id, {
       height: obj.size.h,
       width: obj.size.w,
-      tileSize: obj.size.s
+      tileSize: obj.size.s,
     });
     wall.position.x = coords.x;
     wall.position.y = coords.y;
@@ -303,7 +310,7 @@ export class ThreeD {
 
   private createSphere = (obj, coords) => {
     let sphere = BABYLON.MeshBuilder.CreateSphere(obj.id, {
-      segments: 16,
+      segments: 32,
       diameterX: obj.size.w,
       diameterY: obj.size.h,
       diameterZ: obj.size.l,
@@ -332,11 +339,17 @@ export class ThreeD {
     let tileSize = obj.tileSize;
 
     let grid = {
-        'h' : length / tileSize,
-        'w' : width / tileSize
+      h: length / tileSize,
+      w: width / tileSize,
     };
-	
-    this.ground = BABYLON.MeshBuilder.CreateTiledGround(obj.id, {xmin: 0-(width/2), zmin: 0-(length/2), xmax: width/2, zmax: length/2, subdivisions: grid});
+
+    this.ground = BABYLON.MeshBuilder.CreateTiledGround(obj.id, {
+      xmin: 0 - width / 2,
+      zmin: 0 - length / 2,
+      xmax: width / 2,
+      zmax: length / 2,
+      subdivisions: grid,
+    });
 
     this.setMaterial(this.ground, obj.material);
     if (this.physicsEnabled === true) {
@@ -350,17 +363,31 @@ export class ThreeD {
   };
 
   public createSkybox = (obj) => {
-    let skybox = BABYLON.MeshBuilder.CreateBox("skyBox", { size: 1000.0 }, this.scene);
-    let skyboxMaterial = new BABYLON.StandardMaterial("skyBox", this.scene);
-    skyboxMaterial.backFaceCulling = false;
-    skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture(
-      `./assets/skyboxes/${obj.asset}/${obj.asset}`,
-      this.scene
-    );
-    skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-    skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
-    skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-    skybox.material = skyboxMaterial;
+    this.hdrSkyboxTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(`./assets/env/${obj.asset}.env`, this.scene);
+    var hdrSkybox = BABYLON.Mesh.CreateBox("hdrSkyBox", 1000.0, this.scene);
+    var hdrSkyboxMaterial = new BABYLON.PBRMaterial("skyBox", this.scene);
+    hdrSkyboxMaterial.backFaceCulling = false;
+    hdrSkyboxMaterial.reflectionTexture = this.hdrSkyboxTexture.clone();
+    hdrSkyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+    hdrSkyboxMaterial.microSurface = 0.95;
+    hdrSkyboxMaterial.disableLighting = true;
+    hdrSkybox.material = hdrSkyboxMaterial;
+    hdrSkybox.infiniteDistance = true;
+
+    // var sphereGlass = BABYLON.Mesh.CreateSphere("sphereGlass", 48, 80.0, this.scene);
+    // // Create materials
+    // var glass = new BABYLON.PBRMaterial("glass", this.scene);
+    // glass.reflectionTexture = this.hdrSkyboxTexture;    
+    // glass.indexOfRefraction = 0.52;
+    // glass.alpha = 0.5;
+    // glass.directIntensity = 0.0;
+    // glass.environmentIntensity = 0.7;
+    // glass.cameraExposure = 0.66;
+    // glass.cameraContrast = 1.66;
+    // glass.microSurface = 1;
+    // glass.reflectivityColor = new BABYLON.Color3(0.61, 0.81, 0.08);
+    // glass.albedoColor = new BABYLON.Color3(0.95, 0.95, 0.95);
+    // sphereGlass.material = glass;
   };
 
   public createShape = (objArray, coordsArray) => {
