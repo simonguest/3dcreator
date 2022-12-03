@@ -1,5 +1,5 @@
 import * as BABYLON from "babylonjs";
-import { ActionManager } from "babylonjs";
+import { ActionManager, LensFlareSystemSceneComponent } from "babylonjs";
 import { load } from "blockly/core/serialization/workspaces";
 import * as CANNON from "cannon";
 window.CANNON = CANNON;
@@ -109,9 +109,13 @@ export class ThreeD {
     }
 
     if (material.texture === "glass") {
-      let glass = new BABYLON.StandardMaterial("glass", this.scene);
-      glass.diffuseColor = BABYLON.Color3.FromHexString(material.color);
-      glass.alpha = 0.5;
+      var glass = new BABYLON.PBRMaterial("glass", this.scene);
+      glass.alpha = 1.0;
+      glass.subSurface.tintColor = BABYLON.Color3.FromHexString(material.color);
+      glass.metallic = 0.0;
+      glass.roughness = 0;  
+      glass.subSurface.isRefractionEnabled = true;
+      glass.subSurface.indexOfRefraction = 1.4;
       obj.material = glass;
       return;
     }
@@ -138,6 +142,8 @@ export class ThreeD {
       pbrMaterial.roughness = material.roughness || 1;
       pbrMaterial.bumpTexture.level = material.bumpLevel || 5;
       pbrMaterial.metallic = material.metallic || 0;
+      pbrMaterial.cameraExposure = 0.66;
+      pbrMaterial.cameraContrast = 1.66;
       obj.material = pbrMaterial;
       return;
     }
@@ -363,31 +369,8 @@ export class ThreeD {
   };
 
   public createSkybox = (obj) => {
-    this.hdrSkyboxTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(`./assets/env/${obj.asset}.env`, this.scene);
-    var hdrSkybox = BABYLON.Mesh.CreateBox("hdrSkyBox", 1000.0, this.scene);
-    var hdrSkyboxMaterial = new BABYLON.PBRMaterial("skyBox", this.scene);
-    hdrSkyboxMaterial.backFaceCulling = false;
-    hdrSkyboxMaterial.reflectionTexture = this.hdrSkyboxTexture.clone();
-    hdrSkyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-    hdrSkyboxMaterial.microSurface = 0.95;
-    hdrSkyboxMaterial.disableLighting = true;
-    hdrSkybox.material = hdrSkyboxMaterial;
-    hdrSkybox.infiniteDistance = true;
-
-    // var sphereGlass = BABYLON.Mesh.CreateSphere("sphereGlass", 48, 80.0, this.scene);
-    // // Create materials
-    // var glass = new BABYLON.PBRMaterial("glass", this.scene);
-    // glass.reflectionTexture = this.hdrSkyboxTexture;    
-    // glass.indexOfRefraction = 0.52;
-    // glass.alpha = 0.5;
-    // glass.directIntensity = 0.0;
-    // glass.environmentIntensity = 0.7;
-    // glass.cameraExposure = 0.66;
-    // glass.cameraContrast = 1.66;
-    // glass.microSurface = 1;
-    // glass.reflectivityColor = new BABYLON.Color3(0.61, 0.81, 0.08);
-    // glass.albedoColor = new BABYLON.Color3(0.95, 0.95, 0.95);
-    // sphereGlass.material = glass;
+    this.scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(`./assets/env/${obj.asset}.env`, this.scene);
+    this.scene.createDefaultSkybox(this.scene.environmentTexture);
   };
 
   public createShape = (objArray, coordsArray) => {
