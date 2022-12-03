@@ -128,9 +128,9 @@ export class ThreeD {
       pbrMaterial.lightmapTexture = new BABYLON.Texture(`./assets/materials/${material.pbr}_${PBR_RESOLUTION}_Color.jpg`);
       pbrMaterial.microSurfaceTexture = new BABYLON.Texture(`./assets/materials/${material.pbr}_${PBR_RESOLUTION}_Roughness.jpg`);
       pbrMaterial.bumpTexture = new BABYLON.Texture(`./assets/materials/${material.pbr}_${PBR_RESOLUTION}_NormalDX.jpg`);
-      // pbrMaterial.roughness = 0.1;
-      pbrMaterial.bumpTexture.level = 10;
-      pbrMaterial.metallic = 0;
+      pbrMaterial.roughness = material.roughness || 1;
+      pbrMaterial.bumpTexture.level = material.bumpLevel || 5;
+      pbrMaterial.metallic = material.metallic || 0;
       obj.material = pbrMaterial;
       return;
     }

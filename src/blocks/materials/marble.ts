@@ -18,6 +18,6 @@ export let marble = {
     transpile: function (block) {
         let material = block.getFieldValue('MATERIAL');
 
-        return [`[ { pbr: "${material}" } ]`, javascriptGenerator.ORDER_NONE];
+        return [`[ { pbr: "${material}", metallic: 1.0, roughness: 0, bumpLevel: 0 } ]`, javascriptGenerator.ORDER_NONE];
     }
 };
