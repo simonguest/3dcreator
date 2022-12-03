@@ -600,6 +600,14 @@ export let toolbox = {
                 },
               },
             },
+            R: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 0,
+                }
+              },
+            },
             MATERIAL: {
               shadow: {
                 type: "none",

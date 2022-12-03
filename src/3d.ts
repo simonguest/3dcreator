@@ -285,6 +285,9 @@ export class ThreeD {
     wall.position.x = coords.x;
     wall.position.y = coords.y;
     wall.position.z = coords.z;
+    if (obj.size.r < 0) obj.size.r = 0;
+    if (obj.size.r > 360) obj.size.r = 360;
+    wall.rotation.y = this.convertToRadians(obj.size.r);
     this.setMaterial(wall, obj.material);
     wall.actionManager = new BABYLON.ActionManager(this.scene);
     this.actionManagers.push(wall.actionManager);
@@ -323,17 +326,17 @@ export class ThreeD {
 
   public createGround = (obj) => {
     if (this.ground) this.ground.dispose();
+    if (obj.tileSize < 0) obj.tileSize = 1;
     let width = obj.width;
     let length = obj.length;
     let tileSize = obj.tileSize;
 
     let grid = {
-        'h' : width / tileSize,
+        'h' : length / tileSize,
         'w' : width / tileSize
     };
 	
     this.ground = BABYLON.MeshBuilder.CreateTiledGround(obj.id, {xmin: 0-(width/2), zmin: 0-(length/2), xmax: width/2, zmax: length/2, subdivisions: grid});
-
 
     this.setMaterial(this.ground, obj.material);
     if (this.physicsEnabled === true) {
@@ -509,6 +512,7 @@ export class ThreeD {
   };
 
   public applyForce = (objArray, axis, units) => {
+    if (objArray === undefined) return;
     let obj = objArray[0];
     let mesh = this.scene.getMeshById(obj.id);
     if (mesh && this.physicsEnabled === true) {
