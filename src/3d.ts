@@ -108,15 +108,34 @@ export class ThreeD {
       return;
     }
 
+    if (material.texture === "metal") {
+      var metal = new BABYLON.PBRMaterial("metal", this.scene);
+      metal.albedoColor = BABYLON.Color3.FromHexString(material.color);
+      metal.metallic = 1.0;
+      metal.roughness = 0;  
+      obj.material = metal;
+      return;
+    }
+
+    if (material.texture === "gloss") {
+      var gloss = new BABYLON.PBRMaterial("metal", this.scene);
+      gloss.albedoColor = BABYLON.Color3.FromHexString(material.color);
+      gloss.metallic = 1.0;
+      gloss.roughness = 1.0; 
+      gloss.clearCoat.isEnabled = true; 
+      obj.material = gloss;
+      return;
+    }
+
     if (material.texture === "glass") {
-      var glass = new BABYLON.PBRMaterial("glass", this.scene);
-      glass.alpha = 1.0;
-      glass.subSurface.tintColor = BABYLON.Color3.FromHexString(material.color);
-      glass.metallic = 0.0;
-      glass.roughness = 0;  
-      glass.subSurface.isRefractionEnabled = true;
-      glass.subSurface.indexOfRefraction = 1.4;
-      obj.material = glass;
+      var gloss = new BABYLON.PBRMaterial("glass", this.scene);
+      gloss.alpha = 0.9;
+      gloss.subSurface.tintColor = BABYLON.Color3.FromHexString(material.color);
+      gloss.metallic = 0.0;
+      gloss.roughness = 0;  
+      gloss.subSurface.isRefractionEnabled = true;
+      gloss.subSurface.indexOfRefraction = 1.4;
+      obj.material = gloss;
       return;
     }
 
@@ -462,6 +481,7 @@ export class ThreeD {
   };
 
   public rotate = (objArray, axis, degrees) => {
+    if (objArray === undefined) return;
     let obj = objArray[0];
     let mesh = this.scene.getMeshById(obj.id);
     if (mesh) {

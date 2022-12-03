@@ -1,6 +1,8 @@
 import { none } from "./none";
 import { matte } from "./matte";
 import { glass } from "./glass";
+import { gloss } from "./gloss";
+import { metal } from "./metal";
 import { bricks } from "./bricks";
 import { carpet } from "./carpet";
 import { chip } from "./chip";
@@ -15,4 +17,4 @@ import { tiles } from "./tiles";
 import { wood } from "./wood";
 import { woodfloor } from "./woodfloor";
 
-export { none, matte, glass, bricks, carpet, chip, fabric, grass, marble, roofingtiles, snow, tiles, wood, woodfloor, planets, sports };
+export { none, matte, glass, gloss, metal, bricks, carpet, chip, fabric, grass, marble, roofingtiles, snow, tiles, wood, woodfloor, planets, sports };

@@ -689,6 +689,14 @@ export let toolbox = {
         },
         {
           kind: "block",
+          type: "gloss",
+        },
+        {
+          kind: "block",
+          type: "metal",
+        },
+        {
+          kind: "block",
           type: "bricks",
         },
         {
