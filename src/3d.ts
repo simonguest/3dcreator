@@ -93,6 +93,7 @@ export class ThreeD {
     this.engine.runRenderLoop(
       function () {
         this.scene.render();
+        document.getElementById("fpsCounter").innerHTML = this.engine.getFps().toFixed() + " fps";
       }.bind(this)
     );
   };
