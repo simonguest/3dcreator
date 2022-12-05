@@ -5,7 +5,7 @@ export let metal = {
     init: function() {
         let input = this.appendDummyInput()
             .appendField('Metal color: ')
-            .appendField(new Blockly.FieldColour('#ff4040',null), 'MATERIAL');
+            .appendField(new Blockly.FieldColour('#ffffff',null), 'MATERIAL');
         this.setOutput(true, "MATERIAL");
         this.setColour(100);
         this.setTooltip("");

@@ -110,7 +110,7 @@ window.addEventListener("resize", onresize, false);
 onresize();
 Blockly.svgResize(workspace);
 
-const getUniqueNameForAnimationLoop = (prefix, block) => {
+const getUniqueNameForField = (prefix, block) => {
   let counter = 1;
   let existingNames = [];
 
@@ -153,17 +153,13 @@ workspace.addChangeListener(async (ev) => {
           if (newBlock.type === "animationLoop") {
             // Set the name of new animationLoop to animation_x to be unique
             if (newBlock.getFieldValue("NAME") === "animation") {
-              let newUniqueName = getUniqueNameForAnimationLoop(
-                "animation",
-                newBlock
-              );
+              let newUniqueName = getUniqueNameForField("animation", newBlock);
               newBlock.setFieldValue(newUniqueName, "NAME");
             }
             // Iterate through all of the start animation blocks to add to drop down
             allBlocks.forEach((block) => {
               if (block.type === "animationStart" || block.type === "animationStop") {
-                block["dropdownOptions"][newBlock.id] =
-                  newBlock.getFieldValue("NAME");
+                block["dropdownOptions"][newBlock.id] = newBlock.getFieldValue("NAME");
               }
             });
           }
@@ -187,8 +183,7 @@ workspace.addChangeListener(async (ev) => {
             allBlocks.forEach((block) => {
               // Update the dropdown list
               if (block.type === "animationStart" || block.type === "animationStop") {
-                block["dropdownOptions"][changedBlock.id] =
-                  changedBlock.getFieldValue("NAME");
+                block["dropdownOptions"][changedBlock.id] = changedBlock.getFieldValue("NAME");
                 // Quickly switch dropdown selection to force refresh of selected text
                 let currentValue = block.getField("ANIMATIONS").getValue();
                 //@ts-ignore
@@ -249,8 +244,7 @@ async function run(reset?: boolean, physics?: boolean) {
 async function init() {
   console.log("Loading workspace from session storage");
   let jsonStr = sessionStorage.getItem("workspace");
-  if (jsonStr)
-    Blockly.serialization.workspaces.load(JSON.parse(jsonStr), workspace);
+  if (jsonStr) Blockly.serialization.workspaces.load(JSON.parse(jsonStr), workspace);
 
   resetButton.onmouseup = async (e) => {
     e.preventDefault();
@@ -261,7 +255,7 @@ async function init() {
   physicsButton.onmouseup = async (e) => {
     e.preventDefault();
     console.log("physics button pressed");
-    if (physicsButton.getAttribute("data-enabled") === "false"){
+    if (physicsButton.getAttribute("data-enabled") === "false") {
       console.log("Physics engine enabled");
       physicsButton.setAttribute("data-enabled", "true");
       physicsButton.innerText = "Disable Physics";
@@ -274,13 +268,11 @@ async function init() {
       physicsEnabled = false;
       await run(false, false);
     }
-  }
+  };
 
   document.getElementById("clear").onclick = () => {
     console.log("clear session button pressed");
-    if (
-      confirm("Clearing the workspace will lose all unsaved work. Continue?")
-    ) {
+    if (confirm("Clearing the workspace will lose all unsaved work. Continue?")) {
       sessionStorage.removeItem("workspace");
       location.reload();
     }
@@ -289,11 +281,7 @@ async function init() {
   document.getElementById("examples").onchange = async (e) => {
     console.log("example workspace changed");
     if (e.target["value"]) {
-      if (
-        confirm(
-          "Loading this example workspace will lose all unsaved work. Continue?"
-        )
-      ) {
+      if (confirm("Loading this example workspace will lose all unsaved work. Continue?")) {
         const response = await fetch(`./examples/${e.target["value"]}`);
         const json = await response.json();
         Blockly.serialization.workspaces.load(json, workspace);
@@ -327,10 +315,7 @@ async function init() {
     let reader = new FileReader();
     reader.onload = function (e) {
       let json = e.target.result;
-      Blockly.serialization.workspaces.load(
-        JSON.parse(json.toString()),
-        workspace
-      );
+      Blockly.serialization.workspaces.load(JSON.parse(json.toString()), workspace);
       sessionStorage.setItem("workspace", json.toString());
     };
     reader.readAsText(file);
@@ -342,9 +327,7 @@ async function init() {
     runArea.style.width = `${(e.clientX / windowWidth) * 100}%`;
 
     let blocklyArea = document.getElementById("blocklyArea");
-    blocklyArea.style.width = `${
-      ((window.innerWidth - e.clientX) / windowWidth) * 100
-    }%`;
+    blocklyArea.style.width = `${((window.innerWidth - e.clientX) / windowWidth) * 100}%`;
 
     let columnResizedEvent = new Event("resize");
     window.dispatchEvent(columnResizedEvent);
