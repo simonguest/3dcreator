@@ -11,7 +11,7 @@ export class ThreeD {
   private cameraState: any;
   private camera: BABYLON.ArcRotateCamera;
   private scene: BABYLON.Scene;
-  private light: BABYLON.DirectionalLight;
+  private light: BABYLON.PointLight;
   private material: BABYLON.StandardMaterial;
   private ground: BABYLON.Mesh;
   private hdrSkyboxTexture: BABYLON.CubeTexture;
@@ -57,13 +57,13 @@ export class ThreeD {
       "camera",
       BABYLON.Tools.ToRadians(-90),
       BABYLON.Tools.ToRadians(65),
-      10,
+      100,
       BABYLON.Vector3.Zero(),
       this.scene
     );
     this.camera.attachControl(this.canvas, true);
     if (reset !== true) this.restoreCameraState();
-    this.light = new BABYLON.DirectionalLight("light", new BABYLON.Vector3(0, -9, 0), this.scene);
+    this.light = new BABYLON.PointLight("light", new BABYLON.Vector3(0, 50, 0), this.scene);
     this.light.intensity = 0.7;
     this.material = null;
     this.runningAnimations = {};
@@ -79,7 +79,7 @@ export class ThreeD {
     this.scene.actionManager = new ActionManager();
     if (physics === true) {
       console.log("Enabling physics");
-      let gravityVector = new BABYLON.Vector3(0, -9.81, 0);
+      let gravityVector = new BABYLON.Vector3(0, -90.81, 0);
       let physicsPlugin = new BABYLON.CannonJSPlugin();
       this.scene.enablePhysics(gravityVector, physicsPlugin);
       this.physicsEnabled = true;
