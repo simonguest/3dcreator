@@ -8,6 +8,7 @@ import * as animation from "./blocks/animation";
 import * as events from "./blocks/events";
 import * as math from "./blocks/math";
 import * as physics from "./blocks/physics";
+import * as lighting from "./blocks/lighting";
 
 import { toolbox } from "./blocks/toolbox";
 
@@ -70,6 +71,13 @@ createCustomBlock("onClick", events.onClick);
 createCustomBlock("onKeyPress", events.onKeyPress);
 
 createCustomBlock("applyForce", physics.applyForce);
+
+createCustomBlock("ambientOn", lighting.amibentOn);
+createCustomBlock("ambientOff", lighting.ambientOff);
+createCustomBlock("createLightAs", lighting.createLightAs);
+createCustomBlock("lightBulb", lighting.lightBulb);
+createCustomBlock("spotlight", lighting.spotlight);
+createCustomBlock("showLight", lighting.showLight);
 
 createCustomBlock("debug", math.debug);
 

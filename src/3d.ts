@@ -11,7 +11,7 @@ export class ThreeD {
   private cameraState: any;
   private camera: BABYLON.ArcRotateCamera;
   private scene: BABYLON.Scene;
-  private light: BABYLON.PointLight;
+  private ambientLight: BABYLON.HemisphericLight;
   private material: BABYLON.StandardMaterial;
   private ground: BABYLON.Mesh;
   private hdrSkyboxTexture: BABYLON.CubeTexture;
@@ -63,8 +63,8 @@ export class ThreeD {
     );
     this.camera.attachControl(this.canvas, true);
     if (reset !== true) this.restoreCameraState();
-    this.light = new BABYLON.PointLight("light", new BABYLON.Vector3(0, 50, 0), this.scene);
-    this.light.intensity = 0.7;
+    this.ambientLight = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 50, 0), this.scene);
+    this.ambientLight.intensity = 0.7;
     this.material = null;
     this.runningAnimations = {};
 
@@ -113,7 +113,7 @@ export class ThreeD {
       var metal = new BABYLON.PBRMaterial("metal", this.scene);
       metal.albedoColor = BABYLON.Color3.FromHexString(material.color);
       metal.metallic = 1.0;
-      metal.roughness = 0;  
+      metal.roughness = 0;
       obj.material = metal;
       return;
     }
@@ -122,8 +122,8 @@ export class ThreeD {
       var gloss = new BABYLON.PBRMaterial("metal", this.scene);
       gloss.albedoColor = BABYLON.Color3.FromHexString(material.color);
       gloss.metallic = 1.0;
-      gloss.roughness = 1.0; 
-      gloss.clearCoat.isEnabled = true; 
+      gloss.roughness = 1.0;
+      gloss.clearCoat.isEnabled = true;
       obj.material = gloss;
       return;
     }
@@ -133,7 +133,7 @@ export class ThreeD {
       gloss.alpha = 0.9;
       gloss.subSurface.tintColor = BABYLON.Color3.FromHexString(material.color);
       gloss.metallic = 0.0;
-      gloss.roughness = 0;  
+      gloss.roughness = 0;
       gloss.subSurface.isRefractionEnabled = true;
       gloss.subSurface.indexOfRefraction = 1.4;
       obj.material = gloss;
@@ -389,7 +389,10 @@ export class ThreeD {
   };
 
   public createSkybox = (obj) => {
-    this.scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(`./assets/env/${obj.asset}.env`, this.scene);
+    this.scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
+      `./assets/env/${obj.asset}.env`,
+      this.scene
+    );
     this.scene.createDefaultSkybox(this.scene.environmentTexture);
   };
 
@@ -421,6 +424,49 @@ export class ThreeD {
         break;
       case "ramp":
         this.createRamp(obj, coords);
+        break;
+    }
+  };
+
+  public createLightBulb = (obj, coords) => {
+    let lightBulb = new BABYLON.PointLight(obj.id, new BABYLON.Vector3(0, 0, 0), this.scene);
+    lightBulb.position.x = coords.x;
+    lightBulb.position.y = coords.y;
+    lightBulb.position.z = coords.z;
+    if (obj.props.b < 0) obj.props.b = 0;
+    if (obj.props.b > 100) obj.props.b = 100;
+    lightBulb.intensity = obj.props.b / 50;
+    lightBulb.diffuse = BABYLON.Color3.FromHexString(obj.props.c);
+  };
+
+  public createSpotlight = (obj, coords) => {
+    let spotlight = new BABYLON.SpotLight(
+      obj.id,
+      new BABYLON.Vector3(0, 0, 0),
+      new BABYLON.Vector3(obj.props.x, obj.props.y, obj.props.z), // direction
+      obj.props.s, // beam size
+      obj.props.r, // range
+      this.scene
+    );
+    spotlight.position.x = coords.x;
+    spotlight.position.y = coords.y;
+    spotlight.position.z = coords.z;
+    if (obj.props.b < 0) obj.props.b = 0;
+    if (obj.props.b > 100) obj.props.b = 100;
+    spotlight.intensity = obj.props.b / 50;
+    spotlight.diffuse = BABYLON.Color3.FromHexString(obj.props.c);
+  };
+
+  public createLight = (objArray, coordsArray) => {
+    let obj = objArray[0];
+    let coords = coordsArray[0];
+
+    switch (obj.type) {
+      case "lightbulb":
+        this.createLightBulb(obj, coords);
+        break;
+      case "spotlight":
+        this.createSpotlight(obj, coords);
         break;
     }
   };
@@ -553,4 +599,26 @@ export class ThreeD {
       mesh.physicsImpostor.applyForce(direction.scale(50), mesh.getAbsolutePosition());
     }
   };
+
+  public ambientOn = (color: string) => {
+    this.ambientLight.diffuse = BABYLON.Color3.FromHexString(color);
+    this.ambientLight.setEnabled(true);
+  };
+
+  public ambientOff = () => {
+    this.ambientLight.setEnabled(false);
+  };
+
+  public showLight = (objArray) => {
+    if (objArray === undefined) return;
+    let obj = objArray[0];
+    let light = this.scene.getLightById(obj.id);
+    if (light) {
+      let lightSphere = BABYLON.CreateSphere("ls", { diameter: 5 });
+      let material = new BABYLON.StandardMaterial("lsm", this.scene);
+      material.emissiveColor = new BABYLON.Color3(1,1,0);
+      lightSphere.material = material;
+      lightSphere.position = light.getAbsolutePosition()
+    }
+  }
 }
