@@ -970,6 +970,20 @@ export let toolbox = {
         },
         {
           kind: "block",
+          type: "moveCameraAlong",
+          inputs: {
+            UNITS: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 50,
+                },
+              },
+            },
+          }
+        },
+        {
+          kind: "block",
           type: "pointCameraTowards"
         },
         {

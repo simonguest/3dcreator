@@ -1,5 +1,5 @@
 import * as BABYLON from "babylonjs";
-import { ActionManager, LensFlareSystemSceneComponent } from "babylonjs";
+import { ActionManager, LensFlareSystemSceneComponent, VRDeviceOrientationFreeCamera } from "babylonjs";
 import { load } from "blockly/core/serialization/workspaces";
 import * as CANNON from "cannon";
 window.CANNON = CANNON;
@@ -590,7 +590,7 @@ export class ThreeD {
     }
   };
 
-  public onKeyPress = (key, statements) => {
+  public onKeyPress = (key: string, statements) => {
     this.scene.actionManager.registerAction(
       new BABYLON.ExecuteCodeAction(
         {
@@ -677,6 +677,25 @@ export class ThreeD {
     }
   };
 
+  public moveCameraAlong = (axis, units) => {
+    if (this.camera instanceof BABYLON.ArcRotateCamera) {
+      switch (axis) {
+        case "x": this.camera.alpha += this.convertToRadians(units);
+        break;
+        case "y": this.camera.beta += this.convertToRadians(units);
+        break;
+        case "z": this.camera.radius += this.convertToRadians(units);
+        break;
+      }
+    }
+    if (this.camera instanceof BABYLON.UniversalCamera) {
+      this.camera.position[axis] = this.camera.position[axis] += units;
+    }
+    if (this.camera instanceof VRDeviceOrientationFreeCamera) {
+      this.camera.position[axis] = this.camera.position[axis] += units;
+    }
+  };
+
   public setCameraType = (cameraType) => {
     switch (cameraType) {
       case "ArcRotate":
@@ -721,7 +740,6 @@ export class ThreeD {
         }
         this.scene.removeCamera(this.scene.getCameraById("camera"));
         this.camera = new BABYLON.VRDeviceOrientationFreeCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
-
     }
     this.camera.attachControl(this.canvas, true);
     this.restoreCameraState();
@@ -742,9 +760,8 @@ export class ThreeD {
       if (this.camera instanceof BABYLON.ArcRotateCamera) {
         this.camera.target = mesh.position;
       }
-
     }
-  }
+  };
 
   public keepDistanceOf = (units: number) => {
     if (this.camera instanceof BABYLON.FollowCamera) {
@@ -753,5 +770,5 @@ export class ThreeD {
     if (this.camera instanceof BABYLON.ArcRotateCamera) {
       this.camera.radius = units;
     }
-  }
+  };
 }
