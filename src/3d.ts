@@ -713,6 +713,15 @@ export class ThreeD {
         this.scene.removeCamera(this.scene.getCameraById("camera"));
         this.camera = new BABYLON.FollowCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
         break;
+      case "VR":
+        if (this.camera instanceof BABYLON.VRDeviceOrientationFreeCamera) {
+          this.saveCameraState();
+        } else {
+          this.clearCameraState();
+        }
+        this.scene.removeCamera(this.scene.getCameraById("camera"));
+        this.camera = new BABYLON.VRDeviceOrientationFreeCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
+
     }
     this.camera.attachControl(this.canvas, true);
     this.restoreCameraState();
@@ -733,6 +742,7 @@ export class ThreeD {
       if (this.camera instanceof BABYLON.ArcRotateCamera) {
         this.camera.target = mesh.position;
       }
+
     }
   }
 
