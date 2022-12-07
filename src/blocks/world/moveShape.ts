@@ -1,7 +1,7 @@
 import {javascriptGenerator} from "blockly/javascript";
 import Blockly from "blockly";
 
-export let moveAlong = {
+export let moveShape = {
     getFirstVar: function() {
         let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace());
         if (varModels.length > 0){
@@ -12,15 +12,11 @@ export let moveAlong = {
     },
     init: function () {
         this.appendDummyInput()
-            .appendField("Move")
+            .appendField("Move shape")
             .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR");
-        this.appendValueInput("STEPS")
-            .setCheck("Number")
-            .appendField("along")
-            .appendField(new Blockly.FieldDropdown([["x", "x"], ["y", "y"], ["z", "z"]]), "AXIS")
-            .appendField("axis by");
-        this.appendDummyInput()
-            .appendField("steps");
+        this.appendValueInput("COORDS")
+            .setCheck("COORDS")
+            .appendField("to ");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
@@ -28,12 +24,10 @@ export let moveAlong = {
     },
 
     transpile: function (block) {
+        let coords = javascriptGenerator.valueToCode(block, 'COORDS', javascriptGenerator.ORDER_NONE);
         let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
-        let axis = block.getFieldValue("AXIS");
-        let steps = javascriptGenerator.valueToCode(block, 'STEPS', javascriptGenerator.ORDER_NONE);
+        if (coords === "") return "";
 
-        if (steps === "") return "";
-
-        return `threeD.moveAlong(${variable}, "${axis}", ${steps});`;
+        return `threeD.moveShape(${variable}, ${coords});`;
     }
 };

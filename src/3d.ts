@@ -477,7 +477,7 @@ export class ThreeD {
     let mesh = this.scene.getMeshById(obj.id);
     if (mesh) {
       let clonedMesh = mesh.clone(`${uuid()}`, null, null);
-      this.move([clonedMesh], coordsArray);
+      this.moveShape([clonedMesh], coordsArray);
     }
   };
 
@@ -489,7 +489,7 @@ export class ThreeD {
     }
   };
 
-  public move = (objArray, coordsArray) => {
+  public moveShape = (objArray, coordsArray) => {
     let obj = objArray[0];
     let coords = coordsArray[0];
     let mesh = this.scene.getMeshById(obj.id);
@@ -500,7 +500,7 @@ export class ThreeD {
     }
   };
 
-  public moveAlong = (objArray, axis, steps) => {
+  public moveShapeAlong = (objArray, axis, steps) => {
     let obj = objArray[0];
     let mesh = this.scene.getMeshById(obj.id);
     if (mesh) {
@@ -621,4 +621,27 @@ export class ThreeD {
       lightSphere.position = light.getAbsolutePosition()
     }
   }
+
+  public moveLight = (objArray, coordsArray) => {
+    let obj = objArray[0];
+    let coords = coordsArray[0];
+    let light = this.scene.getLightById(obj.id);
+    if (light) {
+      //@ts-ignore (N/A as we don't allow use to create ambient light types)
+      light.position.x = coords.x;
+      //@ts-ignore
+      light.position.y = coords.y;
+      //@ts-ignore
+      light.position.z = coords.z;
+    }
+  };
+
+  public moveLightAlong = (objArray, axis, steps) => {
+    let obj = objArray[0];
+    let light = this.scene.getLightById(obj.id);
+    if (light) {
+      //@ts-ignore
+      light.position[axis] += steps;
+    }
+  };
 }

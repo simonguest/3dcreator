@@ -1,7 +1,7 @@
 import {javascriptGenerator} from "blockly/javascript";
 import Blockly from "blockly";
 
-export let move = {
+export let moveLight = {
     getFirstVar: function() {
         let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace());
         if (varModels.length > 0){
@@ -12,7 +12,7 @@ export let move = {
     },
     init: function () {
         this.appendDummyInput()
-            .appendField("Move")
+            .appendField("Move light")
             .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR");
         this.appendValueInput("COORDS")
             .setCheck("COORDS")
@@ -20,7 +20,7 @@ export let move = {
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(250);
+        this.setColour(60);
     },
 
     transpile: function (block) {
@@ -28,6 +28,6 @@ export let move = {
         let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
         if (coords === "") return "";
 
-        return `threeD.move(${variable}, ${coords});`;
+        return `threeD.moveLight(${variable}, ${coords});`;
     }
 };

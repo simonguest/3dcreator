@@ -354,7 +354,7 @@ export let toolbox = {
         },
         {
           kind: "block",
-          type: "move",
+          type: "moveShape",
           inputs: {
             COORDS: {
               block: {
@@ -391,7 +391,7 @@ export let toolbox = {
         },
         {
           kind: "block",
-          type: "moveAlong",
+          type: "moveShapeAlong",
           inputs: {
             STEPS: {
               shadow: {
@@ -869,7 +869,58 @@ export let toolbox = {
         {
           kind: "block",
           type: "showLight"
-        }
+        },
+        {
+          kind: "block",
+          type: "moveLight",
+          inputs: {
+            COORDS: {
+              block: {
+                type: "coordinates",
+                inputs: {
+                  X: {
+                    shadow: {
+                      type: "math_number",
+                      fields: {
+                        NUM: 0,
+                      },
+                    },
+                  },
+                  Y: {
+                    shadow: {
+                      type: "math_number",
+                      fields: {
+                        NUM: 0,
+                      },
+                    },
+                  },
+                  Z: {
+                    shadow: {
+                      type: "math_number",
+                      fields: {
+                        NUM: 0,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          kind: "block",
+          type: "moveLightAlong",
+          inputs: {
+            STEPS: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 10,
+                },
+              },
+            },
+          },
+        },
       ]
     },
     {

@@ -3,8 +3,8 @@ import {ground} from "./ground";
 
 import {createShape} from "./createShape";
 import {createShapeAs} from "./createShapeAs";
-import {move} from "./move";
-import {moveAlong} from "./moveAlong";
+import {moveShape} from "./moveShape";
+import {moveShapeAlong} from "./moveShapeAlong";
 import {rotate} from "./rotate";
 import {clone} from "./clone";
 import {remove} from "./remove";
@@ -19,8 +19,8 @@ export {
     ground,
     createShape,
     createShapeAs,
-    move,
-    moveAlong,
+    moveShape,
+    moveShapeAlong,
     rotate,
     clone,
     remove,

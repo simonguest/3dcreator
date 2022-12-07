@@ -35,8 +35,8 @@ createCustomBlock("ramp", shapes.ramp);
 
 createCustomBlock("createShape", world.createShape);
 createCustomBlock("createShapeAs", world.createShapeAs);
-createCustomBlock("move", world.move);
-createCustomBlock("moveAlong", world.moveAlong);
+createCustomBlock("moveShape", world.moveShape);
+createCustomBlock("moveShapeAlong", world.moveShapeAlong);
 createCustomBlock("rotate", world.rotate);
 createCustomBlock("clone", world.clone);
 createCustomBlock("remove", world.remove);
@@ -78,6 +78,8 @@ createCustomBlock("createLightAs", lighting.createLightAs);
 createCustomBlock("lightBulb", lighting.lightBulb);
 createCustomBlock("spotlight", lighting.spotlight);
 createCustomBlock("showLight", lighting.showLight);
+createCustomBlock("moveLight", lighting.moveLight);
+createCustomBlock("moveLightAlong", lighting.moveLightAlong);
 
 createCustomBlock("debug", math.debug);
 
