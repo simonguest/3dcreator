@@ -9,7 +9,7 @@ export class ThreeD {
   private readonly canvas: any;
   public readonly engine: BABYLON.Engine;
   private cameraState: any;
-  private camera: BABYLON.ArcRotateCamera;
+  private camera: BABYLON.Camera;
   private scene: BABYLON.Scene;
   private ambientLight: BABYLON.HemisphericLight;
   private material: BABYLON.StandardMaterial;
@@ -30,11 +30,29 @@ export class ThreeD {
     this.cameraState = this.camera.serialize();
   };
 
+  private clearCameraState = () => {
+    delete this.cameraState;
+  };
+
   private restoreCameraState = () => {
     if (this.cameraState) {
-      this.camera.alpha = this.cameraState.alpha;
-      this.camera.beta = this.cameraState.beta;
-      this.camera.radius = this.cameraState.radius;
+      if (this.camera instanceof BABYLON.ArcRotateCamera) {
+        this.camera.alpha = this.cameraState.alpha;
+        this.camera.beta = this.cameraState.beta;
+        this.camera.radius = this.cameraState.radius;
+      }
+      if (this.camera instanceof BABYLON.UniversalCamera) {
+        this.camera.position = new BABYLON.Vector3(
+          this.cameraState.position[0],
+          this.cameraState.position[1],
+          this.cameraState.position[2]
+        );
+        this.camera.rotation = new BABYLON.Vector3(
+          this.cameraState.rotation[0],
+          this.cameraState.rotation[1],
+          this.cameraState.rotation[2]
+        );
+      }
     }
   };
 
@@ -53,15 +71,17 @@ export class ThreeD {
     }
     // Now, create a new scene
     this.scene = new BABYLON.Scene(this.engine);
-    this.camera = new BABYLON.ArcRotateCamera(
-      "camera",
-      BABYLON.Tools.ToRadians(-90),
-      BABYLON.Tools.ToRadians(65),
-      100,
-      BABYLON.Vector3.Zero(),
-      this.scene
-    );
-    this.camera.attachControl(this.canvas, true);
+    if (!this.camera || reset == true) { // create a default camera
+      this.camera = new BABYLON.ArcRotateCamera(
+        "camera",
+        BABYLON.Tools.ToRadians(-90),
+        BABYLON.Tools.ToRadians(65),
+        100,
+        BABYLON.Vector3.Zero(),
+        this.scene
+      );
+      this.camera.attachControl(this.canvas, true);
+    }
     if (reset !== true) this.restoreCameraState();
     this.ambientLight = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 50, 0), this.scene);
     this.ambientLight.intensity = 0.7;
@@ -616,11 +636,11 @@ export class ThreeD {
     if (light) {
       let lightSphere = BABYLON.CreateSphere("ls", { diameter: 5 });
       let material = new BABYLON.StandardMaterial("lsm", this.scene);
-      material.emissiveColor = new BABYLON.Color3(1,1,0);
+      material.emissiveColor = new BABYLON.Color3(1, 1, 0);
       lightSphere.material = material;
-      lightSphere.position = light.getAbsolutePosition()
+      lightSphere.position = light.getAbsolutePosition();
     }
-  }
+  };
 
   public moveLight = (objArray, coordsArray) => {
     let obj = objArray[0];
@@ -643,5 +663,49 @@ export class ThreeD {
       //@ts-ignore
       light.position[axis] += steps;
     }
+  };
+
+  public moveCamera = (coordsArray) => {
+    let coords = coordsArray[0];
+    if (this.camera instanceof BABYLON.ArcRotateCamera) {
+      this.camera.setPosition(new BABYLON.Vector3(coords.x, coords.y, coords.z));
+    }
+    if (this.camera instanceof BABYLON.UniversalCamera) {
+      this.camera.position = new BABYLON.Vector3(coords.x, coords.y, coords.z);
+    }
+  };
+
+  public setCameraType = (cameraType) => {
+    switch (cameraType) {
+      case "ArcRotate":
+        if (this.camera instanceof BABYLON.ArcRotateCamera) {
+          this.saveCameraState();
+        } else {
+          this.clearCameraState();
+        }
+        this.scene.removeCamera(this.scene.getCameraById("camera"));
+        this.camera = new BABYLON.ArcRotateCamera(
+          "camera",
+          BABYLON.Tools.ToRadians(-90),
+          BABYLON.Tools.ToRadians(65),
+          100,
+          BABYLON.Vector3.Zero(),
+          this.scene
+        );
+        break;
+      case "GamePad":
+        if (this.camera instanceof BABYLON.UniversalCamera) {
+          this.saveCameraState();
+        } else {
+          console.log("camera is different!");
+          console.log(this.camera);
+          this.clearCameraState();
+        }
+        this.scene.removeCamera(this.scene.getCameraById("camera"));
+        this.camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
+        break;
+    }
+    this.camera.attachControl(this.canvas, true);
+    this.restoreCameraState();
   };
 }

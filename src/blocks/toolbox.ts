@@ -605,7 +605,7 @@ export let toolbox = {
                 type: "math_number",
                 fields: {
                   NUM: 0,
-                }
+                },
               },
             },
             MATERIAL: {
@@ -719,9 +719,9 @@ export let toolbox = {
           kind: "block",
           type: "marble",
         },
-        { 
+        {
           kind: "block",
-          type: "planets" 
+          type: "planets",
         },
         {
           kind: "block",
@@ -755,11 +755,11 @@ export let toolbox = {
       contents: [
         {
           kind: "block",
-          type: "ambientOn"
+          type: "ambientOn",
         },
         {
           kind: "block",
-          type: "ambientOff"
+          type: "ambientOff",
         },
         {
           kind: "block",
@@ -810,7 +810,7 @@ export let toolbox = {
                 },
               },
             },
-          }
+          },
         },
         {
           kind: "block",
@@ -864,11 +864,11 @@ export let toolbox = {
                 },
               },
             },
-          }
-        }, 
+          },
+        },
         {
           kind: "block",
-          type: "showLight"
+          type: "showLight",
         },
         {
           kind: "block",
@@ -921,7 +921,54 @@ export let toolbox = {
             },
           },
         },
-      ]
+      ],
+    },
+    {
+      kind: "category",
+      name: "Camera",
+      contents: [
+        {
+          kind: "block",
+          type: "setCameraType"
+        },
+        {
+          kind: "block",
+          type: "moveCamera",
+          inputs: {
+            COORDS: {
+              block: {
+                type: "coordinates",
+                inputs: {
+                  X: {
+                    shadow: {
+                      type: "math_number",
+                      fields: {
+                        NUM: 0,
+                      },
+                    },
+                  },
+                  Y: {
+                    shadow: {
+                      type: "math_number",
+                      fields: {
+                        NUM: 0,
+                      },
+                    },
+                  },
+                  Z: {
+                    shadow: {
+                      type: "math_number",
+                      fields: {
+                        NUM: 0,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ],
     },
     {
       kind: "category",

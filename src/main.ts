@@ -9,6 +9,7 @@ import * as events from "./blocks/events";
 import * as math from "./blocks/math";
 import * as physics from "./blocks/physics";
 import * as lighting from "./blocks/lighting";
+import * as camera from "./blocks/camera";
 
 import { toolbox } from "./blocks/toolbox";
 
@@ -80,6 +81,9 @@ createCustomBlock("spotlight", lighting.spotlight);
 createCustomBlock("showLight", lighting.showLight);
 createCustomBlock("moveLight", lighting.moveLight);
 createCustomBlock("moveLightAlong", lighting.moveLightAlong);
+
+createCustomBlock("moveCamera", camera.moveCamera);
+createCustomBlock("setCameraType", camera.setCameraType);
 
 createCustomBlock("debug", math.debug);
 
