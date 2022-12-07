@@ -84,6 +84,8 @@ createCustomBlock("moveLightAlong", lighting.moveLightAlong);
 
 createCustomBlock("moveCamera", camera.moveCamera);
 createCustomBlock("setCameraType", camera.setCameraType);
+createCustomBlock("pointCameraTowards", camera.pointCameraTowards);
+createCustomBlock("keepDistanceOf", camera.keepDistanceOf);
 
 createCustomBlock("debug", math.debug);
 

@@ -4,6 +4,7 @@ import { load } from "blockly/core/serialization/workspaces";
 import * as CANNON from "cannon";
 window.CANNON = CANNON;
 import { v4 as uuid } from "uuid";
+import { runInThisContext } from "vm";
 
 export class ThreeD {
   private readonly canvas: any;
@@ -71,7 +72,8 @@ export class ThreeD {
     }
     // Now, create a new scene
     this.scene = new BABYLON.Scene(this.engine);
-    if (!this.camera || reset == true) { // create a default camera
+    if (!this.camera || reset == true) {
+      // create a default camera
       this.camera = new BABYLON.ArcRotateCamera(
         "camera",
         BABYLON.Tools.ToRadians(-90),
@@ -697,15 +699,49 @@ export class ThreeD {
         if (this.camera instanceof BABYLON.UniversalCamera) {
           this.saveCameraState();
         } else {
-          console.log("camera is different!");
-          console.log(this.camera);
           this.clearCameraState();
         }
         this.scene.removeCamera(this.scene.getCameraById("camera"));
         this.camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
         break;
+      case "Follow":
+        if (this.camera instanceof BABYLON.FollowCamera) {
+          this.saveCameraState();
+        } else {
+          this.clearCameraState();
+        }
+        this.scene.removeCamera(this.scene.getCameraById("camera"));
+        this.camera = new BABYLON.FollowCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
+        break;
     }
     this.camera.attachControl(this.canvas, true);
     this.restoreCameraState();
   };
+
+  public pointCameraTowards = (objArray) => {
+    let obj = objArray[0];
+    if (!obj) return;
+
+    let mesh = this.scene.getMeshById(obj.id);
+    if (mesh) {
+      if (this.camera instanceof BABYLON.FollowCamera) {
+        this.camera.lockedTarget = mesh;
+      }
+      if (this.camera instanceof BABYLON.UniversalCamera) {
+        this.camera.target = mesh.position;
+      }
+      if (this.camera instanceof BABYLON.ArcRotateCamera) {
+        this.camera.target = mesh.position;
+      }
+    }
+  }
+
+  public keepDistanceOf = (units: number) => {
+    if (this.camera instanceof BABYLON.FollowCamera) {
+      this.camera.radius = units;
+    }
+    if (this.camera instanceof BABYLON.ArcRotateCamera) {
+      this.camera.radius = units;
+    }
+  }
 }

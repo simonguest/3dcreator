@@ -968,6 +968,24 @@ export let toolbox = {
             },
           },
         },
+        {
+          kind: "block",
+          type: "pointCameraTowards"
+        },
+        {
+          kind: "block",
+          type: "keepDistanceOf",
+          inputs: {
+            UNITS: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 100,
+                },
+              },
+            },
+          }
+        }
       ],
     },
     {
