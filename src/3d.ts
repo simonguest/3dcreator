@@ -136,6 +136,7 @@ export class ThreeD {
       metal.albedoColor = BABYLON.Color3.FromHexString(material.color);
       metal.metallic = 1.0;
       metal.roughness = 0;
+      metal.usePhysicalLightFalloff = false;
       obj.material = metal;
       return;
     }
@@ -146,19 +147,21 @@ export class ThreeD {
       gloss.metallic = 1.0;
       gloss.roughness = 1.0;
       gloss.clearCoat.isEnabled = true;
+      gloss.usePhysicalLightFalloff = false;
       obj.material = gloss;
       return;
     }
 
     if (material.texture === "glass") {
-      var gloss = new BABYLON.PBRMaterial("glass", this.scene);
-      gloss.alpha = 0.9;
-      gloss.subSurface.tintColor = BABYLON.Color3.FromHexString(material.color);
-      gloss.metallic = 0.0;
-      gloss.roughness = 0;
-      gloss.subSurface.isRefractionEnabled = true;
-      gloss.subSurface.indexOfRefraction = 1.4;
-      obj.material = gloss;
+      var glass = new BABYLON.PBRMaterial("glass", this.scene);
+      glass.alpha = 0.9;
+      glass.subSurface.tintColor = BABYLON.Color3.FromHexString(material.color);
+      glass.metallic = 0.0;
+      glass.roughness = 0;
+      glass.subSurface.isRefractionEnabled = true;
+      glass.subSurface.indexOfRefraction = 1.4;
+      glass.usePhysicalLightFalloff = false;
+      obj.material = glass;
       return;
     }
 
@@ -186,6 +189,7 @@ export class ThreeD {
       pbrMaterial.metallic = material.metallic || 0;
       pbrMaterial.cameraExposure = 0.66;
       pbrMaterial.cameraContrast = 1.66;
+      pbrMaterial.usePhysicalLightFalloff = false;
       obj.material = pbrMaterial;
       return;
     }
