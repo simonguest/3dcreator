@@ -921,6 +921,24 @@ export let toolbox = {
             },
           },
         },
+        {
+          kind: "block",
+          type: "setLightColor"
+        },
+        {
+          kind: "block",
+          type: "setLightIntensity",
+          inputs: {
+            INTENSITY: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 70,
+                },
+              },
+            },
+          },
+        },
       ],
     },
     {

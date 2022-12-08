@@ -81,6 +81,8 @@ createCustomBlock("spotlight", lighting.spotlight);
 createCustomBlock("showLight", lighting.showLight);
 createCustomBlock("moveLight", lighting.moveLight);
 createCustomBlock("moveLightAlong", lighting.moveLightAlong);
+createCustomBlock("setLightColor", lighting.setLightColor);
+createCustomBlock("setLightIntensity", lighting.setLightIntensity);
 
 createCustomBlock("moveCamera", camera.moveCamera);
 createCustomBlock("moveCameraAlong", camera.moveCameraAlong);

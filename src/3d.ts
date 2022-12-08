@@ -660,12 +660,35 @@ export class ThreeD {
 
   public moveLightAlong = (objArray, axis, steps) => {
     let obj = objArray[0];
+    if (!obj) return;
     let light = this.scene.getLightById(obj.id);
     if (light) {
       //@ts-ignore
       light.position[axis] += steps;
     }
   };
+
+  public setLightColor = (objArray, color: string) =>{
+    let obj = objArray[0];
+    if (!obj) return;
+    let light = this.scene.getLightById(obj.id);
+    if (light) {
+      light.diffuse = BABYLON.Color3.FromHexString(color);
+    }
+  }
+
+  public setLightIntensity = (objArray, intensity: number) =>{
+    let obj = objArray[0];
+    if (!obj) return;
+    let light = this.scene.getLightById(obj.id);
+    if (light) {
+      if (intensity < 0) intensity = 0;
+      if (intensity > 100) intensity = 100;
+      light.intensity = intensity / 50;
+    }
+  }
+
+  
 
   public moveCamera = (coordsArray) => {
     let coords = coordsArray[0];
