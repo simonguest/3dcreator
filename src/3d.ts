@@ -794,4 +794,8 @@ export class ThreeD {
       this.camera.radius = units;
     }
   };
+
+  public enableInspector = () => {
+    this.scene.debugLayer.show({embedMode: false});
+  }
 }

@@ -27,8 +27,9 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "parcel": "^2.8.0",
     "@types/node": "^18.11.9",
+    "babylonjs-inspector": "^5.35.1",
+    "parcel": "^2.8.0",
     "parcel-reporter-static-files-copy": "^1.4.0"
   }
 }
