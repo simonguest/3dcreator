@@ -94,6 +94,24 @@ createCustomBlock("debug", math.debug);
 
 let blocklyArea = document.getElementById("blocklyArea");
 let blocklyDiv = document.getElementById("blocklyDiv");
+var theme = Blockly.Theme.defineTheme('test', {
+  'base': Blockly.Themes.Zelos,
+  'name': "test",
+  'componentStyles': {
+    'workspaceBackgroundColour': '#ccc',
+    'toolboxBackgroundColour': '#5d5d73',
+    'toolboxForegroundColour': '#fff',
+    'flyoutBackgroundColour': '#3d3d53',
+    'flyoutForegroundColour': '#ddd',
+    'flyoutOpacity': 0.8,
+    'scrollbarColour': '#797979',
+    'insertionMarkerColour': '#fff',
+    'insertionMarkerOpacity': 0.3,
+    'scrollbarOpacity': 0.4,
+    'cursorColour': '#d0d0d0',
+  },
+  "fontStyle": {  "family": "Monaco",  "weight": "bold",  "size": 10},
+});
 let workspace = Blockly.inject("blocklyDiv", {
   toolbox: toolbox,
   horizontalLayout: false,
@@ -106,6 +124,8 @@ let workspace = Blockly.inject("blocklyDiv", {
     drag: true,
     wheel: true,
   },
+  theme: "test",
+  zoom: { controls: true, wheel: true, startScale: 0.9, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2},
   trashcan: false,
 });
 let onresize = function () {

@@ -1,58 +1,64 @@
-html, body {
-    height: 100%;
-    margin: 0;
+html,
+body {
+  height: 100%;
+  margin: 0;
 }
 
 body {
-    background-color: #fff;
-    font-family: sans-serif;
-    overflow: hidden;
+  background-color: #fff;
+  font-family: sans-serif;
+  overflow: hidden;
 }
 
 #container {
-    display: grid;
-    grid-template-rows: 25px calc(100% - 50px) 25px;
-    height: 100%;
+  display: grid;
+  grid-template-rows: 25px calc(100% - 50px) 25px;
+  height: 100%;
 }
 
 #header {
-    grid-row: 1;
+  grid-row: 1;
 }
 
 #split {
-    grid-row: 2;
-    display: flex;
-    flex-direction: row;
+  grid-row: 2;
+  display: flex;
+  flex-direction: row;
 }
 
 #runArea {
-    width: 60%;
-    background: #333333;
+  width: 60%;
+  background: #333333;
 }
 
 #runAreaCanvas {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 #blocklyArea {
-    width: 40%;
-    background: #ffffff;
-    text-align: center;
+  width: 40%;
+  background: #ffffff;
+  text-align: center;
 }
 
 #columnResizer {
-    display: block;
-    top: 0;
-    right: 0;
-    margin: 0;
-    width: 4px;
-    height: 100%;
-    padding: 0;
-    cursor: col-resize;
-    border: 1px solid transparent;
+  display: block;
+  top: 0;
+  right: 0;
+  margin: 0;
+  width: 4px;
+  height: 100%;
+  padding: 0;
+  cursor: col-resize;
+  border: 1px solid transparent;
 }
 
 #footer {
-    grid-row: 3;
+  grid-row: 3;
+}
+
+.blocklyTreeLabel {
+    font-family: Monaco;
+  font-size: 12px !important;
 }
