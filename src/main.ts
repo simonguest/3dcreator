@@ -277,7 +277,7 @@ async function run(reset?: boolean, physics?: boolean) {
   // Generate the required code
   let code = javascriptGenerator.workspaceToCode(workspace);
   console.log(`CODE: ${code}`);
-  eval(`threeD.createScene(${reset}, ${physics}); ${code} stop();`);
+  eval(`threeD.createScene(${reset}, ${physics}); ${code} threeD.createCamera(); stop();`);
 }
 
 async function init() {

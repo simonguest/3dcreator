@@ -11,6 +11,7 @@ export class ThreeD {
   public readonly engine: BABYLON.Engine;
   private cameraState: any;
   private camera: BABYLON.Camera;
+  private cameraType: string;
   private scene: BABYLON.Scene;
   private ambientLight: BABYLON.HemisphericLight;
   private material: BABYLON.StandardMaterial;
@@ -20,7 +21,6 @@ export class ThreeD {
   constructor(canvas) {
     this.canvas = canvas;
     this.engine = new BABYLON.Engine(this.canvas, true, { preserveDrawingBuffer: true, stencil: true });
-    this.createScene();
   }
 
   private runningAnimations = {};
@@ -54,14 +54,73 @@ export class ThreeD {
           this.cameraState.rotation[2]
         );
       }
+      if (this.camera instanceof BABYLON.FollowCamera) {
+        this.camera.position = new BABYLON.Vector3(
+          this.cameraState.position[0],
+          this.cameraState.position[1],
+          this.cameraState.position[2]);
+      }
+      if (this.camera instanceof BABYLON.VRDeviceOrientationFreeCamera) { 
+        this.camera.position = new BABYLON.Vector3(
+          this.cameraState.position[0],
+          this.cameraState.position[1],
+          this.cameraState.position[2]
+        );
+      }
     }
   };
 
+  public createCamera = () => {
+    switch (this.cameraType) {
+      case "ArcRotate":
+        if (this.camera instanceof BABYLON.ArcRotateCamera) {
+          this.saveCameraState();
+        } else {
+          this.clearCameraState();
+        }
+        this.scene.removeCamera(this.scene.getCameraById("camera"));
+        this.camera = new BABYLON.ArcRotateCamera(
+          "camera",
+          BABYLON.Tools.ToRadians(-90),
+          BABYLON.Tools.ToRadians(65),
+          100,
+          BABYLON.Vector3.Zero(),
+          this.scene
+        );
+        break;
+      case "UniversalCamera":
+        if (this.camera instanceof BABYLON.UniversalCamera) {
+          this.saveCameraState();
+        } else {
+          this.clearCameraState();
+        }
+        this.scene.removeCamera(this.scene.getCameraById("camera"));
+        this.camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
+        break;
+      case "FollowCamera":
+        if (this.camera instanceof BABYLON.FollowCamera) {
+          this.saveCameraState();
+        } else {
+          this.clearCameraState();
+        }
+        this.scene.removeCamera(this.scene.getCameraById("camera"));
+        this.camera = new BABYLON.FollowCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
+        break;
+      case "VRDeviceOrientationFreeCamera":
+        if (this.camera instanceof BABYLON.VRDeviceOrientationFreeCamera) {
+          this.saveCameraState();
+        } else {
+          this.clearCameraState();
+        }
+        this.scene.removeCamera(this.scene.getCameraById("camera"));
+        this.camera = new BABYLON.VRDeviceOrientationFreeCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
+    }
+    this.camera.attachControl(this.canvas, true);
+    this.restoreCameraState();
+  };
+
   public createScene = (reset?: boolean, physics?: boolean) => {
-    console.log("Creating scene");
-    // If existing camera, save the state
-    if (this.camera) this.saveCameraState();
-    // If existing scene, unregister any event handlers
+    // Unregister actions from previous scene
     if (this.scene) {
       if (this.scene.actionManager) {
         let actionsToUnregister = this.scene.actionManager.actions.map((a) => a);
@@ -72,19 +131,8 @@ export class ThreeD {
     }
     // Now, create a new scene
     this.scene = new BABYLON.Scene(this.engine);
-    if (!this.camera || reset == true) {
-      // create a default camera
-      this.camera = new BABYLON.ArcRotateCamera(
-        "camera",
-        BABYLON.Tools.ToRadians(-90),
-        BABYLON.Tools.ToRadians(65),
-        100,
-        BABYLON.Vector3.Zero(),
-        this.scene
-      );
-      this.camera.attachControl(this.canvas, true);
-    }
-    if (reset !== true) this.restoreCameraState();
+    this.cameraType = "ArcRotate";
+
     this.ambientLight = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 50, 0), this.scene);
     this.ambientLight.intensity = 0.7;
     this.material = null;
@@ -114,8 +162,10 @@ export class ThreeD {
   public runRenderLoop = () => {
     this.engine.runRenderLoop(
       function () {
-        this.scene.render();
-        document.getElementById("fpsCounter").innerHTML = this.engine.getFps().toFixed() + " fps";
+        if (this.scene) {
+          this.scene.render();
+          document.getElementById("fpsCounter").innerHTML = this.engine.getFps().toFixed() + " fps";
+        }
       }.bind(this)
     );
   };
@@ -672,16 +722,16 @@ export class ThreeD {
     }
   };
 
-  public setLightColor = (objArray, color: string) =>{
+  public setLightColor = (objArray, color: string) => {
     let obj = objArray[0];
     if (!obj) return;
     let light = this.scene.getLightById(obj.id);
     if (light) {
       light.diffuse = BABYLON.Color3.FromHexString(color);
     }
-  }
+  };
 
-  public setLightIntensity = (objArray, intensity: number) =>{
+  public setLightIntensity = (objArray, intensity: number) => {
     let obj = objArray[0];
     if (!obj) return;
     let light = this.scene.getLightById(obj.id);
@@ -690,9 +740,7 @@ export class ThreeD {
       if (intensity > 100) intensity = 100;
       light.intensity = intensity / 50;
     }
-  }
-
-  
+  };
 
   public moveCamera = (coordsArray) => {
     let coords = coordsArray[0];
@@ -707,12 +755,15 @@ export class ThreeD {
   public moveCameraAlong = (axis, units) => {
     if (this.camera instanceof BABYLON.ArcRotateCamera) {
       switch (axis) {
-        case "x": this.camera.alpha += this.convertToRadians(units);
-        break;
-        case "y": this.camera.beta += this.convertToRadians(units);
-        break;
-        case "z": this.camera.radius += this.convertToRadians(units);
-        break;
+        case "x":
+          this.camera.alpha += this.convertToRadians(units);
+          break;
+        case "y":
+          this.camera.beta += this.convertToRadians(units);
+          break;
+        case "z":
+          this.camera.radius += this.convertToRadians(units);
+          break;
       }
     }
     if (this.camera instanceof BABYLON.UniversalCamera) {
@@ -723,53 +774,8 @@ export class ThreeD {
     }
   };
 
-  public setCameraType = (cameraType) => {
-    switch (cameraType) {
-      case "ArcRotate":
-        if (this.camera instanceof BABYLON.ArcRotateCamera) {
-          this.saveCameraState();
-        } else {
-          this.clearCameraState();
-        }
-        this.scene.removeCamera(this.scene.getCameraById("camera"));
-        this.camera = new BABYLON.ArcRotateCamera(
-          "camera",
-          BABYLON.Tools.ToRadians(-90),
-          BABYLON.Tools.ToRadians(65),
-          100,
-          BABYLON.Vector3.Zero(),
-          this.scene
-        );
-        break;
-      case "GamePad":
-        if (this.camera instanceof BABYLON.UniversalCamera) {
-          this.saveCameraState();
-        } else {
-          this.clearCameraState();
-        }
-        this.scene.removeCamera(this.scene.getCameraById("camera"));
-        this.camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
-        break;
-      case "Follow":
-        if (this.camera instanceof BABYLON.FollowCamera) {
-          this.saveCameraState();
-        } else {
-          this.clearCameraState();
-        }
-        this.scene.removeCamera(this.scene.getCameraById("camera"));
-        this.camera = new BABYLON.FollowCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
-        break;
-      case "VR":
-        if (this.camera instanceof BABYLON.VRDeviceOrientationFreeCamera) {
-          this.saveCameraState();
-        } else {
-          this.clearCameraState();
-        }
-        this.scene.removeCamera(this.scene.getCameraById("camera"));
-        this.camera = new BABYLON.VRDeviceOrientationFreeCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
-    }
-    this.camera.attachControl(this.canvas, true);
-    this.restoreCameraState();
+  public setCameraType = (cameraType: string) => {
+    this.cameraType = cameraType;
   };
 
   public pointCameraTowards = (objArray) => {
@@ -800,6 +806,6 @@ export class ThreeD {
   };
 
   public enableInspector = () => {
-    this.scene.debugLayer.show({embedMode: false});
-  }
+    this.scene.debugLayer.show({ embedMode: false });
+  };
 }
