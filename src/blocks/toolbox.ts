@@ -763,6 +763,20 @@ export let toolbox = {
         },
         {
           kind: "block",
+          type: "setAmbientLightIntensity",
+          inputs: {
+            INTENSITY: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 50,
+                },
+              },
+            },
+          },
+        },
+        {
+          kind: "block",
           type: "createLightAs",
           inputs: {
             COORDS: {
@@ -806,61 +820,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 30,
-                },
-              },
-            },
-          },
-        },
-        {
-          kind: "block",
-          type: "spotlight",
-          inputs: {
-            B: {
-              shadow: {
-                type: "math_number",
-                fields: {
-                  NUM: 30,
-                },
-              },
-            },
-            X: {
-              shadow: {
-                type: "math_number",
-                fields: {
-                  NUM: 0,
-                },
-              },
-            },
-            Y: {
-              shadow: {
-                type: "math_number",
-                fields: {
-                  NUM: 180,
-                },
-              },
-            },
-            Z: {
-              shadow: {
-                type: "math_number",
-                fields: {
-                  NUM: 0,
-                },
-              },
-            },
-            S: {
-              shadow: {
-                type: "math_number",
-                fields: {
-                  NUM: 20,
-                },
-              },
-            },
-            R: {
-              shadow: {
-                type: "math_number",
-                fields: {
-                  NUM: 100,
+                  NUM: 50,
                 },
               },
             },

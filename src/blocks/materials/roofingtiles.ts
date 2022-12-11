@@ -17,6 +17,6 @@ export let roofingtiles = {
     transpile: function (block) {
         let material = block.getFieldValue('MATERIAL');
 
-        return [`[ { pbr: "${material}", metallic: 1.0 } ]`, javascriptGenerator.ORDER_NONE];
+        return [`[ { pbr: "${material}", roughness: 1 } ]`, javascriptGenerator.ORDER_NONE];
     }
 };

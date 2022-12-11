@@ -83,6 +83,7 @@ createCustomBlock("moveLight", lighting.moveLight);
 createCustomBlock("moveLightAlong", lighting.moveLightAlong);
 createCustomBlock("setLightColor", lighting.setLightColor);
 createCustomBlock("setLightIntensity", lighting.setLightIntensity);
+createCustomBlock("setAmbientLightIntensity", lighting.setAmbientLightIntensity);
 
 createCustomBlock("moveCamera", camera.moveCamera);
 createCustomBlock("moveCameraAlong", camera.moveCameraAlong);

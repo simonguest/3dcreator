@@ -17,6 +17,6 @@ export let tiles = {
     transpile: function (block) {
         let material = block.getFieldValue('MATERIAL');
 
-        return [`[ { pbr: "${material}", metallic: 0.25 } ]`, javascriptGenerator.ORDER_NONE];
+        return [`[ { pbr: "${material}", metallic: 0.25, roughness: 1 } ]`, javascriptGenerator.ORDER_NONE];
     }
 };

@@ -8,5 +8,6 @@ import { moveLight } from "./moveLight";
 import { moveLightAlong } from "./moveLightAlong";
 import { setLightColor } from "./setLightColor";
 import { setLightIntensity } from "./setLightIntensity";
+import { setAmbientLightIntensity } from "./setAmbientLightIntensity";
 
-export { amibentOn, ambientOff, createLightAs, lightBulb, spotlight, showLight, moveLight, moveLightAlong, setLightColor, setLightIntensity };
+export { amibentOn, ambientOff, createLightAs, lightBulb, spotlight, showLight, moveLight, moveLightAlong, setLightColor, setLightIntensity, setAmbientLightIntensity };

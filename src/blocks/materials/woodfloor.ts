@@ -17,6 +17,6 @@ export let woodfloor = {
     transpile: function (block) {
         let material = block.getFieldValue('MATERIAL');
 
-        return [`[ { pbr: "${material}", matallic: 1.0 } ]`, javascriptGenerator.ORDER_NONE];
+        return [`[ { pbr: "${material}", matallic: 1.0, roughness: 0.9 } ]`, javascriptGenerator.ORDER_NONE];
     }
 };

@@ -1,10 +1,18 @@
 import * as BABYLON from "babylonjs";
-import { ActionManager, LensFlareSystemSceneComponent, VRDeviceOrientationFreeCamera } from "babylonjs";
+import {
+  ActionManager,
+  LensFlareSystemSceneComponent,
+  PBRMaterialDefines,
+  VRDeviceOrientationFreeCamera,
+} from "babylonjs";
 import { load } from "blockly/core/serialization/workspaces";
 import * as CANNON from "cannon";
 window.CANNON = CANNON;
 import { v4 as uuid } from "uuid";
 import { runInThisContext } from "vm";
+
+const BRIGHTNESS_MULTIPLIER = 50;
+const BRIGHTNESS_MAX = 1000;
 
 export class ThreeD {
   private readonly canvas: any;
@@ -58,9 +66,10 @@ export class ThreeD {
         this.camera.position = new BABYLON.Vector3(
           this.cameraState.position[0],
           this.cameraState.position[1],
-          this.cameraState.position[2]);
+          this.cameraState.position[2]
+        );
       }
-      if (this.camera instanceof BABYLON.VRDeviceOrientationFreeCamera) { 
+      if (this.camera instanceof BABYLON.VRDeviceOrientationFreeCamera) {
         this.camera.position = new BABYLON.Vector3(
           this.cameraState.position[0],
           this.cameraState.position[1],
@@ -133,8 +142,8 @@ export class ThreeD {
     this.scene = new BABYLON.Scene(this.engine);
     this.cameraType = "ArcRotate";
 
-    this.ambientLight = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 50, 0), this.scene);
-    this.ambientLight.intensity = 0.7;
+    this.ambientLight = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
+    this.ambientLight.intensity = 2.0;
     this.material = null;
     this.runningAnimations = {};
 
@@ -171,12 +180,15 @@ export class ThreeD {
   };
 
   private setMaterial = (obj, materialArray) => {
-    if (materialArray === null) return; // none selected
-    let material = materialArray[0];
+    let material = { texture: "matte", color: "#cccccc", pbr: false, image: false, metallic: 0, roughness: 0 };
 
+    if (materialArray !== null) {
+      material = materialArray[0];
+    }
     if (material.texture === "matte") {
-      let matte = new BABYLON.StandardMaterial("matte", this.scene);
-      matte.diffuseColor = BABYLON.Color3.FromHexString(material.color);
+      var matte = new BABYLON.PBRMetallicRoughnessMaterial("metal", this.scene);
+      matte.baseColor = BABYLON.Color3.FromHexString(material.color);
+      matte.roughness = 1.0;
       obj.material = matte;
       return;
     }
@@ -192,12 +204,11 @@ export class ThreeD {
     }
 
     if (material.texture === "gloss") {
-      var gloss = new BABYLON.PBRMaterial("metal", this.scene);
-      gloss.albedoColor = BABYLON.Color3.FromHexString(material.color);
+      var gloss = new BABYLON.PBRMetallicRoughnessMaterial("metal", this.scene);
+      gloss.baseColor = BABYLON.Color3.FromHexString(material.color);
       gloss.metallic = 1.0;
       gloss.roughness = 1.0;
       gloss.clearCoat.isEnabled = true;
-      gloss.usePhysicalLightFalloff = false;
       obj.material = gloss;
       return;
     }
@@ -224,22 +235,16 @@ export class ThreeD {
 
     if (material.pbr) {
       const PBR_RESOLUTION = "1K";
-      let pbrMaterial = new BABYLON.PBRMaterial("PBRMaterial", this.scene);
-      pbrMaterial.lightmapTexture = new BABYLON.Texture(
-        `./assets/materials/${material.pbr}_${PBR_RESOLUTION}_Color.jpg`
-      );
-      pbrMaterial.microSurfaceTexture = new BABYLON.Texture(
+      let pbrMaterial = new BABYLON.PBRMetallicRoughnessMaterial("PBRMaterial", this.scene);
+      pbrMaterial.baseTexture = new BABYLON.Texture(`./assets/materials/${material.pbr}_${PBR_RESOLUTION}_Color.jpg`);
+      pbrMaterial.metallicRoughnessTexture = new BABYLON.Texture(
         `./assets/materials/${material.pbr}_${PBR_RESOLUTION}_Roughness.jpg`
       );
-      pbrMaterial.bumpTexture = new BABYLON.Texture(
+      pbrMaterial.normalTexture = new BABYLON.Texture(
         `./assets/materials/${material.pbr}_${PBR_RESOLUTION}_NormalDX.jpg`
       );
-      pbrMaterial.roughness = material.roughness || 1;
-      pbrMaterial.bumpTexture.level = material.bumpLevel || 5;
+      pbrMaterial.roughness = material.roughness || 0;
       pbrMaterial.metallic = material.metallic || 0;
-      pbrMaterial.cameraExposure = 0.66;
-      pbrMaterial.cameraContrast = 1.66;
-      pbrMaterial.usePhysicalLightFalloff = false;
       obj.material = pbrMaterial;
       return;
     }
@@ -510,8 +515,8 @@ export class ThreeD {
     lightBulb.position.y = coords.y;
     lightBulb.position.z = coords.z;
     if (obj.props.b < 0) obj.props.b = 0;
-    if (obj.props.b > 100) obj.props.b = 100;
-    lightBulb.intensity = obj.props.b / 50;
+    if (obj.props.b > BRIGHTNESS_MAX) obj.props.b = BRIGHTNESS_MAX;
+    lightBulb.intensity = obj.props.b * BRIGHTNESS_MULTIPLIER;
     lightBulb.diffuse = BABYLON.Color3.FromHexString(obj.props.c);
   };
 
@@ -737,8 +742,16 @@ export class ThreeD {
     let light = this.scene.getLightById(obj.id);
     if (light) {
       if (intensity < 0) intensity = 0;
-      if (intensity > 100) intensity = 100;
-      light.intensity = intensity / 50;
+      if (intensity > BRIGHTNESS_MAX) intensity = BRIGHTNESS_MAX;
+      light.intensity = intensity * BRIGHTNESS_MULTIPLIER;
+    }
+  };
+
+  public setAmbientLightIntensity = (intensity: number) => {
+    if (this.ambientLight) {
+      if (intensity < 0) intensity = 0;
+      if (intensity > BRIGHTNESS_MAX) intensity = BRIGHTNESS_MAX;
+      this.ambientLight.intensity = intensity * BRIGHTNESS_MULTIPLIER / 1000;
     }
   };
 
