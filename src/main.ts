@@ -271,6 +271,7 @@ window.addEventListener("resize", function () {
 
 let resetButton = document.getElementById("reset");
 let physicsButton = document.getElementById("physics");
+let fullscreenButton = document.getElementById("fullscreen");
 
 async function run(reset?: boolean, physics?: boolean) {
   console.log("Running");
@@ -309,6 +310,12 @@ async function init() {
       await run(false, false);
     }
   };
+
+  fullscreenButton.onmouseup = async (e) => {
+    e.preventDefault();
+    console.log("full screen button pressed");
+    threeD.engine.enterFullscreen(false);
+  }
 
   document.getElementById("clear").onclick = () => {
     console.log("clear session button pressed");

@@ -1,40 +1,39 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>3D Lab Prototype</title>
-    <meta name="description" content="3D Lab Prototype">
-    <meta name="author" content="Simon Guest">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="styles/main.css">
-</head>
-<body>
-<div id="container">
-    <div id="header">
+    <meta name="description" content="3D Lab Prototype" />
+    <meta name="author" content="Simon Guest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div id="header">
         <button id="reset">Reset</button>
-        <button id="physics" data-enabled="false">Enable Physics</input>
+        <button id="physics" data-enabled="false">Enable Physics</button>
+        <button id="fullscreen">Full Screen</button>
         <button id="clear">Clear</button>
         <select id="examples">
-            <option value="" selected="true">Examples...</option>
-            <option value="garden.json">Simple Garden</option>
+          <option value="" selected="true">Examples...</option>
+          <option value="garden.json">Simple Garden</option>
         </select>
         <button id="export">Export</button>
-        <input type="file" id="import"/>
-    </div>
-    <div id="split">
+        <input type="file" id="import" />
+      </div>
+      <div id="split">
         <div id="runArea">
-            <canvas id="runAreaCanvas"></canvas>
+          <canvas id="runAreaCanvas"></canvas>
         </div>
         <span id="columnResizer"></span>
-        <div id="blocklyArea">
-            Loading Workspace...
-        </div>
-    </div>
-    <div id="footer">
+        <div id="blocklyArea">Loading Workspace...</div>
+      </div>
+      <div id="footer">
         <div id="fpsCounter"></div>
+      </div>
     </div>
-</div>
-<div id="blocklyDiv" style="position: absolute"></div>
-<script type="module" src="src/main.ts"></script>
-</body>
+    <div id="blocklyDiv" style="position: absolute"></div>
+    <script type="module" src="src/main.ts"></script>
+  </body>
 </html>
