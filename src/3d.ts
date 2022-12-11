@@ -129,6 +129,7 @@ export class ThreeD {
   };
 
   public createScene = (reset?: boolean, physics?: boolean) => {
+    console.log("Creating scene");
     // Unregister actions from previous scene
     if (this.scene) {
       if (this.scene.actionManager) {
@@ -141,6 +142,10 @@ export class ThreeD {
     // Now, create a new scene
     this.scene = new BABYLON.Scene(this.engine);
     this.cameraType = "ArcRotate";
+    if (reset === true) {
+      delete this.camera;
+      this.clearCameraState();
+    }
 
     this.ambientLight = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
     this.ambientLight.intensity = 2.0;
