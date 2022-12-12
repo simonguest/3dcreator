@@ -327,9 +327,11 @@ export class ThreeD {
     }
 
     if (material.image) {
-      let loadedMaterial = new BABYLON.StandardMaterial("Material", this.scene);
-      loadedMaterial.diffuseTexture = new BABYLON.Texture(`./assets/materials/${material.image}`);
-      mesh.material = loadedMaterial;
+      let imageMaterial = new BABYLON.PBRMetallicRoughnessMaterial("Material", this.scene);
+      imageMaterial.baseTexture = new BABYLON.Texture(`./assets/materials/${material.image}`);
+      imageMaterial.roughness = material.roughness || 1;
+      imageMaterial.metallic = material.metallic || 0;
+      mesh.material = imageMaterial;
       return;
     }
 
@@ -343,7 +345,7 @@ export class ThreeD {
       pbrMaterial.normalTexture = new BABYLON.Texture(
         `./assets/materials/${material.pbr}_${PBR_RESOLUTION}_NormalDX.jpg`
       );
-      pbrMaterial.roughness = material.roughness || 0;
+      pbrMaterial.roughness = material.roughness || 1;
       pbrMaterial.metallic = material.metallic || 0;
       mesh.material = pbrMaterial;
       return;

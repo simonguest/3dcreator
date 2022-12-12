@@ -11,7 +11,7 @@ export let coordinates = {
         this.appendValueInput("Z")
             .setCheck("Number")
             .appendField("z:");
-        this.setInputsInline(true);
+        this.setInputsInline(false);
         this.setOutput(true, "COORDS");
         this.setColour(230);
         this.setTooltip("");
