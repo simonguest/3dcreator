@@ -8,7 +8,7 @@ export let box = {
     this.appendValueInput("L").setCheck("Number").appendField("length");
     this.appendValueInput("MATERIAL").setCheck("MATERIAL").appendField("material");
     this.setInputsInline(false);
-    this.setOutput(true, "OBJECT");
+    this.setOutput(true, "SHAPE");
     this.setColour(200);
     this.setTooltip("A box with width, height, and length");
   },

@@ -7,7 +7,7 @@ export let torus = {
     this.appendValueInput("T").setCheck("Number").appendField("thickness");
     this.appendValueInput("MATERIAL").setCheck("MATERIAL").appendField("material");
     this.setInputsInline(false);
-    this.setOutput(true, "OBJECT");
+    this.setOutput(true, "SHAPE");
     this.setColour(200);
     this.setTooltip("A torus with diameter and thickness");
   },

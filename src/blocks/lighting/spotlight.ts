@@ -13,7 +13,7 @@ export let spotlight = {
     this.appendValueInput("S").setCheck("Number").appendField("beam size");
     this.appendValueInput("R").setCheck("Number").appendField("range");
     this.setInputsInline(false);
-    this.setOutput(true, "OBJECT");
+    this.setOutput(true, "LIGHT");
     this.setColour(60);
     this.setTooltip("A spotlight with brightness and color");
   },

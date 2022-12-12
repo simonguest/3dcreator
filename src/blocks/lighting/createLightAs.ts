@@ -16,8 +16,8 @@ export let createLightAs = {
   },
 
   init: function () {
-    this.appendValueInput("OBJECT")
-      .setCheck(["OBJECT", "Array"])
+    this.appendValueInput("LIGHT")
+      .setCheck("LIGHT")
       .appendField("Create light as")
       .appendField(new Blockly.FieldVariable(this.getUniqueNameForVar("light")), "VAR");
     this.appendValueInput("COORDS").setCheck("COORDS").appendField("at coords");
@@ -28,12 +28,12 @@ export let createLightAs = {
   },
 
   transpile: function (block) {
-    let object = javascriptGenerator.valueToCode(block, "OBJECT", javascriptGenerator.ORDER_NONE);
+    let light = javascriptGenerator.valueToCode(block, "LIGHT", javascriptGenerator.ORDER_NONE);
     let coords = javascriptGenerator.valueToCode(block, "COORDS", javascriptGenerator.ORDER_NONE);
     let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
-    if (object === "") return "";
+    if (light === "") return "";
     if (coords === "") return "";
 
-    return `${variable} = ${object}; threeD.createLight(${variable}, ${coords});`;
+    return `${variable} = ${light}; threeD.createLight(${variable}, ${coords});`;
   },
 };

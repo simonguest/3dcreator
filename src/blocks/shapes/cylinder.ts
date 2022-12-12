@@ -7,7 +7,7 @@ export let cylinder = {
     this.appendValueInput("D").setCheck("Number").appendField("diameter");
     this.appendValueInput("MATERIAL").setCheck("MATERIAL").appendField("material");
     this.setInputsInline(false);
-    this.setOutput(true, "OBJECT");
+    this.setOutput(true, "SHAPE");
     this.setColour(200);
     this.setTooltip("A cylinder with height and diameter");
   },

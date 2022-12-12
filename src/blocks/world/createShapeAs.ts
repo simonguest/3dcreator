@@ -16,8 +16,8 @@ export let createShapeAs = {
   },
 
   init: function () {
-    this.appendValueInput("OBJECT")
-      .setCheck(["OBJECT", "Array"])
+    this.appendValueInput("SHAPE")
+      .setCheck("SHAPE")
       .appendField("Create shape as")
       .appendField(new Blockly.FieldVariable(this.getUniqueNameForVar("shape")), "VAR");
     this.appendValueInput("COORDS").setCheck("COORDS").appendField("at coords");
@@ -28,12 +28,12 @@ export let createShapeAs = {
   },
 
   transpile: function (block) {
-    let object = javascriptGenerator.valueToCode(block, "OBJECT", javascriptGenerator.ORDER_NONE);
+    let shape = javascriptGenerator.valueToCode(block, "SHAPE", javascriptGenerator.ORDER_NONE);
     let coords = javascriptGenerator.valueToCode(block, "COORDS", javascriptGenerator.ORDER_NONE);
     let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
-    if (object === "") return "";
+    if (shape === "") return "";
     if (coords === "") return "";
 
-    return `${variable} = ${object}; threeD.createShape(${variable}, ${coords});`;
+    return `${variable} = ${shape}; threeD.createShape(${variable}, ${coords});`;
   },
 };

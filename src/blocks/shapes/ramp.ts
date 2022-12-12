@@ -8,7 +8,7 @@ export let ramp = {
     this.appendValueInput("L").setCheck("Number").appendField("length");
     this.appendValueInput("MATERIAL").setCheck("MATERIAL").appendField("material");
     this.setInputsInline(false);
-    this.setOutput(true, "OBJECT");
+    this.setOutput(true, "SHAPE");
     this.setColour(200);
     this.setTooltip("A ramp with height, width, and length");
   },

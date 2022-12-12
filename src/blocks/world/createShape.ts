@@ -2,8 +2,8 @@ import {javascriptGenerator} from "blockly/javascript";
 
 export let createShape = {
     init: function () {
-        this.appendValueInput("OBJECT")
-            .setCheck(["OBJECT", "Array"])
+        this.appendValueInput("SHAPE")
+            .setCheck("SHAPE")
             .appendField("Create shape");
         this.appendValueInput("COORDS")
             .setCheck("COORDS")
@@ -15,11 +15,11 @@ export let createShape = {
     },
 
     transpile: function (block) {
-        let object = javascriptGenerator.valueToCode(block, 'OBJECT', javascriptGenerator.ORDER_NONE);
+        let shape = javascriptGenerator.valueToCode(block, 'SHAPE', javascriptGenerator.ORDER_NONE);
         let coords = javascriptGenerator.valueToCode(block, 'COORDS', javascriptGenerator.ORDER_NONE);
-        if (object === "") return "";
+        if (shape === "") return "";
         if (coords === "") return "";
 
-        return `threeD.createShape(${object}, ${coords});`;
+        return `threeD.createShape(${shape}, ${coords});`;
     }
 };

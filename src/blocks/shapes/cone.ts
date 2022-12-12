@@ -8,7 +8,7 @@ export let cone = {
     this.appendValueInput("B").setCheck("Number").appendField("bottom diameter");
     this.appendValueInput("MATERIAL").setCheck("MATERIAL").appendField("material");
     this.setInputsInline(false);
-    this.setOutput(true, "OBJECT");
+    this.setOutput(true, "SHAPE");
     this.setColour(200);
     this.setTooltip("A cone with height and top/bottom diameters");
   },

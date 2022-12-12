@@ -9,7 +9,7 @@ export let wall = {
     this.appendValueInput("R").setCheck("Number").appendField("rotation");
     this.appendValueInput("MATERIAL").setCheck("MATERIAL").appendField("material");
     this.setInputsInline(false);
-    this.setOutput(true, "OBJECT");
+    this.setOutput(true, "SHAPE");
     this.setColour(200);
     this.setTooltip("A wall with width, height, tile size, and rotation on y axis");
   },

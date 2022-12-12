@@ -8,7 +8,7 @@ export let sphere = {
     this.appendValueInput("H").setCheck("Number").appendField("height");
     this.appendValueInput("MATERIAL").setCheck("MATERIAL").appendField("material");
     this.setInputsInline(false);
-    this.setOutput(true, "OBJECT");
+    this.setOutput(true, "SHAPE");
     this.setColour(200);
     this.setTooltip("A sphere with width, height, and length");
   },

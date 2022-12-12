@@ -8,7 +8,7 @@ export let lightBulb = {
       .appendField(new Blockly.FieldColour("#ffffff", null), "COLOR");
     this.appendValueInput("B").setCheck("Number").appendField("brightness");
     this.setInputsInline(false);
-    this.setOutput(true, "OBJECT");
+    this.setOutput(true, "LIGHT");
     this.setColour(60);
     this.setTooltip("A light bulb with brightness and color");
   },
