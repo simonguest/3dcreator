@@ -14,6 +14,53 @@ import { runInThisContext } from "vm";
 const BRIGHTNESS_MULTIPLIER = 50;
 const BRIGHTNESS_MAX = 1000;
 
+type Material = {};
+
+type Shape = {
+  id: string;
+  type: string;
+  size: {
+    w: number;
+    h: number;
+    l: number;
+  };
+  material: Material;
+};
+
+type ShapeBlock = [shape: Shape];
+
+type Coords = {
+  x: number;
+  y: number;
+  z: number;
+};
+
+type CoordsBlock = [coords: Coords];
+
+type Light = {
+  id: string;
+  type: string;
+};
+
+type LightBlock = [light: Light];
+
+const convertShapeBlockToMesh = (shapeBlock: ShapeBlock, scene: BABYLON.Scene) => {
+  if (!shapeBlock) return null;
+  if (!shapeBlock[0]) return null;
+  let shape = shapeBlock[0];
+  if (shape === null) return null;
+  let mesh = scene.getMeshById(shape.id);
+  return mesh;
+};
+
+const convertCoordsBlockToCoords = (coordsBlock: CoordsBlock) => {
+  if (!coordsBlock) return null;
+  if (!coordsBlock[0]) return null;
+  let coords = coordsBlock[0];
+  if (coords === null) return null;
+  return coords;
+};
+
 export class ThreeD {
   private readonly canvas: any;
   public readonly engine: BABYLON.Engine;
@@ -22,9 +69,7 @@ export class ThreeD {
   private cameraType: string;
   private scene: BABYLON.Scene;
   private ambientLight: BABYLON.HemisphericLight;
-  private material: BABYLON.StandardMaterial;
   private ground: BABYLON.Mesh;
-  private hdrSkyboxTexture: BABYLON.CubeTexture;
 
   constructor(canvas) {
     this.canvas = canvas;
@@ -149,7 +194,6 @@ export class ThreeD {
 
     this.ambientLight = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
     this.ambientLight.intensity = 2.0;
-    this.material = null;
     this.runningAnimations = {};
 
     // Unregister actions from each mesh
@@ -420,17 +464,17 @@ export class ThreeD {
     }
   };
 
-  private createSphere = (obj, coords) => {
-    let sphere = BABYLON.MeshBuilder.CreateSphere(obj.id, {
+  private createSphere = (shape: Shape, coords: Coords) => {
+    let sphere = BABYLON.MeshBuilder.CreateSphere(shape.id, {
       segments: 32,
-      diameterX: obj.size.w,
-      diameterY: obj.size.h,
-      diameterZ: obj.size.l,
+      diameterX: shape.size.w,
+      diameterY: shape.size.h,
+      diameterZ: shape.size.l,
     });
     sphere.position.x = coords.x;
     sphere.position.y = coords.y;
     sphere.position.z = coords.z;
-    this.setMaterial(sphere, obj.material);
+    this.setMaterial(sphere, shape.material);
     sphere.actionManager = new BABYLON.ActionManager(this.scene);
     this.actionManagers.push(sphere.actionManager);
     if (this.physicsEnabled === true) {
@@ -482,34 +526,37 @@ export class ThreeD {
     this.scene.createDefaultSkybox(this.scene.environmentTexture);
   };
 
-  public createShape = (objArray, coordsArray) => {
-    let obj = objArray[0];
-    let coords = coordsArray[0];
+  public createShape = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
+    if (!shapeBlock) return;
+    if (!coordsBlock) return;
 
-    switch (obj.type) {
+    let shape = shapeBlock[0];
+    let coords = coordsBlock[0];
+
+    switch (shape.type) {
       case "sphere":
-        this.createSphere(obj, coords);
+        this.createSphere(shape, coords);
         break;
       case "box":
-        this.createBox(obj, coords);
+        this.createBox(shape, coords);
         break;
       case "wall":
-        this.createWall(obj, coords);
+        this.createWall(shape, coords);
         break;
       case "cylinder":
-        this.createCylinder(obj, coords);
+        this.createCylinder(shape, coords);
         break;
       case "cone":
-        this.createCone(obj, coords);
+        this.createCone(shape, coords);
         break;
       case "torus":
-        this.createTorus(obj, coords);
+        this.createTorus(shape, coords);
         break;
       case "capsule":
-        this.createCapsule(obj, coords);
+        this.createCapsule(shape, coords);
         break;
       case "ramp":
-        this.createRamp(obj, coords);
+        this.createRamp(shape, coords);
         break;
     }
   };
@@ -557,71 +604,70 @@ export class ThreeD {
     }
   };
 
-  public clone = (objArray, coordsArray) => {
-    let obj = objArray[0];
-    let coords = coordsArray[0];
-    let mesh = this.scene.getMeshById(obj.id);
-    if (mesh) {
+  public clone = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
+    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
+    let coords = convertCoordsBlockToCoords(coordsBlock);
+    if (mesh && coords) {
       let clonedMesh = mesh.clone(`${uuid()}`, null, null);
-      this.moveShape([clonedMesh], coordsArray);
+      this.moveShape([clonedMesh], coordsBlock);
     }
   };
 
-  public remove = (objArray) => {
-    let obj = objArray[0];
-    let mesh = this.scene.getMeshById(obj.id);
+  // Remove a shape from the scene
+  public remove = (shapeBlock: ShapeBlock) => {
+    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
     if (mesh) {
       this.scene.removeMesh(mesh);
     }
   };
 
-  public moveShape = (objArray, coordsArray) => {
-    let obj = objArray[0];
-    let coords = coordsArray[0];
-    let mesh = this.scene.getMeshById(obj.id);
-    if (mesh) {
+  // Move a shape to a new position
+  public moveShape = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
+    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
+    let coords = convertCoordsBlockToCoords(coordsBlock);
+    if (mesh && coords) {
       mesh.position.x = coords.x;
       mesh.position.y = coords.y;
       mesh.position.z = coords.z;
     }
   };
 
-  public moveShapeAlong = (objArray, axis, steps) => {
-    let obj = objArray[0];
-    let mesh = this.scene.getMeshById(obj.id);
+  // Move a shape along an axis
+  public moveShapeAlong = (shapeBlock: ShapeBlock, axis: string, steps: number) => {
+    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
     if (mesh) {
       mesh.position[axis] += steps;
     }
   };
 
-  public merge = (objArray, objectsToMerge) => {
-    let obj = objArray[0];
-    let meshes = [];
-    if (objectsToMerge.length === 0) return;
-    objectsToMerge.forEach((childObj) => {
-      //TODO: Check if the object has already been created
-      //this.createShape(childObj);
-      meshes.push(this.scene.getMeshById(childObj[0].id));
-    });
-    let mergedMesh = BABYLON.Mesh.MergeMeshes(meshes, true, true, undefined, false, true);
-    mergedMesh.id = obj.id;
-    mergedMesh.actionManager = new BABYLON.ActionManager(this.scene);
-    this.actionManagers.push(mergedMesh.actionManager);
+  public merge = (shapeBlock: ShapeBlock, objectsToMerge) => {
+    // if (!shapeBlock) return;
+    // let shape = shapeBlock[0];
+    // let meshes = [];
+    // if (objectsToMerge.length === 0) return;
+    // objectsToMerge.forEach((childObj) => {
+    //   meshes.push(this.scene.getMeshById(childObj[0].id));
+    // });
+    // let mergedMesh = BABYLON.Mesh.MergeMeshes(meshes, true, true, undefined, false, true);
+    // mergedMesh.id = shape.id;
+    // mergedMesh.actionManager = new BABYLON.ActionManager(this.scene);
+    // this.actionManagers.push(mergedMesh.actionManager);
   };
 
-  private convertToRadians = (degrees) => {
+  // Convert degrees to radians
+  private convertToRadians = (degrees: number) => {
     return degrees * (Math.PI / 180);
   };
 
-  public rotate = (objArray, axis, degrees) => {
-    if (objArray === undefined) return;
-    let obj = objArray[0];
-    let mesh = this.scene.getMeshById(obj.id);
+  // Rotate a shape
+  public rotate = (shapeBlock: ShapeBlock, axis: string, degrees: number) => {
+    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
     if (mesh) {
       mesh.rotate(BABYLON.Axis[axis], this.convertToRadians(degrees));
     }
   };
 
+  // Create an animation loop
   public createAnimationLoop = (name: string, statements) => {
     {
       this.scene.onBeforeRenderObservable.add(() => {
@@ -630,18 +676,19 @@ export class ThreeD {
     }
   };
 
+  // Start an animation loop
   public startAnimation = (name: string) => {
     this.runningAnimations[name] = true;
   };
 
+  // Stop an animation loop
   public stopAnimation = (name: string) => {
     delete this.runningAnimations[name];
   };
 
-  public onClick = (objArray, statements) => {
-    if (objArray === undefined) return;
-    let obj = objArray[0];
-    let mesh = this.scene.getMeshById(obj.id);
+  // On click event handler
+  public onClick = (shapeBlock: ShapeBlock, statements: any) => {
+    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
     if (mesh) {
       mesh.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
@@ -654,7 +701,8 @@ export class ThreeD {
     }
   };
 
-  public onKeyPress = (key: string, statements) => {
+  // On key press event handler
+  public onKeyPress = (key: string, statements: any) => {
     this.scene.actionManager.registerAction(
       new BABYLON.ExecuteCodeAction(
         {
@@ -666,18 +714,17 @@ export class ThreeD {
     );
   };
 
-  public getPosition = (objArray, axis) => {
-    let obj = objArray[0];
-    let mesh = this.scene.getMeshById(obj.id);
+  // Get the position of a shape
+  public getPosition = (shapeBlock: ShapeBlock, axis: string) => {
+    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
     if (mesh) {
       return mesh.position[axis];
     }
   };
 
-  public applyForce = (objArray, axis, units) => {
-    if (objArray === undefined) return;
-    let obj = objArray[0];
-    let mesh = this.scene.getMeshById(obj.id);
+  // Apply a force to a shape
+  public applyForce = (shapeBlock: ShapeBlock, axis: string, units: number) => {
+    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
     if (mesh && this.physicsEnabled === true) {
       let vector = { x: 0, y: 0, z: 0 };
       vector[axis] = units;
@@ -686,11 +733,13 @@ export class ThreeD {
     }
   };
 
+  // Enable ambient lighting
   public ambientOn = (color: string) => {
     this.ambientLight.diffuse = BABYLON.Color3.FromHexString(color);
     this.ambientLight.setEnabled(true);
   };
 
+  // Disable ambient lighting
   public ambientOff = () => {
     this.ambientLight.setEnabled(false);
   };
@@ -756,7 +805,7 @@ export class ThreeD {
     if (this.ambientLight) {
       if (intensity < 0) intensity = 0;
       if (intensity > BRIGHTNESS_MAX) intensity = BRIGHTNESS_MAX;
-      this.ambientLight.intensity = intensity * BRIGHTNESS_MULTIPLIER / 1000;
+      this.ambientLight.intensity = (intensity * BRIGHTNESS_MULTIPLIER) / 1000;
     }
   };
 
