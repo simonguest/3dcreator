@@ -267,7 +267,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 5,
+                  NUM: 50,
                 },
               },
             },

@@ -1,30 +1,36 @@
 import * as BABYLON from "babylonjs";
-import {
-  ActionManager,
-  LensFlareSystemSceneComponent,
-  PBRMaterialDefines,
-  VRDeviceOrientationFreeCamera,
-} from "babylonjs";
-import { load } from "blockly/core/serialization/workspaces";
 import * as CANNON from "cannon";
 window.CANNON = CANNON;
-import { v4 as uuid } from "uuid";
-import { runInThisContext } from "vm";
 
 const BRIGHTNESS_MULTIPLIER = 50;
 const BRIGHTNESS_MAX = 1000;
 
-type Material = {};
+type Material = {
+  texture: string;
+  color: string;
+  pbr?: string;
+  image?: string;
+  metallic?: number;
+  roughness?: number;
+};
+
+type MaterialBlock = [material: Material];
 
 type Shape = {
   id: string;
   type: string;
   size: {
-    w: number;
-    h: number;
-    l: number;
+    w?: number; // width
+    h?: number; // height
+    l?: number; // length
+    r?: number; // radius
+    d?: number; // diameter
+    t?: number; // diameter of top
+    b?: number; // diameter of bottom
+    s?: number; // tile size
   };
-  material: Material;
+  tileSize?: number; // tile size for walls and ground
+  material: MaterialBlock;
 };
 
 type ShapeBlock = [shape: Shape];
@@ -40,9 +46,39 @@ type CoordsBlock = [coords: Coords];
 type Light = {
   id: string;
   type: string;
+  props: {
+    b?: number; // brightness
+    c?: string; // color
+    s?: number; // beam size
+    r?: number; // range
+    x?: number; // x position of directionality
+    y?: number; // y position of directionality
+    z?: number; // z position of directionality
+  };
 };
 
 type LightBlock = [light: Light];
+
+const convertLightBlockToLight = (lightBlock: LightBlock) => {
+  if (!lightBlock) return null;
+  if (!lightBlock[0]) return null;
+  let light = lightBlock[0];
+  if (light === null) return null;
+  return light;
+};
+
+const convertLightBlockToLightInScene = (lightBlock: LightBlock, scene: BABYLON.Scene) => {
+  if (!lightBlock) return null;
+  if (!lightBlock[0]) return null;
+  let light = lightBlock[0];
+  if (light === null) return null;
+  let lightInScene = scene.getLightById(light.id);
+  return lightInScene;
+};
+
+type Skybox = {
+  asset: string;
+};
 
 const convertShapeBlockToMesh = (shapeBlock: ShapeBlock, scene: BABYLON.Scene) => {
   if (!shapeBlock) return null;
@@ -53,12 +89,28 @@ const convertShapeBlockToMesh = (shapeBlock: ShapeBlock, scene: BABYLON.Scene) =
   return mesh;
 };
 
+const convertShapeBlockToShape = (shapeBlock: ShapeBlock) => {
+  if (!shapeBlock) return null;
+  if (!shapeBlock[0]) return null;
+  let shape = shapeBlock[0];
+  if (shape === null) return null;
+  return shape;
+};
+
 const convertCoordsBlockToCoords = (coordsBlock: CoordsBlock) => {
   if (!coordsBlock) return null;
   if (!coordsBlock[0]) return null;
   let coords = coordsBlock[0];
   if (coords === null) return null;
   return coords;
+};
+
+const convertMaterialBlockToMaterial = (materialBlock: MaterialBlock) => {
+  if (!materialBlock) return null;
+  if (!materialBlock[0]) return null;
+  let material = materialBlock[0];
+  if (material === null) return null;
+  return material;
 };
 
 export class ThreeD {
@@ -204,7 +256,7 @@ export class ThreeD {
       });
     });
     this.actionManagers = [];
-    this.scene.actionManager = new ActionManager();
+    this.scene.actionManager = new BABYLON.ActionManager();
     if (physics === true) {
       console.log("Enabling physics");
       let gravityVector = new BABYLON.Vector3(0, -90.81, 0);
@@ -228,17 +280,16 @@ export class ThreeD {
     );
   };
 
-  private setMaterial = (obj, materialArray) => {
-    let material = { texture: "matte", color: "#cccccc", pbr: false, image: false, metallic: 0, roughness: 0 };
+  // Sets the material of a mesh based on the material block
+  private setMaterial = (mesh: BABYLON.Mesh, materialBlock: MaterialBlock) => {
+    let material = convertMaterialBlockToMaterial(materialBlock);
+    if (material === null) material = { texture: "matte", color: "#cccccc" }; // default material for "none"
 
-    if (materialArray !== null) {
-      material = materialArray[0];
-    }
     if (material.texture === "matte") {
       var matte = new BABYLON.PBRMetallicRoughnessMaterial("metal", this.scene);
       matte.baseColor = BABYLON.Color3.FromHexString(material.color);
       matte.roughness = 1.0;
-      obj.material = matte;
+      mesh.material = matte;
       return;
     }
 
@@ -248,7 +299,7 @@ export class ThreeD {
       metal.metallic = 1.0;
       metal.roughness = 0;
       metal.usePhysicalLightFalloff = false;
-      obj.material = metal;
+      mesh.material = metal;
       return;
     }
 
@@ -258,7 +309,7 @@ export class ThreeD {
       gloss.metallic = 1.0;
       gloss.roughness = 1.0;
       gloss.clearCoat.isEnabled = true;
-      obj.material = gloss;
+      mesh.material = gloss;
       return;
     }
 
@@ -271,14 +322,14 @@ export class ThreeD {
       glass.subSurface.isRefractionEnabled = true;
       glass.subSurface.indexOfRefraction = 1.4;
       glass.usePhysicalLightFalloff = false;
-      obj.material = glass;
+      mesh.material = glass;
       return;
     }
 
     if (material.image) {
       let loadedMaterial = new BABYLON.StandardMaterial("Material", this.scene);
       loadedMaterial.diffuseTexture = new BABYLON.Texture(`./assets/materials/${material.image}`);
-      obj.material = loadedMaterial;
+      mesh.material = loadedMaterial;
       return;
     }
 
@@ -294,21 +345,22 @@ export class ThreeD {
       );
       pbrMaterial.roughness = material.roughness || 0;
       pbrMaterial.metallic = material.metallic || 0;
-      obj.material = pbrMaterial;
+      mesh.material = pbrMaterial;
       return;
     }
   };
 
-  private createTorus = (obj, coords) => {
-    let torus = BABYLON.MeshBuilder.CreateTorus(obj.id, {
-      diameter: obj.size.d,
-      thickness: obj.size.t,
-      tessellation: obj.size.s,
+  // Creates a torus
+  private createTorus = (shape: Shape, coords: Coords) => {
+    let torus = BABYLON.MeshBuilder.CreateTorus(shape.id, {
+      diameter: shape.size.d,
+      thickness: shape.size.t,
+      tessellation: shape.size.s,
     });
     torus.position.x = coords.x;
     torus.position.y = coords.y;
     torus.position.z = coords.z;
-    this.setMaterial(torus, obj.material);
+    this.setMaterial(torus, shape.material);
     torus.actionManager = new BABYLON.ActionManager(this.scene);
     this.actionManagers.push(torus.actionManager);
     if (this.physicsEnabled === true) {
@@ -321,11 +373,12 @@ export class ThreeD {
     }
   };
 
-  private createRamp = (obj, coords) => {
+  // Creates a ramp from a triangle shape
+  private createRamp = (shape: Shape, coords: Coords) => {
     // Halve the w, h, and l to position the triangle in the middle prior to extrusion
-    let width = obj.size.w / 2;
-    let height = obj.size.h / 2;
-    let length = obj.size.l / 2;
+    let width = shape.size.w / 2;
+    let height = shape.size.h / 2;
+    let length = shape.size.l / 2;
     var triangle = [
       new BABYLON.Vector3(0 - width, 0 - height, 0),
       new BABYLON.Vector3(width, 0 - height, 0),
@@ -334,14 +387,14 @@ export class ThreeD {
     triangle.push(triangle[0]);
     let extrudePath = [new BABYLON.Vector3(0, 0, 0 - length), new BABYLON.Vector3(0, 0, length)];
     let ramp = BABYLON.MeshBuilder.ExtrudeShape(
-      obj.id,
+      shape.id,
       { shape: triangle, path: extrudePath, cap: BABYLON.Mesh.CAP_ALL },
       this.scene
     );
     ramp.position.x = coords.x;
     ramp.position.y = coords.y;
     ramp.position.z = coords.z;
-    this.setMaterial(ramp, obj.material);
+    this.setMaterial(ramp, shape.material);
     ramp.actionManager = new BABYLON.ActionManager(this.scene);
     this.actionManagers.push(ramp.actionManager);
     if (this.physicsEnabled === true) {
@@ -353,15 +406,16 @@ export class ThreeD {
     }
   };
 
-  private createCapsule = (obj, coords) => {
-    let capsule = BABYLON.MeshBuilder.CreateCapsule(obj.id, {
-      height: obj.size.h,
-      radius: obj.size.d / 2,
+  // Creates a capsule shape
+  private createCapsule = (shape: Shape, coords: Coords) => {
+    let capsule = BABYLON.MeshBuilder.CreateCapsule(shape.id, {
+      height: shape.size.h,
+      radius: shape.size.d / 2,
     });
     capsule.position.x = coords.x;
     capsule.position.y = coords.y;
     capsule.position.z = coords.z;
-    this.setMaterial(capsule, obj.material);
+    this.setMaterial(capsule, shape.material);
     capsule.actionManager = new BABYLON.ActionManager(this.scene);
     this.actionManagers.push(capsule.actionManager);
     if (this.physicsEnabled === true) {
@@ -374,16 +428,17 @@ export class ThreeD {
     }
   };
 
-  private createCone = (obj, coords) => {
-    let cone = BABYLON.MeshBuilder.CreateCylinder(obj.id, {
-      height: obj.size.h,
-      diameterTop: obj.size.t,
-      diameterBottom: obj.size.b,
+  // Creates a cone with a base and a top
+  private createCone = (shape: Shape, coords: Coords) => {
+    let cone = BABYLON.MeshBuilder.CreateCylinder(shape.id, {
+      height: shape.size.h,
+      diameterTop: shape.size.t,
+      diameterBottom: shape.size.b,
     });
     cone.position.x = coords.x;
     cone.position.y = coords.y;
     cone.position.z = coords.z;
-    this.setMaterial(cone, obj.material);
+    this.setMaterial(cone, shape.material);
     cone.actionManager = new BABYLON.ActionManager(this.scene);
     this.actionManagers.push(cone.actionManager);
     if (this.physicsEnabled === true) {
@@ -396,15 +451,16 @@ export class ThreeD {
     }
   };
 
-  private createCylinder = (obj, coords) => {
-    let cylinder = BABYLON.MeshBuilder.CreateCylinder(obj.id, {
-      height: obj.size.h,
-      diameter: obj.size.d,
+  // Creates a cylinder
+  private createCylinder = (shape: Shape, coords: Coords) => {
+    let cylinder = BABYLON.MeshBuilder.CreateCylinder(shape.id, {
+      height: shape.size.h,
+      diameter: shape.size.d,
     });
     cylinder.position.x = coords.x;
     cylinder.position.y = coords.y;
     cylinder.position.z = coords.z;
-    this.setMaterial(cylinder, obj.material);
+    this.setMaterial(cylinder, shape.material);
     cylinder.actionManager = new BABYLON.ActionManager(this.scene);
     this.actionManagers.push(cylinder.actionManager);
     if (this.physicsEnabled === true) {
@@ -417,16 +473,17 @@ export class ThreeD {
     }
   };
 
-  private createBox = (obj, coords) => {
-    let box = BABYLON.MeshBuilder.CreateBox(obj.id, {
-      height: obj.size.h,
-      width: obj.size.w,
-      depth: obj.size.l,
+  // Creates a box
+  private createBox = (shape: Shape, coords: Coords) => {
+    let box = BABYLON.MeshBuilder.CreateBox(shape.id, {
+      height: shape.size.h,
+      width: shape.size.w,
+      depth: shape.size.l,
     });
     box.position.x = coords.x;
     box.position.y = coords.y;
     box.position.z = coords.z;
-    this.setMaterial(box, obj.material);
+    this.setMaterial(box, shape.material);
     box.actionManager = new BABYLON.ActionManager(this.scene);
     this.actionManagers.push(box.actionManager);
     if (this.physicsEnabled === true) {
@@ -439,19 +496,20 @@ export class ThreeD {
     }
   };
 
-  private createWall = (obj, coords) => {
-    let wall = BABYLON.MeshBuilder.CreateTiledPlane(obj.id, {
-      height: obj.size.h,
-      width: obj.size.w,
-      tileSize: obj.size.s,
+  // Creates a wall
+  private createWall = (shape: Shape, coords: Coords) => {
+    let wall = BABYLON.MeshBuilder.CreateTiledPlane(shape.id, {
+      height: shape.size.h,
+      width: shape.size.w,
+      tileSize: shape.size.s,
     });
     wall.position.x = coords.x;
     wall.position.y = coords.y;
     wall.position.z = coords.z;
-    if (obj.size.r < 0) obj.size.r = 0;
-    if (obj.size.r > 360) obj.size.r = 360;
-    wall.rotation.y = this.convertToRadians(obj.size.r);
-    this.setMaterial(wall, obj.material);
+    if (shape.size.r < 0) shape.size.r = 0;
+    if (shape.size.r > 360) shape.size.r = 360;
+    wall.rotation.y = this.convertToRadians(shape.size.r);
+    this.setMaterial(wall, shape.material);
     wall.actionManager = new BABYLON.ActionManager(this.scene);
     this.actionManagers.push(wall.actionManager);
     if (this.physicsEnabled === true) {
@@ -464,6 +522,7 @@ export class ThreeD {
     }
   };
 
+  // Creates a sphere
   private createSphere = (shape: Shape, coords: Coords) => {
     let sphere = BABYLON.MeshBuilder.CreateSphere(shape.id, {
       segments: 32,
@@ -487,19 +546,20 @@ export class ThreeD {
     }
   };
 
-  public createGround = (obj) => {
+  // Creates the ground
+  public createGround = (shape: Shape) => {
     if (this.ground) this.ground.dispose();
-    if (obj.tileSize < 0) obj.tileSize = 1;
-    let width = obj.width;
-    let length = obj.length;
-    let tileSize = obj.tileSize;
+    if (shape.tileSize < 0) shape.tileSize = 1;
+    let width = shape.size.w;
+    let length = shape.size.l;
+    let tileSize = shape.tileSize;
 
     let grid = {
       h: length / tileSize,
       w: width / tileSize,
     };
 
-    this.ground = BABYLON.MeshBuilder.CreateTiledGround(obj.id, {
+    this.ground = BABYLON.MeshBuilder.CreateTiledGround(shape.id, {
       xmin: 0 - width / 2,
       zmin: 0 - length / 2,
       xmax: width / 2,
@@ -507,7 +567,7 @@ export class ThreeD {
       subdivisions: grid,
     });
 
-    this.setMaterial(this.ground, obj.material);
+    this.setMaterial(this.ground, shape.material);
     if (this.physicsEnabled === true) {
       this.ground.physicsImpostor = new BABYLON.PhysicsImpostor(
         this.ground,
@@ -518,98 +578,107 @@ export class ThreeD {
     }
   };
 
-  public createSkybox = (obj) => {
+  // Creates the skybox
+  public createSkybox = (skybox: Skybox) => {
     this.scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
-      `./assets/env/${obj.asset}.env`,
+      `./assets/env/${skybox.asset}.env`,
       this.scene
     );
     this.scene.createDefaultSkybox(this.scene.environmentTexture);
   };
 
+  // Creates a shape
   public createShape = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
-    if (!shapeBlock) return;
-    if (!coordsBlock) return;
+    let shape = convertShapeBlockToShape(shapeBlock);
+    let coords = convertCoordsBlockToCoords(coordsBlock);
 
-    let shape = shapeBlock[0];
-    let coords = coordsBlock[0];
-
-    switch (shape.type) {
-      case "sphere":
-        this.createSphere(shape, coords);
-        break;
-      case "box":
-        this.createBox(shape, coords);
-        break;
-      case "wall":
-        this.createWall(shape, coords);
-        break;
-      case "cylinder":
-        this.createCylinder(shape, coords);
-        break;
-      case "cone":
-        this.createCone(shape, coords);
-        break;
-      case "torus":
-        this.createTorus(shape, coords);
-        break;
-      case "capsule":
-        this.createCapsule(shape, coords);
-        break;
-      case "ramp":
-        this.createRamp(shape, coords);
-        break;
+    if (shape && coords) {
+      switch (shape.type) {
+        case "sphere":
+          this.createSphere(shape, coords);
+          break;
+        case "box":
+          this.createBox(shape, coords);
+          break;
+        case "wall":
+          this.createWall(shape, coords);
+          break;
+        case "cylinder":
+          this.createCylinder(shape, coords);
+          break;
+        case "cone":
+          this.createCone(shape, coords);
+          break;
+        case "torus":
+          this.createTorus(shape, coords);
+          break;
+        case "capsule":
+          this.createCapsule(shape, coords);
+          break;
+        case "ramp":
+          this.createRamp(shape, coords);
+          break;
+      }
     }
   };
 
-  public createLightBulb = (obj, coords) => {
-    let lightBulb = new BABYLON.PointLight(obj.id, new BABYLON.Vector3(0, 0, 0), this.scene);
+  // Creates a light bulb, light comes from all directions
+  public createLightBulb = (light: Light, coords: Coords) => {
+    let lightBulb = new BABYLON.PointLight(light.id, new BABYLON.Vector3(0, 0, 0), this.scene);
     lightBulb.position.x = coords.x;
     lightBulb.position.y = coords.y;
     lightBulb.position.z = coords.z;
-    if (obj.props.b < 0) obj.props.b = 0;
-    if (obj.props.b > BRIGHTNESS_MAX) obj.props.b = BRIGHTNESS_MAX;
-    lightBulb.intensity = obj.props.b * BRIGHTNESS_MULTIPLIER;
-    lightBulb.diffuse = BABYLON.Color3.FromHexString(obj.props.c);
+    if (light.props.b < 0) light.props.b = 0;
+    if (light.props.b > BRIGHTNESS_MAX) light.props.b = BRIGHTNESS_MAX;
+    lightBulb.intensity = light.props.b * BRIGHTNESS_MULTIPLIER;
+    lightBulb.diffuse = BABYLON.Color3.FromHexString(light.props.c);
   };
 
-  public createSpotlight = (obj, coords) => {
+  // Creates a spotlight, light comes from a specific direction
+  public createSpotlight = (light: Light, coords: Coords) => {
     let spotlight = new BABYLON.SpotLight(
-      obj.id,
+      light.id,
       new BABYLON.Vector3(0, 0, 0),
-      new BABYLON.Vector3(obj.props.x, obj.props.y, obj.props.z), // direction
-      obj.props.s, // beam size
-      obj.props.r, // range
+      new BABYLON.Vector3(light.props.x, light.props.y, light.props.z), // direction
+      light.props.s, // beam size
+      light.props.r, // range
       this.scene
     );
     spotlight.position.x = coords.x;
     spotlight.position.y = coords.y;
     spotlight.position.z = coords.z;
-    if (obj.props.b < 0) obj.props.b = 0;
-    if (obj.props.b > 100) obj.props.b = 100;
-    spotlight.intensity = obj.props.b / 50;
-    spotlight.diffuse = BABYLON.Color3.FromHexString(obj.props.c);
+    if (light.props.b < 0) light.props.b = 0;
+    if (light.props.b > 100) light.props.b = 100;
+    spotlight.intensity = light.props.b / 50;
+    spotlight.diffuse = BABYLON.Color3.FromHexString(light.props.c);
   };
 
-  public createLight = (objArray, coordsArray) => {
-    let obj = objArray[0];
-    let coords = coordsArray[0];
+  // Creates a light
+  public createLight = (lightBlock: LightBlock, coordsBlock: CoordsBlock) => {
+    let light = convertLightBlockToLight(lightBlock);
+    let coords = convertCoordsBlockToCoords(coordsBlock);
 
-    switch (obj.type) {
-      case "lightbulb":
-        this.createLightBulb(obj, coords);
-        break;
-      case "spotlight":
-        this.createSpotlight(obj, coords);
-        break;
+    if (light && coords) {
+      switch (light.type) {
+        case "lightbulb":
+          this.createLightBulb(light, coords);
+          break;
+        case "spotlight":
+          this.createSpotlight(light, coords);
+          break;
+      }
     }
   };
 
+  // Clone a shape into a new mesh and set the position
   public clone = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
     let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
     let coords = convertCoordsBlockToCoords(coordsBlock);
     if (mesh && coords) {
-      let clonedMesh = mesh.clone(`${uuid()}`, null, null);
-      this.moveShape([clonedMesh], coordsBlock);
+      let clonedMesh = mesh.clone(`${mesh.id}-clone`, null, null);
+      clonedMesh.position.x = coords.x;
+      clonedMesh.position.y = coords.y;
+      clonedMesh.position.z = coords.z;
     }
   };
 
@@ -744,10 +813,9 @@ export class ThreeD {
     this.ambientLight.setEnabled(false);
   };
 
-  public showLight = (objArray) => {
-    if (objArray === undefined) return;
-    let obj = objArray[0];
-    let light = this.scene.getLightById(obj.id);
+  // Show a light on the scene to help with debugging
+  public showLight = (lightBlock: LightBlock) => {
+    let light = convertLightBlockToLightInScene(lightBlock, this.scene);
     if (light) {
       let lightSphere = BABYLON.CreateSphere("ls", { diameter: 5 });
       let material = new BABYLON.StandardMaterial("lsm", this.scene);
@@ -757,11 +825,11 @@ export class ThreeD {
     }
   };
 
-  public moveLight = (objArray, coordsArray) => {
-    let obj = objArray[0];
-    let coords = coordsArray[0];
-    let light = this.scene.getLightById(obj.id);
-    if (light) {
+  // Move a light to a new position
+  public moveLight = (lightBlock: LightBlock, coordsBlock: CoordsBlock) => {
+    let light = convertLightBlockToLightInScene(lightBlock, this.scene);
+    let coords = convertCoordsBlockToCoords(coordsBlock);
+    if (light && coords) {
       //@ts-ignore (N/A as we don't allow use to create ambient light types)
       light.position.x = coords.x;
       //@ts-ignore
@@ -771,29 +839,26 @@ export class ThreeD {
     }
   };
 
-  public moveLightAlong = (objArray, axis, steps) => {
-    let obj = objArray[0];
-    if (!obj) return;
-    let light = this.scene.getLightById(obj.id);
+  // Move a light along an axis
+  public moveLightAlong = (lightBlock: LightBlock, axis: string, steps: number) => {
+    let light = convertLightBlockToLightInScene(lightBlock, this.scene);
     if (light) {
       //@ts-ignore
       light.position[axis] += steps;
     }
   };
 
-  public setLightColor = (objArray, color: string) => {
-    let obj = objArray[0];
-    if (!obj) return;
-    let light = this.scene.getLightById(obj.id);
+  // Sets the color of a light
+  public setLightColor = (lightBlock: LightBlock, color: string) => {
+    let light = convertLightBlockToLightInScene(lightBlock, this.scene);
     if (light) {
       light.diffuse = BABYLON.Color3.FromHexString(color);
     }
   };
 
-  public setLightIntensity = (objArray, intensity: number) => {
-    let obj = objArray[0];
-    if (!obj) return;
-    let light = this.scene.getLightById(obj.id);
+  // Sets the intensity of a light
+  public setLightIntensity = (lightBlock: LightBlock, intensity: number) => {
+    let light = convertLightBlockToLightInScene(lightBlock, this.scene);
     if (light) {
       if (intensity < 0) intensity = 0;
       if (intensity > BRIGHTNESS_MAX) intensity = BRIGHTNESS_MAX;
@@ -801,6 +866,7 @@ export class ThreeD {
     }
   };
 
+  // Sets the ambient light intensity
   public setAmbientLightIntensity = (intensity: number) => {
     if (this.ambientLight) {
       if (intensity < 0) intensity = 0;
@@ -809,17 +875,21 @@ export class ThreeD {
     }
   };
 
-  public moveCamera = (coordsArray) => {
-    let coords = coordsArray[0];
-    if (this.camera instanceof BABYLON.ArcRotateCamera) {
-      this.camera.setPosition(new BABYLON.Vector3(coords.x, coords.y, coords.z));
-    }
-    if (this.camera instanceof BABYLON.UniversalCamera) {
-      this.camera.position = new BABYLON.Vector3(coords.x, coords.y, coords.z);
+  // Move the camera to a new position
+  public moveCamera = (coordsBlock: CoordsBlock) => {
+    let coords = convertCoordsBlockToCoords(coordsBlock);
+    if (coords) {
+      if (this.camera instanceof BABYLON.ArcRotateCamera) {
+        this.camera.setPosition(new BABYLON.Vector3(coords.x, coords.y, coords.z));
+      }
+      if (this.camera instanceof BABYLON.UniversalCamera) {
+        this.camera.position = new BABYLON.Vector3(coords.x, coords.y, coords.z);
+      }
     }
   };
 
-  public moveCameraAlong = (axis, units) => {
+  // Move the camera along an axis
+  public moveCameraAlong = (axis: string, units: number) => {
     if (this.camera instanceof BABYLON.ArcRotateCamera) {
       switch (axis) {
         case "x":
@@ -836,20 +906,19 @@ export class ThreeD {
     if (this.camera instanceof BABYLON.UniversalCamera) {
       this.camera.position[axis] = this.camera.position[axis] += units;
     }
-    if (this.camera instanceof VRDeviceOrientationFreeCamera) {
+    if (this.camera instanceof BABYLON.VRDeviceOrientationFreeCamera) {
       this.camera.position[axis] = this.camera.position[axis] += units;
     }
   };
 
+  // Set the camera to a new type
   public setCameraType = (cameraType: string) => {
     this.cameraType = cameraType;
   };
 
-  public pointCameraTowards = (objArray) => {
-    let obj = objArray[0];
-    if (!obj) return;
-
-    let mesh = this.scene.getMeshById(obj.id);
+  // Point the camera towards a shape
+  public pointCameraTowards = (shapeBlock: ShapeBlock) => {
+    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
     if (mesh) {
       if (this.camera instanceof BABYLON.FollowCamera) {
         this.camera.lockedTarget = mesh;
@@ -863,6 +932,7 @@ export class ThreeD {
     }
   };
 
+  // Set the camera distance for follow cameras
   public keepDistanceOf = (units: number) => {
     if (this.camera instanceof BABYLON.FollowCamera) {
       this.camera.radius = units;
