@@ -11,8 +11,8 @@ export let onKeyPress = {
       )
       .appendField("is pressed");
     this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+    this.setPreviousStatement(false, null);
+    this.setNextStatement(false, null);
     this.setColour(295);
   },
 

@@ -793,6 +793,13 @@ export class ThreeD {
     }
   };
 
+  // Sets overall gravity for the scene
+  public setGravity = (units: number) => {
+    if (this.physicsEnabled) {
+      this.scene.getPhysicsEngine().setGravity(new BABYLON.Vector3(0, 0 - units * 10, 0));
+    }
+  };
+
   // Apply a force to a shape
   public applyForce = (shapeBlock: ShapeBlock, axis: string, units: number) => {
     let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
@@ -800,7 +807,17 @@ export class ThreeD {
       let vector = { x: 0, y: 0, z: 0 };
       vector[axis] = units;
       let direction = new BABYLON.Vector3(vector.x, vector.y, vector.z);
-      mesh.physicsImpostor.applyForce(direction.scale(50), mesh.getAbsolutePosition());
+      if (mesh.physicsImpostor) {
+        mesh.physicsImpostor.applyForce(direction.scale(50), mesh.getAbsolutePosition());
+      }
+    }
+  };
+
+  // Set the mass of a shape
+  public setMass = (shapeBlock: ShapeBlock, mass: number) => {
+    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
+    if (mesh && this.physicsEnabled === true) {
+      mesh.physicsImpostor.mass = mass;
     }
   };
 

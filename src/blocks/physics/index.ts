@@ -1,3 +1,5 @@
+import { setGravity } from "./setGravity";
 import { applyForce } from "./applyForce";
+import { setMass } from "./setMass";
 
-export { applyForce };
+export { setGravity, applyForce, setMass };

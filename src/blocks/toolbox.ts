@@ -994,6 +994,20 @@ export let toolbox = {
       contents: [
         {
           kind: "block",
+          type: "setGravity",
+          inputs: {
+            MS: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 9.81,
+                },
+              },
+            },
+          },
+        },
+        {
+          kind: "block",
           type: "applyForce",
           inputs: {
             UNITS: {
@@ -1001,6 +1015,20 @@ export let toolbox = {
                 type: "math_number",
                 fields: {
                   NUM: 50,
+                },
+              },
+            },
+          },
+        },
+        {
+          kind: "block",
+          type: "setMass",
+          inputs: {
+            MASS: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 10,
                 },
               },
             },

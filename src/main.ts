@@ -73,7 +73,9 @@ createCustomBlock("animationStop", animation.stop);
 createCustomBlock("onClick", events.onClick);
 createCustomBlock("onKeyPress", events.onKeyPress);
 
+createCustomBlock("setGravity", physics.setGravity);
 createCustomBlock("applyForce", physics.applyForce);
+createCustomBlock("setMass", physics.setMass);
 
 createCustomBlock("ambientOn", lighting.amibentOn);
 createCustomBlock("ambientOff", lighting.ambientOff);
