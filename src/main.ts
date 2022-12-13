@@ -59,6 +59,7 @@ createCustomBlock("grass", materials.grass);
 createCustomBlock("gravel", materials.gravel);
 createCustomBlock("marble", materials.marble);
 createCustomBlock("planets", materials.planets);
+createCustomBlock("road", materials.road);
 createCustomBlock("roofingtiles", materials.roofingtiles);
 createCustomBlock("snow", materials.snow);
 createCustomBlock("sports", materials.sports);

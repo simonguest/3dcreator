@@ -732,6 +732,10 @@ export let toolbox = {
           type: "planets",
         },
         {
+          kind: "block", 
+          type: "road",
+        },
+        {
           kind: "block",
           type: "roofingtiles",
         },

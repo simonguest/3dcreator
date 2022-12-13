@@ -551,7 +551,7 @@ export class ThreeD {
   // Creates the ground
   public createGround = (shape: Shape) => {
     if (this.ground) this.ground.dispose();
-    if (shape.tileSize < 0) shape.tileSize = 1;
+    if (shape.tileSize <= 0) shape.tileSize = 1;
     let width = shape.size.w;
     let length = shape.size.l;
     let tileSize = shape.tileSize;
@@ -946,7 +946,7 @@ export class ThreeD {
         this.camera.target = mesh.position;
       }
       if (this.camera instanceof BABYLON.ArcRotateCamera) {
-        this.camera.target = mesh.position;
+        this.camera.focusOn([mesh], true);
       }
     }
   };

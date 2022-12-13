@@ -12,6 +12,7 @@ import { grass } from "./grass";
 import { gravel } from "./gravel";
 import { marble } from "./marble";
 import { planets } from "./planets";
+import { road } from "./road";
 import { roofingtiles } from "./roofingtiles";
 import { snow } from "./snow";
 import { sports } from "./sports";
@@ -19,4 +20,4 @@ import { tiles } from "./tiles";
 import { wood } from "./wood";
 import { woodfloor } from "./woodfloor";
 
-export { none, matte, glass, gloss, metal, bricks, carpet, chip, codeorg, fabric, grass, gravel, marble, roofingtiles, snow, tiles, wood, woodfloor, planets, sports };
+export { none, matte, glass, gloss, metal, bricks, carpet, chip, codeorg, fabric, grass, gravel, marble, road, roofingtiles, snow, tiles, wood, woodfloor, planets, sports };
