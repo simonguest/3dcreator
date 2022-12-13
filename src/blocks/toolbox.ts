@@ -709,11 +709,19 @@ export let toolbox = {
         },
         {
           kind: "block",
+          type: "codeorg",
+        },
+        {
+          kind: "block",
           type: "fabric",
         },
         {
           kind: "block",
           type: "grass",
+        },
+        {
+          kind: "block",
+          type: "gravel",
         },
         {
           kind: "block",
