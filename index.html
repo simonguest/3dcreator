@@ -11,22 +11,27 @@
   <body>
     <div id="container">
       <div id="header">
-        <button id="reset">Reset</button>
-        <button id="physics" data-enabled="false">Enable Physics</button>
-        <button id="fullscreen">Full Screen</button>
-        <button id="clear">Clear</button>
-        <select id="examples">
-          <option value="" selected="true">Examples...</option>
-          <option value="garden.json">Simple Garden</option>
-        </select>
-        <button id="export">Export</button>
-        <input type="file" id="import" />
+        <div id="buttonrow">
+          <img id="logo" src="./static/icons/logo.svg" alt="Code.org logo" />
+          <p id="title">3D Lab</p>
+          <p></p>
+          <button id="reset" class="button"></button>
+          <button id="physics" class="button" data-enabled="false"></button>
+          <button id="fullscreen" class="button"></button>
+          <button id="clear" class="button"></button>
+          <select id="examples">
+            <option value="" selected="true">Examples...</option>
+            <option value="garden.json">Simple Garden</option>
+          </select>
+          <button id="export" class="button"></button>
+          <input type="file" id="import" />
+        </div>
       </div>
       <div id="split">
         <div id="runArea">
           <canvas id="runAreaCanvas"></canvas>
         </div>
-        <span id="columnResizer"></span>
+        <span id="columnResizer"><img id="drag" src="./static/icons/drag.svg"></span>
         <div id="blocklyArea">Loading Workspace...</div>
       </div>
       <div id="footer">

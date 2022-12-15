@@ -12,12 +12,13 @@ body {
 
 #container {
   display: grid;
-  grid-template-rows: 25px calc(100% - 50px) 25px;
+  grid-template-rows: 45px calc(100% - 60px) 15px;
   height: 100%;
 }
 
 #header {
   grid-row: 1;
+  background-color: #5d5d73;
 }
 
 #split {
@@ -47,7 +48,7 @@ body {
   top: 0;
   right: 0;
   margin: 0;
-  width: 4px;
+  width: 6px;
   height: 100%;
   padding: 0;
   cursor: col-resize;
@@ -56,9 +57,82 @@ body {
 
 #footer {
   grid-row: 3;
+  background-color: #5d5d73;
+  color: #fff;
+  font-family: 'Monaco';
+  font-size: small;
 }
 
 .blocklyTreeLabel {
     font-family: Monaco;
   font-size: 12px !important;
+}
+
+#logo {
+  height: 40px;
+  padding-top: 2px;
+}
+
+#title {
+  font-size: 16px;
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+  height: 40px;
+  margin: 12 0 12 0;
+}
+
+#buttonrow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 10px;
+  width: 40%;
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+  background-size: 100%;
+  height: 40px;
+  width: 40px;
+  margin-top: 2;
+  margin-bottom: 2;
+}
+
+#reset {
+  background-image: url(../static/icons/restart.svg);
+  background-repeat: no-repeat;
+}
+
+#physics {
+  background-image: url(../static/icons/toggle_on.svg);
+  background-repeat: no-repeat;
+}
+
+#fullscreen {
+  background-image: url(../static/icons/fullscreen.svg);
+  background-repeat: no-repeat;
+}
+
+#clear {
+  background-image: url(../static/icons/delete.svg);
+  background-repeat: no-repeat;
+}
+
+#export {
+  background-image: url(../static/icons/download.svg);
+  background-repeat: no-repeat;
+}
+
+#drag {
+  z-index: 999;
+  position: relative;
+  background-color: white;
+  width: 22px;
+  top: 45%;
+  left: -9px;
+  pointer-events: none;
+  cursor: col-resize;
+  clip-path: inset(0% 19%);
+  user-select: none;
 }
