@@ -303,16 +303,16 @@ async function init() {
   physicsButton.onmouseup = async (e) => {
     e.preventDefault();
     console.log("physics button pressed");
-    if (physicsButton.getAttribute("data-enabled") === "false") {
+    if (!physicsEnabled) {
       console.log("Physics engine enabled");
-      physicsButton.setAttribute("data-enabled", "true");
-      physicsButton.innerText = "Disable Physics";
+      physicsButton.classList.remove("physics-off");
+      physicsButton.classList.add("physics-on");
       physicsEnabled = true;
       await run(false, true);
     } else {
       console.log("Physics engine disabled");
-      physicsButton.setAttribute("data-enabled", "false");
-      physicsButton.innerText = "Enable Physics";
+      physicsButton.classList.remove("physics-on");
+      physicsButton.classList.add("physics-off");
       physicsEnabled = false;
       await run(false, false);
     }
