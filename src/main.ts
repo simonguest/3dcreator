@@ -177,6 +177,7 @@ const getUniqueNameForField = (prefix, block) => {
 };
 
 let physicsEnabled = false;
+let inspectorEnabled = false;
 
 workspace.addChangeListener(async (ev) => {
   if (
@@ -277,6 +278,7 @@ window.addEventListener("resize", function () {
 let resetButton = document.getElementById("reset");
 let physicsButton = document.getElementById("physics");
 let fullscreenButton = document.getElementById("fullscreen");
+let debugButton = document.getElementById("debug");
 
 async function run(reset?: boolean, physics?: boolean) {
   console.log("Running");
@@ -284,7 +286,7 @@ async function run(reset?: boolean, physics?: boolean) {
   // Generate the required code
   let code = javascriptGenerator.workspaceToCode(workspace);
   console.log(`CODE: ${code}`);
-  eval(`threeD.createScene(${reset}, ${physics}); ${code} threeD.createCamera(); stop();`);
+  eval(`threeD.createScene(${reset}, ${physics}); ${code} threeD.createCamera();`);
 }
 
 async function init() {
@@ -320,6 +322,18 @@ async function init() {
     e.preventDefault();
     console.log("full screen button pressed");
     threeD.engine.enterFullscreen(false);
+    await run(false, physicsEnabled);
+  }
+
+  debugButton.onmouseup = async (e) => {
+    e.preventDefault();
+    console.log("debug button pressed");
+    inspectorEnabled = !inspectorEnabled;
+    if (inspectorEnabled) {
+      threeD.enableInspector();
+    } else {
+      threeD.disableInspector();
+    }
   }
 
   document.getElementById("clear").onclick = () => {
@@ -388,7 +402,7 @@ async function init() {
   document.getElementById("columnResizer").onmousedown = () => {
     document.addEventListener("mousemove", broadcastColumnResize);
     document.onmouseup = () => {
-      console.log("done now");
+      console.log("resize complete");
       document.removeEventListener("mousemove", broadcastColumnResize);
     };
   };

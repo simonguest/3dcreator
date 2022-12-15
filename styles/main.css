@@ -86,7 +86,7 @@ body {
   flex-direction: row;
   justify-content: space-between;
   padding: 0 10px;
-  width: 35%;
+  width: 625px;
 }
 
 .button {
@@ -121,6 +121,11 @@ body {
 
 #fullscreen {
   background-image: url(../static/icons/fullscreen.svg);
+  background-repeat: no-repeat;
+}
+
+#debug {
+  background-image: url(../static/icons/debug.svg);
   background-repeat: no-repeat;
 }
 

@@ -964,4 +964,8 @@ export class ThreeD {
   public enableInspector = () => {
     this.scene.debugLayer.show({ embedMode: false });
   };
+
+  public disableInspector = () => {
+    this.scene.debugLayer.hide();
+  }
 }
