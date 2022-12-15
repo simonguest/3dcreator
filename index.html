@@ -13,25 +13,32 @@
       <div id="header">
         <div id="buttonrow">
           <img id="logo" src="./static/icons/logo.svg" alt="Code.org logo" />
-          <p id="title">3D Lab</p>
+          <img id="title3d" src="./static/icons/3d.svg" />
           <p></p>
           <button id="reset" class="button"></button>
-          <button id="physics" class="button" data-enabled="false"></button>
+          <button id="physics" class="button physics-off" data-enabled="false"></button>
           <button id="fullscreen" class="button"></button>
-          <button id="clear" class="button"></button>
+          <p></p>
+          <button id="examples" class="button"></button>
           <select id="examples">
             <option value="" selected="true">Examples...</option>
             <option value="garden.json">Simple Garden</option>
           </select>
+          <div id="image-upload">
+            <label for="import">
+              <img src="./static/icons/upload.svg" class="button" />
+            </label>
+            <input id="import" type="file" />
+          </div>
           <button id="export" class="button"></button>
-          <input type="file" id="import" />
+          <button id="clear" class="button"></button>
         </div>
       </div>
       <div id="split">
         <div id="runArea">
           <canvas id="runAreaCanvas"></canvas>
         </div>
-        <span id="columnResizer"><img id="drag" src="./static/icons/drag.svg"></span>
+        <span id="columnResizer"><img id="drag" src="./static/icons/drag.svg" /></span>
         <div id="blocklyArea">Loading Workspace...</div>
       </div>
       <div id="footer">
