@@ -100,23 +100,23 @@ createCustomBlock("debug", math.debug);
 
 let blocklyArea = document.getElementById("blocklyArea");
 let blocklyDiv = document.getElementById("blocklyDiv");
-var theme = Blockly.Theme.defineTheme('test', {
-  'base': Blockly.Themes.Zelos,
-  'name': "test",
-  'componentStyles': {
-    'workspaceBackgroundColour': '#ccc',
-    'toolboxBackgroundColour': '#5d5d73',
-    'toolboxForegroundColour': '#fff',
-    'flyoutBackgroundColour': '#3d3d53',
-    'flyoutForegroundColour': '#ddd',
-    'flyoutOpacity': 0.8,
-    'scrollbarColour': '#797979',
-    'insertionMarkerColour': '#fff',
-    'insertionMarkerOpacity': 0.3,
-    'scrollbarOpacity': 0.4,
-    'cursorColour': '#d0d0d0',
+var theme = Blockly.Theme.defineTheme("test", {
+  base: Blockly.Themes.Zelos,
+  name: "test",
+  componentStyles: {
+    workspaceBackgroundColour: "#ccc",
+    toolboxBackgroundColour: "#5d5d73",
+    toolboxForegroundColour: "#fff",
+    flyoutBackgroundColour: "#3d3d53",
+    flyoutForegroundColour: "#ddd",
+    flyoutOpacity: 0.8,
+    scrollbarColour: "#797979",
+    insertionMarkerColour: "#fff",
+    insertionMarkerOpacity: 0.3,
+    scrollbarOpacity: 0.4,
+    cursorColour: "#d0d0d0",
   },
-  "fontStyle": {  "family": "Monaco",  "weight": "bold",  "size": 10},
+  fontStyle: { family: "Monaco", weight: "bold", size: 10 },
 });
 let workspace = Blockly.inject("blocklyDiv", {
   toolbox: toolbox,
@@ -131,7 +131,7 @@ let workspace = Blockly.inject("blocklyDiv", {
     wheel: true,
   },
   theme: "test",
-  zoom: { controls: true, wheel: true, startScale: 0.9, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2},
+  zoom: { controls: true, wheel: true, startScale: 0.9, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2 },
   trashcan: false,
 });
 let onresize = function () {
@@ -279,6 +279,8 @@ let resetButton = document.getElementById("reset");
 let physicsButton = document.getElementById("physics");
 let fullscreenButton = document.getElementById("fullscreen");
 let debugButton = document.getElementById("debug");
+let examplesButton = document.getElementById("examples");
+let examplesDropDown = document.getElementById("examples-dropdown")
 
 async function run(reset?: boolean, physics?: boolean) {
   console.log("Running");
@@ -323,7 +325,7 @@ async function init() {
     console.log("full screen button pressed");
     threeD.engine.enterFullscreen(false);
     await run(false, physicsEnabled);
-  }
+  };
 
   debugButton.onmouseup = async (e) => {
     e.preventDefault();
@@ -334,7 +336,7 @@ async function init() {
     } else {
       threeD.disableInspector();
     }
-  }
+  };
 
   document.getElementById("clear").onclick = () => {
     console.log("clear session button pressed");
@@ -343,17 +345,32 @@ async function init() {
       location.reload();
     }
   };
-  document.getElementById("examples")["value"] = "";
-  document.getElementById("examples").onchange = async (e) => {
-    console.log("example workspace changed");
-    if (e.target["value"]) {
-      if (confirm("Loading this example workspace will lose all unsaved work. Continue?")) {
-        const response = await fetch(`./examples/${e.target["value"]}`);
-        const json = await response.json();
-        Blockly.serialization.workspaces.load(json, workspace);
-      }
+
+  examplesButton.onmouseup = async (e) => {
+    e.preventDefault();
+    if (getComputedStyle(examplesDropDown).display === "none") {
+      examplesDropDown.style.display = "flex";
+    } else {
+      examplesDropDown.style.display = "none";
     }
   };
+
+  let projects = document.getElementsByClassName("examples-dropdown-item");
+  console.log(new Array(projects));
+  Array.from(projects).forEach((element) => {
+    element.addEventListener("click", async (e) => {
+      e.preventDefault();
+      let filename = (e.target as Element).getAttribute("data-file");
+      if (confirm("Loading this example workspace will lose all unsaved work. Continue?")) {
+        const response = await fetch(`./examples/${filename}`);
+        const json = await response.json();
+        Blockly.serialization.workspaces.load(json, workspace);
+        examplesDropDown.style.display = "none";
+      } else {
+        examplesDropDown.style.display = "none";
+      }
+    });
+  });
 
   document.getElementById("export").onclick = () => {
     console.log("export workspace button pressed");
