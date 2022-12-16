@@ -86,17 +86,17 @@ body {
   flex-direction: row;
   justify-content: space-between;
   padding: 0 10px;
-  width: 575px;
+  width: 500px;
 }
 
 .button {
   background-color: transparent;
   border: none;
   background-size: 100%;
-  height: 40px;
-  width: 40px;
-  margin-top: 2;
-  margin-bottom: 2;
+  height: 30px;
+  width: 30px;
+  margin-top: 7;
+  margin-bottom: 7;
   cursor: pointer;
 }
 
@@ -176,7 +176,7 @@ body {
   display: none;
   flex-direction: column;
   top: 45px;
-  left: 380px;
+  left: 345px;
   width: 200px;
   background-color: #5d5d73;
   min-width: 160px;
