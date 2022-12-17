@@ -116,7 +116,7 @@ var theme = Blockly.Theme.defineTheme("test", {
     scrollbarOpacity: 0.4,
     cursorColour: "#d0d0d0",
   },
-  fontStyle: { family: "Monaco", weight: "bold", size: 10 },
+  fontStyle: { family: "Roboto Mono", size: 10 },
 });
 let workspace = Blockly.inject("blocklyDiv", {
   toolbox: toolbox,

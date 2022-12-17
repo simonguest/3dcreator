@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Roboto Mono";
+  src: url(../static/fonts/RobotoMono-VariableFont_wght.ttf);
+}
+
 html,
 body {
   height: 100%;
@@ -12,7 +17,7 @@ body {
 
 #container {
   display: grid;
-  grid-template-rows: 45px calc(100% - 60px) 15px;
+  grid-template-rows: 45px calc(100% - 65px) 20px;
   height: 100%;
 }
 
@@ -59,26 +64,23 @@ body {
   grid-row: 3;
   background-color: #5d5d73;
   color: #fff;
-  font-family: 'Monaco';
+  font-family: 'Roboto Mono';
   font-size: small;
 }
 
 .blocklyTreeLabel {
-    font-family: Monaco;
+    font-family: "Roboto Mono";
   font-size: 12px !important;
+}
+
+.blocklyText {
+  font-family: "Roboto Mono";
+  font-size: 10px;
 }
 
 #logo {
   height: 40px;
   padding-top: 2px;
-}
-
-#title {
-  font-size: 16px;
-  color: #fff;
-  font-family: "Roboto", sans-serif;
-  height: 40px;
-  margin: 12 0 12 0;
 }
 
 #buttonrow {
@@ -186,6 +188,6 @@ body {
 
 #examples-dropdown button {
   font-weight: bold;
-  font-family: "Monaco";
+  font-family: "Roboto Mono";
   text-align: left;
 }
