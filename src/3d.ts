@@ -624,12 +624,17 @@ export class ThreeD {
     }
   };
 
+  // Creates a shape and adds it to a parent
   public createShapeAndAddTo = (shapeBlock: ShapeBlock, parent: ShapeBlock, coordsBlock: CoordsBlock) => {
     this.createShape(shapeBlock, coordsBlock);
+    this.addTo(shapeBlock, parent);
+  }
+
+  // Adds a shape to a parent
+  public addTo = (shapeBlock: ShapeBlock, parent: ShapeBlock) => {
     let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
     let parentMesh = convertShapeBlockToMesh(parent, this.scene);
     if (mesh && parentMesh) {
-      // parentMesh.addChild(mesh);
       let meshes = [];
       meshes.push(parentMesh);
       meshes.push(mesh);
@@ -733,20 +738,6 @@ export class ThreeD {
     if (mesh) {
       mesh.position[axis] += steps;
     }
-  };
-
-  public merge = (shapeBlock: ShapeBlock, objectsToMerge) => {
-    // if (!shapeBlock) return;
-    // let shape = shapeBlock[0];
-    // let meshes = [];
-    // if (objectsToMerge.length === 0) return;
-    // objectsToMerge.forEach((childObj) => {
-    //   meshes.push(this.scene.getMeshById(childObj[0].id));
-    // });
-    // let mergedMesh = BABYLON.Mesh.MergeMeshes(meshes, true, true, undefined, false, true);
-    // mergedMesh.id = shape.id;
-    // mergedMesh.actionManager = new BABYLON.ActionManager(this.scene);
-    // this.actionManagers.push(mergedMesh.actionManager);
   };
 
   // Convert degrees to radians

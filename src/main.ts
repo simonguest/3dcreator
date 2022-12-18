@@ -42,7 +42,7 @@ createCustomBlock("moveShapeAlong", world.moveShapeAlong);
 createCustomBlock("rotate", world.rotate);
 createCustomBlock("clone", world.clone);
 createCustomBlock("remove", world.remove);
-createCustomBlock("merge", world.merge);
+createCustomBlock("addTo", world.addTo);
 createCustomBlock("coordinates", world.coordinates);
 createCustomBlock("getPosition", world.getPosition);
 

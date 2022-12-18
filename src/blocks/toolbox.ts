@@ -497,7 +497,7 @@ export let toolbox = {
         },
         {
           kind: "block",
-          type: "merge",
+          type: "addTo",
         },
         {
           kind: "block",

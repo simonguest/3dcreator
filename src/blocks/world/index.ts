@@ -9,7 +9,7 @@ import { moveShapeAlong } from "./moveShapeAlong";
 import { rotate } from "./rotate";
 import { clone } from "./clone";
 import { remove } from "./remove";
-import { merge } from "./merge";
+import { addTo  } from "./addTo";
 
 import { coordinates } from "./coordinates";
 
@@ -26,7 +26,7 @@ export {
   rotate,
   clone,
   remove,
-  merge,
+  addTo,
   coordinates,
   getPosition,
 };
