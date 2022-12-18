@@ -1,17 +1,13 @@
 import { javascriptGenerator } from "blockly/javascript";
 import Blockly from "blockly";
 
-export let createShapeAs = {
-  getUniqueNameForVar: function (prefix) {
-    let counter = 1;
-    let vars = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace());
-    while (true) {
-      var newName = prefix + "_" + counter;
-      //@ts-ignore
-      if (!vars.map(v => v.name).includes(newName)) {
-        return newName;
-      }
-      counter++;
+export let createShapeAndAddTo = {
+  getFirstVar: function () {
+    let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace());
+    if (varModels.length > 0) {
+      return varModels[0]["name"];
+    } else {
+      return "item";
     }
   },
 
@@ -20,8 +16,8 @@ export let createShapeAs = {
       .appendField("Create shape")
     this.appendValueInput("SHAPE")
       .setCheck("SHAPE")
-      .appendField("as")
-      .appendField(new Blockly.FieldVariable(this.getUniqueNameForVar("shape")), "VAR");
+      .appendField("and add to")
+      .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
     this.appendValueInput("COORDS").setCheck("COORDS").appendField("at coords");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);
@@ -36,6 +32,6 @@ export let createShapeAs = {
     if (shape === "") return "";
     if (coords === "") return "";
 
-    return `${variable} = ${shape}; threeD.createShape(${variable}, ${coords});`;
+    return `threeD.createShapeAndAddTo(${shape}, ${variable}, ${coords});`;
   },
 };

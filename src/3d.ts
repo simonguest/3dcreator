@@ -624,6 +624,30 @@ export class ThreeD {
     }
   };
 
+  public createShapeAndAddTo = (shapeBlock: ShapeBlock, parent: ShapeBlock, coordsBlock: CoordsBlock) => {
+    this.createShape(shapeBlock, coordsBlock);
+    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
+    let parentMesh = convertShapeBlockToMesh(parent, this.scene);
+    if (mesh && parentMesh) {
+      // parentMesh.addChild(mesh);
+      let meshes = [];
+      meshes.push(parentMesh);
+      meshes.push(mesh);
+      let mergedMesh = BABYLON.Mesh.MergeMeshes(meshes, true, true, undefined, false, true);
+      mergedMesh.id = parentMesh.id;
+      mergedMesh.actionManager = new BABYLON.ActionManager(this.scene);
+      this.actionManagers.push(mergedMesh.actionManager);
+      if (this.physicsEnabled === true) {
+        mergedMesh.physicsImpostor = new BABYLON.PhysicsImpostor(
+          mergedMesh,
+          BABYLON.PhysicsImpostor.BoxImpostor,
+          { mass: 1, restitution: 0.7, friction: 1.0 },
+          this.scene
+        );
+      }
+    }
+  }
+
   // Creates a light bulb, light comes from all directions
   public createLightBulb = (light: Light, coords: Coords) => {
     let lightBulb = new BABYLON.PointLight(light.id, new BABYLON.Vector3(0, 0, 0), this.scene);

@@ -354,6 +354,43 @@ export let toolbox = {
         },
         {
           kind: "block",
+          type: "createShapeAndAddTo",
+          inputs: {
+            COORDS: {
+              block: {
+                type: "coordinates",
+                inputs: {
+                  X: {
+                    shadow: {
+                      type: "math_number",
+                      fields: {
+                        NUM: 0,
+                      },
+                    },
+                  },
+                  Y: {
+                    shadow: {
+                      type: "math_number",
+                      fields: {
+                        NUM: 5,
+                      },
+                    },
+                  },
+                  Z: {
+                    shadow: {
+                      type: "math_number",
+                      fields: {
+                        NUM: 0,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          kind: "block",
           type: "moveShape",
           inputs: {
             COORDS: {

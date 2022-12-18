@@ -36,6 +36,7 @@ createCustomBlock("ramp", shapes.ramp);
 
 createCustomBlock("createShape", world.createShape);
 createCustomBlock("createShapeAs", world.createShapeAs);
+createCustomBlock("createShapeAndAddTo", world.createShapeAndAddTo);
 createCustomBlock("moveShape", world.moveShape);
 createCustomBlock("moveShapeAlong", world.moveShapeAlong);
 createCustomBlock("rotate", world.rotate);
