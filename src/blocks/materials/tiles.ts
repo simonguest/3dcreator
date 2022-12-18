@@ -7,6 +7,7 @@ export let tiles = {
             .appendField('Tiles: ');
         let options = [
             [{'src': '../assets/materials/tiles/Tiles053_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Tiles053'}, 'tiles/Tiles053'],
+            [{'src': '../assets/materials/tiles/Tiles074_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Tiles074'}, 'tiles/Tiles074'],
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
         this.setOutput(true, "MATERIAL");

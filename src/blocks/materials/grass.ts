@@ -7,6 +7,7 @@ export let grass = {
             .appendField('Grass: ');
         let options = [
             [{'src': '../assets/materials/grass/Grass001_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Grass001'}, 'grass/Grass001'],
+            [{'src': '../assets/materials/grass/Grass002_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Grass002'}, 'grass/Grass002'],
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
         this.setOutput(true, "MATERIAL");

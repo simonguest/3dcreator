@@ -7,6 +7,7 @@ export let bricks = {
             .appendField('Bricks: ');
         let options = [
             [{'src': '../assets/materials/bricks/Bricks057_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Brick057'}, 'bricks/Bricks057'],
+            [{'src': '../assets/materials/bricks/Bricks075A_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Brick075A'}, 'bricks/Bricks075A'],
 
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
