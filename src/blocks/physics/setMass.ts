@@ -14,7 +14,7 @@ export let setMass = {
   init: function () {
     this.appendValueInput("MASS")
       .setCheck("Number")
-      .appendField("Set mass of ")
+      .appendField("set mass of ")
       .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
       .appendField("to");
     this.setInputsInline(false);

@@ -5,7 +5,7 @@ export let keepDistanceOf = {
     init: function () {
         this.appendValueInput("UNITS")
             .setCheck("Number")
-            .appendField("Keep distance of")
+            .appendField("keep distance of")
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);

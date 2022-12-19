@@ -2,7 +2,7 @@ import { javascriptGenerator } from "blockly/javascript";
 
 export let cylinder = {
   init: function () {
-    this.appendDummyInput().appendField("Cylinder");
+    this.appendDummyInput().appendField("cylinder");
     this.appendValueInput("H").setCheck("Number").appendField("height");
     this.appendValueInput("D").setCheck("Number").appendField("diameter");
     this.appendValueInput("MATERIAL").setCheck("MATERIAL").appendField("material");

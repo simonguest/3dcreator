@@ -12,7 +12,7 @@ export let getPosition = {
   },
   init: function () {
     this.appendDummyInput()
-      .appendField("Position of")
+      .appendField("position of")
       .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
       .appendField("along")
       .appendField(

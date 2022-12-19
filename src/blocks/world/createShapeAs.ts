@@ -17,7 +17,7 @@ export let createShapeAs = {
 
   init: function () {
     this.appendDummyInput()
-      .appendField("Create shape")
+      .appendField("create shape")
     this.appendValueInput("SHAPE")
       .setCheck("SHAPE")
       .appendField("as")

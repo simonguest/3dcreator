@@ -18,7 +18,7 @@ export let createLightAs = {
   init: function () {
     this.appendValueInput("LIGHT")
       .setCheck("LIGHT")
-      .appendField("Create light as")
+      .appendField("create light as")
       .appendField(new Blockly.FieldVariable(this.getUniqueNameForVar("light")), "VAR");
     this.appendValueInput("COORDS").setCheck("COORDS").appendField("at coords");
     this.setInputsInline(false);

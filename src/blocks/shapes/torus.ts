@@ -2,7 +2,7 @@ import { javascriptGenerator } from "blockly/javascript";
 
 export let torus = {
   init: function () {
-    this.appendDummyInput().appendField("Torus ");
+    this.appendDummyInput().appendField("torus");
     this.appendValueInput("D").setCheck("Number").appendField("diameter");
     this.appendValueInput("T").setCheck("Number").appendField("thickness");
     this.appendValueInput("MATERIAL").setCheck("MATERIAL").appendField("material");

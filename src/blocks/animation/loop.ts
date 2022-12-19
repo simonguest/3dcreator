@@ -5,9 +5,11 @@ export let loop = {
     init: function () {
         this.appendStatementInput("LOOP")
             .setCheck(null)
-            .appendField("Animation loop")
+            .appendField("create animation loop")
             .appendField(new Blockly.FieldTextInput("animation"), "NAME");
         this.setColour(330);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
         this.setTooltip("");
         this.setHelpUrl("");
     },

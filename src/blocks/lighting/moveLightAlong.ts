@@ -12,7 +12,7 @@ export let moveLightAlong = {
     },
     init: function () {
         this.appendDummyInput()
-            .appendField("Move light")
+            .appendField("move light")
             .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR");
         this.appendValueInput("STEPS")
             .setCheck("Number")

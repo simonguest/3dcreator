@@ -14,7 +14,7 @@ export let setLightIntensity = {
   init: function () {
     this.appendValueInput("INTENSITY")
       .setCheck("Number")
-      .appendField("Set brightness of ")
+      .appendField("set brightness of ")
       .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
       .appendField("to");
     this.setInputsInline(false);

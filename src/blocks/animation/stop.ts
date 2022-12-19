@@ -4,7 +4,7 @@ import Blockly, { FieldDropdown } from "blockly";
 export let stop = {
   init: function () {
     this.appendDummyInput("INPUT")
-      .appendField("Stop animation")
+      .appendField("stop animation")
       .appendField(new Blockly.FieldDropdown([["none","none"]]), "ANIMATIONS");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);

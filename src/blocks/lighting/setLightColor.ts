@@ -13,7 +13,7 @@ export let setLightColor = {
 
   init: function () {
     this.appendDummyInput()
-      .appendField("Set color of ")
+      .appendField("set color of ")
       .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
       .appendField("to")
       .appendField(new Blockly.FieldColour("#ffffff", null), "COLOR");

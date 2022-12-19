@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let marble = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Marble: ');
+            .appendField('marble: ');
         let options = [
             [{'src': '../assets/materials/marble/Marble008_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Marble008'}, 'marble/Marble008'],
             [{'src': '../assets/materials/marble/Marble012_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Marble012'}, 'marble/Marble012'],

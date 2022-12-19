@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let carpet = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Carpet: ');
+            .appendField('carpet: ');
         let options = [
             [{'src': '../assets/materials/carpet/Carpet006_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Carpet006'}, 'carpet/Carpet006'],
             [{'src': '../assets/materials/carpet/Carpet008_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Carpet008'}, 'carpet/Carpet008'],

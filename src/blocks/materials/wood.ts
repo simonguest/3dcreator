@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let wood = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Wood: ');
+            .appendField('wood: ');
         let options = [
             [{'src': '../assets/materials/wood/Wood048_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Wood048'}, 'wood/Wood048'],
 

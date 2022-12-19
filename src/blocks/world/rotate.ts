@@ -12,7 +12,7 @@ export let rotate = {
     },
     init: function () {
         this.appendDummyInput()
-            .appendField("Rotate")
+            .appendField("rotate")
             .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR");
         this.appendValueInput("DEGREES")
             .setCheck("Number")

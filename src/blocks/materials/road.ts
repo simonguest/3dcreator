@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let road = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Road: ');
+            .appendField('road: ');
         let options = [
             [{'src': '../assets/materials/road/Road003_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Road003'}, 'road/Road003'],
             [{'src': '../assets/materials/road/Road006_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Road006'}, 'road/Road006'],

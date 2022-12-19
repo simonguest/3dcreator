@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let fabric = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Fabric: ');
+            .appendField('fabric: ');
         let options = [
             [{'src': '../assets/materials/fabric/Fabric026_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Fabric026'}, 'fabric/Fabric026'],
             [{'src': '../assets/materials/fabric/Fabric046_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Fabric046'}, 'fabric/Fabric046'],

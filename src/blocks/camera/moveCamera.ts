@@ -4,7 +4,7 @@ import Blockly from "blockly";
 export let moveCamera = {
     init: function () {
         this.appendDummyInput()
-            .appendField("Move camera to")
+            .appendField("move camera to")
         this.appendValueInput("COORDS")
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);

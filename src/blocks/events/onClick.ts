@@ -12,12 +12,12 @@ export let onClick = {
     },
     init: function () {
         this.appendStatementInput("EVENT")
-            .appendField("When")
+            .appendField("when")
             .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
             .appendField("is clicked");
         this.setInputsInline(true);
-        this.setPreviousStatement(false, null);
-        this.setNextStatement(false, null);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
         this.setColour(295);
     },
 

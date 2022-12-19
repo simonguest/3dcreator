@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let gravel = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Gravel: ');
+            .appendField('gravel: ');
         let options = [
             [{'src': '../assets/materials/gravel/Gravel026_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Gravel026'}, 'gravel/Gravel026'],
             [{'src': '../assets/materials/gravel/Gravel035_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Gravel035'}, 'gravel/Gravel035'],

@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let sports = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Sport: ');
+            .appendField('sport: ');
         let options = [
             [{'src': '../assets/materials/sports/soccerball.png', 'width': 25, 'height': 25, 'alt': 'Soccer'}, 'sports/soccerball.png'],
             [{'src': '../assets/materials/sports/tennis.png', 'width': 25, 'height': 25, 'alt': 'Tennis'}, 'sports/tennis.png'],

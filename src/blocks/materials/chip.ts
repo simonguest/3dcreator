@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let chip = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Circuit Board: ');
+            .appendField('circuit board: ');
         let options = [
             [{'src': '../assets/materials/chip/Chip001_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Chip001'}, 'chip/Chip001'],
             [{'src': '../assets/materials/chip/Chip002_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Chip002'}, 'chip/Chip002'],

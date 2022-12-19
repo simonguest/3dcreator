@@ -4,7 +4,7 @@ import { javascriptGenerator } from "blockly/javascript";
 export let lightBulb = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Light Bulb of color ")
+      .appendField("light bulb of color ")
       .appendField(new Blockly.FieldColour("#ffffff", null), "COLOR");
     this.appendValueInput("B").setCheck("Number").appendField("brightness");
     this.setInputsInline(false);

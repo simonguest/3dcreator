@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let snow = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Snow: ');
+            .appendField('snow: ');
         let options = [
             [{'src': '../assets/materials/snow/Snow004_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Snow004'}, 'snow/Snow004'],
         ];

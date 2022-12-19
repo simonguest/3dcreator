@@ -4,7 +4,7 @@ import { javascriptGenerator } from "blockly/javascript";
 export let spotlight = {
   init: function () {
     this.appendDummyInput()
-      .appendField("Spotlight of color ")
+      .appendField("spotlight of color ")
       .appendField(new Blockly.FieldColour("#ffffff", null), "COLOR");
     this.appendValueInput("B").setCheck("Number").appendField("brightness");
     this.appendValueInput("X").setCheck("Number").appendField("angle (x)");

@@ -3,7 +3,7 @@ import { javascriptGenerator } from "blockly/javascript";
 
 export let ground = {
   init: function () {
-    this.appendDummyInput().appendField("Set ground to");
+    this.appendDummyInput().appendField("set ground to");
     this.appendValueInput("LENGTH").setCheck("Number").appendField("length");
     this.appendValueInput("WIDTH").setCheck("Number").appendField("width");
     this.appendValueInput("TILESIZE").setCheck("Number").appendField("tile size");

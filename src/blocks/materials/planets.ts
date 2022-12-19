@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let planets = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Planet: ');
+            .appendField('planet: ');
         let options = [
             [{'src': '../assets/materials/planets/earth.jpg', 'width': 25, 'height': 25, 'alt': 'Earth'}, 'planets/earth.jpg'],
             [{'src': '../assets/materials/planets/jupiter.jpg', 'width': 25, 'height': 25, 'alt': 'Jupiter'}, 'planets/jupiter.jpg'],

@@ -2,7 +2,7 @@ import { javascriptGenerator } from "blockly/javascript";
 
 export let ramp = {
   init: function () {
-    this.appendDummyInput().appendField("Ramp");
+    this.appendDummyInput().appendField("ramp");
     this.appendValueInput("W").setCheck("Number").appendField("width");
     this.appendValueInput("H").setCheck("Number").appendField("height");
     this.appendValueInput("L").setCheck("Number").appendField("length");

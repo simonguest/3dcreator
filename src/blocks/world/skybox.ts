@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let skybox = {
     init: function () {
         let input = this.appendDummyInput()
-            .appendField('Set sky to: ');
+            .appendField('set sky to: ');
         let options = [
             [{'src': '../assets/env/clouds_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'clouds'}, 'clouds'],
             [{'src': '../assets/env/deep_space_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'deep_space'}, 'deep_space'],

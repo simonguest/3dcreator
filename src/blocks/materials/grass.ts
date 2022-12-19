@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let grass = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Grass: ');
+            .appendField('grass: ');
         let options = [
             [{'src': '../assets/materials/grass/Grass001_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Grass001'}, 'grass/Grass001'],
             [{'src': '../assets/materials/grass/Grass002_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Grass002'}, 'grass/Grass002'],

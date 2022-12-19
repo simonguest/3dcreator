@@ -2,7 +2,7 @@ import { javascriptGenerator } from "blockly/javascript";
 
 export let sphere = {
   init: function () {
-    this.appendDummyInput().appendField("Sphere ");
+    this.appendDummyInput().appendField("sphere");
     this.appendValueInput("W").setCheck("Number").appendField("width");
     this.appendValueInput("L").setCheck("Number").appendField("length");
     this.appendValueInput("H").setCheck("Number").appendField("height");

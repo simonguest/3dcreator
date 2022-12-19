@@ -12,7 +12,7 @@ export let applyForce = {
     },
     init: function () {
         this.appendDummyInput()
-            .appendField("Apply force to")
+            .appendField("apply force to")
             .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR");
         this.appendValueInput("UNITS")
             .setCheck("Number")

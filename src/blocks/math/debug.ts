@@ -3,7 +3,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let debug = {
     init: function () {
         this.appendValueInput("OBJECT")
-            .appendField("Debug");
+            .appendField("debug");
         this.appendDummyInput()
             .appendField("to console");
         this.setInputsInline(true);

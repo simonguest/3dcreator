@@ -3,7 +3,7 @@ import Blockly from "blockly";
 export let amibentOn = {
   init: function () {
     let input = this.appendDummyInput()
-      .appendField("Turn on ambient light of color: ")
+      .appendField("turn on ambient light of color: ")
       .appendField(new Blockly.FieldColour("#ffffff", null), "COLOR");
     this.setPreviousStatement(true);
     this.setNextStatement(true);

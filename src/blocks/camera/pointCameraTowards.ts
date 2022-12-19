@@ -12,7 +12,7 @@ export let pointCameraTowards = {
     },
     init: function () {
         this.appendDummyInput()
-            .appendField("Point camera towards ")
+            .appendField("point camera towards ")
             .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);

@@ -2,7 +2,7 @@ import { javascriptGenerator } from "blockly/javascript";
 
 export let box = {
   init: function () {
-    this.appendDummyInput().appendField("Box ");
+    this.appendDummyInput().appendField("box");
     this.appendValueInput("W").setCheck("Number").appendField("width");
     this.appendValueInput("H").setCheck("Number").appendField("height");
     this.appendValueInput("L").setCheck("Number").appendField("length");

@@ -12,7 +12,7 @@ export let moveShapeAlong = {
     },
     init: function () {
         this.appendDummyInput()
-            .appendField("Move shape")
+            .appendField("move shape")
             .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR");
         this.appendValueInput("STEPS")
             .setCheck("Number")

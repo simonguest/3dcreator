@@ -3,7 +3,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let none = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('None');
+            .appendField('none');
         this.setOutput(true, "MATERIAL");
         this.setColour(100);
         this.setTooltip("");

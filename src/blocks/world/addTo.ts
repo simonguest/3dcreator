@@ -12,7 +12,7 @@ export let addTo = {
     },
     init: function () {
         this.appendDummyInput()
-            .appendField("Add")
+            .appendField("add")
             .appendField(new Blockly.FieldVariable(this.getFirstVar()), "CHILD")
             .appendField("to")
             .appendField(new Blockly.FieldVariable(this.getFirstVar()), "PARENT");

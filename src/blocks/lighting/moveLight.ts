@@ -12,7 +12,7 @@ export let moveLight = {
     },
     init: function () {
         this.appendDummyInput()
-            .appendField("Move light")
+            .appendField("move light")
             .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR");
         this.appendValueInput("COORDS")
             .setCheck("COORDS")

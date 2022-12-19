@@ -4,7 +4,7 @@ export let createShape = {
     init: function () {
         this.appendValueInput("SHAPE")
             .setCheck("SHAPE")
-            .appendField("Create shape");
+            .appendField("create shape");
         this.appendValueInput("COORDS")
             .setCheck("COORDS")
             .appendField("at coords");

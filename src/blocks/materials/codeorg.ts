@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let codeorg = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Code.org Logos: ');
+            .appendField('code.org: ');
         let options = [
             [{'src': '../assets/materials/codeorg/CodeOrg.jpg', 'width': 25, 'height': 25, 'alt': 'Code.org Logo'}, 'codeorg/CodeOrg.jpg'],
         ];

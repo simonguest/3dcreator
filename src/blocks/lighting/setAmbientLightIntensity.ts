@@ -5,7 +5,7 @@ export let setAmbientLightIntensity = {
   init: function () {
     this.appendValueInput("INTENSITY")
       .setCheck("Number")
-      .appendField("Set brightness of ambient light to")
+      .appendField("set brightness of ambient light to")
       .appendField("to");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);

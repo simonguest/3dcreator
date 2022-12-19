@@ -12,7 +12,7 @@ export let clone = {
     },
     init: function () {
         this.appendDummyInput()
-            .appendField("Clone")
+            .appendField("clone")
             .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR");
         this.appendValueInput("COORDS")
             .setCheck("COORDS")

@@ -4,7 +4,7 @@ import { javascriptGenerator } from "blockly/javascript";
 export let gloss = {
   init: function () {
     let input = this.appendDummyInput()
-      .appendField("Gloss color: ")
+      .appendField("glossy color: ")
       .appendField(new Blockly.FieldColour("#ff4040", null), "MATERIAL");
     this.setOutput(true, "MATERIAL");
     this.setColour(100);

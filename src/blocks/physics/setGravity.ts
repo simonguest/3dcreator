@@ -3,7 +3,7 @@ import Blockly from "blockly";
 
 export let setGravity = {
   init: function () {
-    this.appendValueInput("MS").setCheck("Number").appendField("Set gravity to ");
+    this.appendValueInput("MS").setCheck("Number").appendField("set gravity to ");
     this.appendDummyInput().appendField("m/s");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);

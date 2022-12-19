@@ -4,7 +4,7 @@ import {javascriptGenerator} from "blockly/javascript";
 export let roofingtiles = {
     init: function() {
         let input = this.appendDummyInput()
-            .appendField('Roofing Tiles: ');
+            .appendField('roofing tiles: ');
         let options = [
             [{'src': '../assets/materials/roofingtiles/RoofingTiles003_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'RoofingTiles003'}, 'roofingtiles/RoofingTiles003'],
         ];

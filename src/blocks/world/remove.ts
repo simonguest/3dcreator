@@ -12,7 +12,7 @@ export let remove = {
     },
     init: function () {
         this.appendDummyInput()
-            .appendField("Remove")
+            .appendField("remove")
             .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
             .appendField("from scene");
         this.setInputsInline(true);

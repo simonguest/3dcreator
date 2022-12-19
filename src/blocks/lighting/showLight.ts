@@ -12,7 +12,7 @@ export let showLight = {
     },
     init: function () {
         this.appendDummyInput()
-            .appendField("Show light")
+            .appendField("show light")
             .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
             .appendField("in scene");
         this.setInputsInline(true);

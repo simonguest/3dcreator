@@ -2,7 +2,7 @@ import { javascriptGenerator } from "blockly/javascript";
 
 export let cone = {
   init: function () {
-    this.appendDummyInput().appendField("Cone");
+    this.appendDummyInput().appendField("cone");
     this.appendValueInput("H").setCheck("Number").appendField("height");
     this.appendValueInput("T").setCheck("Number").appendField("top diameter");
     this.appendValueInput("B").setCheck("Number").appendField("bottom diameter");

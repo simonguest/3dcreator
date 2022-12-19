@@ -2,7 +2,7 @@ import { javascriptGenerator } from "blockly/javascript";
 
 export let wall = {
   init: function () {
-    this.appendDummyInput().appendField("Wall ");
+    this.appendDummyInput().appendField("wall");
     this.appendValueInput("W").setCheck("Number").appendField("width");
     this.appendValueInput("H").setCheck("Number").appendField("height");
     this.appendValueInput("S").setCheck("Number").appendField("tile size");

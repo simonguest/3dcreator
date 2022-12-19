@@ -13,7 +13,7 @@ export let createShapeAndAddTo = {
 
   init: function () {
     this.appendDummyInput()
-      .appendField("Create shape")
+      .appendField("create shape")
     this.appendValueInput("SHAPE")
       .setCheck("SHAPE")
       .appendField("and add to")
