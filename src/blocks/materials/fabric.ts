@@ -7,7 +7,10 @@ export let fabric = {
             .appendField('Fabric: ');
         let options = [
             [{'src': '../assets/materials/fabric/Fabric026_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Fabric026'}, 'fabric/Fabric026'],
+            [{'src': '../assets/materials/fabric/Fabric046_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Fabric046'}, 'fabric/Fabric046'],
             [{'src': '../assets/materials/fabric/Fabric051_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Fabric051'}, 'fabric/Fabric051'],
+            [{'src': '../assets/materials/fabric/Fabric057_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Fabric057'}, 'fabric/Fabric057'],
+            [{'src': '../assets/materials/fabric/Fabric069_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Fabric069'}, 'fabric/Fabric069'],
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
         this.setOutput(true, "MATERIAL");

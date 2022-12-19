@@ -6,6 +6,8 @@ export let road = {
         let input = this.appendDummyInput()
             .appendField('Road: ');
         let options = [
+            [{'src': '../assets/materials/road/Road003_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Road003'}, 'road/Road003'],
+            [{'src': '../assets/materials/road/Road006_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Road006'}, 'road/Road006'],
             [{'src': '../assets/materials/road/Road007_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Road007'}, 'road/Road007'],
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
