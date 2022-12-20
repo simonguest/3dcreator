@@ -3,17 +3,17 @@ import Blockly from "blockly";
 
 export let getPosition = {
   getFirstVar: function () {
-    let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace());
+    let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace()).filter((m) => m.type === "SHAPE");
     if (varModels.length > 0) {
       return varModels[0]["name"];
     } else {
-      return "item";
+      return "shape_1";
     }
   },
   init: function () {
     this.appendDummyInput()
       .appendField("position of")
-      .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
+      .appendField(new Blockly.FieldVariable(this.getFirstVar(), null, ["SHAPE"], "SHAPE"), "VAR")
       .appendField("along")
       .appendField(
         new Blockly.FieldDropdown([

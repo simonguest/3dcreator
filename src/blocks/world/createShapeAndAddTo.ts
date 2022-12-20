@@ -17,8 +17,8 @@ export let createShapeAndAddTo = {
     this.appendValueInput("SHAPE")
       .setCheck("SHAPE")
       .appendField("and add to")
-      .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
-    this.appendValueInput("COORDS").setCheck("COORDS").appendField("at coords");
+      .appendField(new Blockly.FieldVariable(this.getFirstVar(), null, ["SHAPE"], "SHAPE"), "VAR")
+      this.appendValueInput("COORDS").setCheck("COORDS").appendField("at coords");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);

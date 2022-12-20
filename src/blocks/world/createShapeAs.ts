@@ -21,7 +21,7 @@ export let createShapeAs = {
     this.appendValueInput("SHAPE")
       .setCheck("SHAPE")
       .appendField("as")
-      .appendField(new Blockly.FieldVariable(this.getUniqueNameForVar("shape")), "VAR");
+      .appendField(new Blockly.FieldVariable(this.getUniqueNameForVar("shape"), null, ["SHAPE"], "SHAPE"), "VAR");
     this.appendValueInput("COORDS").setCheck("COORDS").appendField("at coords");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);

@@ -8,7 +8,7 @@ export let createLightAs = {
     while (true) {
       var newName = prefix + "_" + counter;
       //@ts-ignore
-      if (!vars.map(v => v.name).includes(newName)) {
+      if (!vars.map((v) => v.name).includes(newName)) {
         return newName;
       }
       counter++;
@@ -16,10 +16,11 @@ export let createLightAs = {
   },
 
   init: function () {
+    this.appendDummyInput().appendField("create light");
     this.appendValueInput("LIGHT")
       .setCheck("LIGHT")
-      .appendField("create light as")
-      .appendField(new Blockly.FieldVariable(this.getUniqueNameForVar("light")), "VAR");
+      .appendField("as")
+      .appendField(new Blockly.FieldVariable(this.getUniqueNameForVar("light"), null, ["LIGHT"], "LIGHT"), "VAR");
     this.appendValueInput("COORDS").setCheck("COORDS").appendField("at coords");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);

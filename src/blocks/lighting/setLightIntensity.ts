@@ -3,11 +3,11 @@ import Blockly from "blockly";
 
 export let setLightIntensity = {
   getFirstVar: function () {
-    let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace());
+    let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace()).filter((m) => m.type === "LIGHT");;
     if (varModels.length > 0) {
       return varModels[0]["name"];
     } else {
-      return "item";
+      return "light_1";
     }
   },
 
@@ -15,7 +15,7 @@ export let setLightIntensity = {
     this.appendValueInput("INTENSITY")
       .setCheck("Number")
       .appendField("set brightness of ")
-      .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
+      .appendField(new Blockly.FieldVariable(this.getFirstVar(), null, ["LIGHT"], "LIGHT"), "VAR")
       .appendField("to");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);

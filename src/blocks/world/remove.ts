@@ -3,17 +3,17 @@ import Blockly from "blockly";
 
 export let remove = {
     getFirstVar: function() {
-        let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace());
+        let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace()).filter((m) => m.type === "SHAPE");;
         if (varModels.length > 0){
             return varModels[0]["name"];
         } else {
-            return "item";
+            return "shape_1";
         }
     },
     init: function () {
         this.appendDummyInput()
             .appendField("remove")
-            .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
+            .appendField(new Blockly.FieldVariable(this.getFirstVar(), null, ["SHAPE"], "SHAPE"), "VAR")
             .appendField("from scene");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);

@@ -3,7 +3,7 @@ import Blockly from 'blockly';
 
 export let onClick = {
     getFirstVar: function() {
-        let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace());
+        let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace()).filter((m) => m.type === "SHAPE");
         if (varModels.length > 0){
             return varModels[0]["name"];
         } else {
@@ -13,7 +13,7 @@ export let onClick = {
     init: function () {
         this.appendStatementInput("EVENT")
             .appendField("when")
-            .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
+            .appendField(new Blockly.FieldVariable(this.getFirstVar(), null, ["SHAPE"], "SHAPE"), "VAR")
             .appendField("is clicked");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);

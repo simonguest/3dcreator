@@ -3,9 +3,11 @@ import Blockly from "blockly";
 
 export let loop = {
     init: function () {
+        this.appendDummyInput()
+            .appendField("create animation")
         this.appendStatementInput("LOOP")
             .setCheck(null)
-            .appendField("create animation loop")
+            .appendField("loop")
             .appendField(new Blockly.FieldTextInput("animation"), "NAME");
         this.setColour(330);
         this.setPreviousStatement(true, null);

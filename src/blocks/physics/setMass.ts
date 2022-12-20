@@ -3,7 +3,7 @@ import Blockly from "blockly";
 
 export let setMass = {
   getFirstVar: function () {
-    let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace());
+    let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace()).filter((m) => m.type === "SHAPE");
     if (varModels.length > 0) {
       return varModels[0]["name"];
     } else {
@@ -15,7 +15,7 @@ export let setMass = {
     this.appendValueInput("MASS")
       .setCheck("Number")
       .appendField("set mass of ")
-      .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR")
+      .appendField(new Blockly.FieldVariable(this.getFirstVar(), null, ["SHAPE"], "SHAPE"), "VAR")
       .appendField("to");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);

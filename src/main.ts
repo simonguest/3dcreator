@@ -357,7 +357,6 @@ async function init() {
   };
 
   let projects = document.getElementsByClassName("examples-dropdown-item");
-  console.log(new Array(projects));
   Array.from(projects).forEach((element) => {
     element.addEventListener("click", async (e) => {
       e.preventDefault();

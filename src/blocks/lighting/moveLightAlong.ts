@@ -3,17 +3,17 @@ import Blockly from "blockly";
 
 export let moveLightAlong = {
     getFirstVar: function() {
-        let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace());
+        let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace()).filter((m) => m.type === "LIGHT");;
         if (varModels.length > 0){
             return varModels[0]["name"];
         } else {
-            return "";
+            return "light_1";
         }
     },
     init: function () {
         this.appendDummyInput()
             .appendField("move light")
-            .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR");
+            .appendField(new Blockly.FieldVariable(this.getFirstVar(), null, ["LIGHT"], "LIGHT"), "VAR");
         this.appendValueInput("STEPS")
             .setCheck("Number")
             .appendField("along")

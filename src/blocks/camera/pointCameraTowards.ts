@@ -3,7 +3,7 @@ import Blockly from 'blockly';
 
 export let pointCameraTowards = {
     getFirstVar: function() {
-        let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace());
+        let varModels = Blockly.Variables.allUsedVarModels(Blockly.getMainWorkspace()).filter((m) => m.type === "SHAPE");
         if (varModels.length > 0){
             return varModels[0]["name"];
         } else {
@@ -13,8 +13,8 @@ export let pointCameraTowards = {
     init: function () {
         this.appendDummyInput()
             .appendField("point camera towards ")
-            .appendField(new Blockly.FieldVariable(this.getFirstVar()), "VAR");
-        this.setInputsInline(true);
+            .appendField(new Blockly.FieldVariable(this.getFirstVar(), null, ["SHAPE"], "SHAPE"), "VAR")
+            this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setColour(160);
