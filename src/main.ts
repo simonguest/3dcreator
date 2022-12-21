@@ -303,22 +303,22 @@ async function init() {
     await run(true, physicsEnabled);
   };
 
+  const setPhysicsButton = () => {
+    if (physicsEnabled) {
+      physicsButton.classList.remove("physics-off");
+      physicsButton.classList.add("physics-on");
+    } else {
+      physicsButton.classList.remove("physics-on");
+      physicsButton.classList.add("physics-off");
+    }
+  }
+
   physicsButton.onmouseup = async (e) => {
     e.preventDefault();
     console.log("physics button pressed");
-    if (!physicsEnabled) {
-      console.log("Physics engine enabled");
-      physicsButton.classList.remove("physics-off");
-      physicsButton.classList.add("physics-on");
-      physicsEnabled = true;
-      await run(false, true);
-    } else {
-      console.log("Physics engine disabled");
-      physicsButton.classList.remove("physics-on");
-      physicsButton.classList.add("physics-off");
-      physicsEnabled = false;
-      await run(false, false);
-    }
+    physicsEnabled = !physicsEnabled;
+    setPhysicsButton();
+    await run(false, physicsEnabled);
   };
 
   fullscreenButton.onmouseup = async (e) => {
@@ -361,14 +361,19 @@ async function init() {
     element.addEventListener("click", async (e) => {
       e.preventDefault();
       let filename = (e.target as Element).getAttribute("data-file");
+      let physics = (e.target as Element).getAttribute("data-physics");
       if (confirm("Loading this example workspace will lose all unsaved work. Continue?")) {
         const response = await fetch(`./examples/${filename}`);
         const json = await response.json();
         Blockly.serialization.workspaces.load(json, workspace);
         examplesDropDown.style.display = "none";
+        physicsEnabled = physics === "on" ? true : false;
+        setPhysicsButton();
       } else {
         examplesDropDown.style.display = "none";
       }
+      // reset the scene to get default camera angle
+      await run(true, physicsEnabled);
     });
   });
 
@@ -423,6 +428,9 @@ async function init() {
       document.removeEventListener("mousemove", broadcastColumnResize);
     };
   };
+
+  // Initial scene creation
+  await run(true, physicsEnabled);
 }
 
 init().then();
