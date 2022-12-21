@@ -23,6 +23,7 @@ const createCustomBlock = (name, blockType) => {
 };
 
 createCustomBlock("skybox", world.skybox);
+createCustomBlock("setSkyColor", world.setSkyColor);
 createCustomBlock("ground", world.ground);
 
 createCustomBlock("sphere", shapes.sphere);

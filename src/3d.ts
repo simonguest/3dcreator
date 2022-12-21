@@ -589,6 +589,10 @@ export class ThreeD {
     this.scene.createDefaultSkybox(this.scene.environmentTexture);
   };
 
+  public setSkyColor = (color: string) => {
+    this.scene.clearColor = BABYLON.Color4.FromHexString(color);
+  }
+
   // Creates a shape
   public createShape = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
     let shape = convertShapeBlockToShape(shapeBlock);

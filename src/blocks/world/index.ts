@@ -1,4 +1,5 @@
 import { skybox } from "./skybox";
+import { setSkyColor } from "./setSkyColor";
 import { ground } from "./ground";
 
 import { createShape } from "./createShape";
@@ -17,6 +18,7 @@ import { getPosition } from "./getPosition";
 
 export {
   skybox,
+  setSkyColor,
   ground,
   createShape,
   createShapeAs,

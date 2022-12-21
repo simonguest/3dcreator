@@ -241,6 +241,10 @@ export let toolbox = {
       contents: [
         {
           kind: "block",
+          type: "setSkyColor"
+        },
+        {
+          kind: "block",
           type: "skybox",
         },
         {
