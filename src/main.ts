@@ -80,8 +80,6 @@ createCustomBlock("setGravity", physics.setGravity);
 createCustomBlock("applyForce", physics.applyForce);
 createCustomBlock("setMass", physics.setMass);
 
-createCustomBlock("ambientOn", lighting.amibentOn);
-createCustomBlock("ambientOff", lighting.ambientOff);
 createCustomBlock("createLightAs", lighting.createLightAs);
 createCustomBlock("lightBulb", lighting.lightBulb);
 createCustomBlock("spotlight", lighting.spotlight);

@@ -2,7 +2,7 @@ import * as BABYLON from "babylonjs";
 import * as CANNON from "cannon";
 window.CANNON = CANNON;
 
-const BRIGHTNESS_MULTIPLIER = 50;
+const BRIGHTNESS_MULTIPLIER = 10;
 const BRIGHTNESS_MAX = 1000;
 
 type Material = {
@@ -120,6 +120,7 @@ export class ThreeD {
   private camera: BABYLON.Camera;
   private cameraType: string;
   private scene: BABYLON.Scene;
+  private skybox: BABYLON.Mesh;
   private ambientLight: BABYLON.HemisphericLight;
   private ground: BABYLON.Mesh;
 
@@ -244,8 +245,16 @@ export class ThreeD {
       this.clearCameraState();
     }
 
+    // Create default env for metal and glass shapes
+    this.scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
+      `./assets/env/puresky.env`,
+      this.scene
+    );
+    this.skybox = null;
+    this.scene.clearColor = BABYLON.Color4.FromHexString("#000000");
+
     this.ambientLight = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
-    this.ambientLight.intensity = 2.0;
+    this.ambientLight.intensity = 1.0;
     this.runningAnimations = {};
 
     // Unregister actions from each mesh
@@ -283,12 +292,13 @@ export class ThreeD {
   // Sets the material of a mesh based on the material block
   private setMaterial = (mesh: BABYLON.Mesh, materialBlock: MaterialBlock) => {
     let material = convertMaterialBlockToMaterial(materialBlock);
-    if (material === null) material = { texture: "matte", color: "#cccccc" }; // default material for "none"
+    if (material === null) material = { texture: "matte", color: "#cccccc" };// default material for "none"
 
     if (material.texture === "matte") {
       var matte = new BABYLON.PBRMetallicRoughnessMaterial("metal", this.scene);
       matte.baseColor = BABYLON.Color3.FromHexString(material.color);
       matte.roughness = 1.0;
+      matte.maxSimultaneousLights = 8;
       mesh.material = matte;
       return;
     }
@@ -299,6 +309,7 @@ export class ThreeD {
       metal.metallic = 1.0;
       metal.roughness = 0;
       metal.usePhysicalLightFalloff = false;
+      metal.maxSimultaneousLights = 8;
       mesh.material = metal;
       return;
     }
@@ -309,6 +320,7 @@ export class ThreeD {
       gloss.metallic = 1.0;
       gloss.roughness = 1.0;
       gloss.clearCoat.isEnabled = true;
+      gloss.maxSimultaneousLights = 8;
       mesh.material = gloss;
       return;
     }
@@ -322,6 +334,7 @@ export class ThreeD {
       glass.subSurface.isRefractionEnabled = true;
       glass.subSurface.indexOfRefraction = 1.4;
       glass.usePhysicalLightFalloff = false;
+      glass.maxSimultaneousLights = 8;
       mesh.material = glass;
       return;
     }
@@ -331,6 +344,7 @@ export class ThreeD {
       imageMaterial.baseTexture = new BABYLON.Texture(`./assets/materials/${material.image}`);
       imageMaterial.roughness = material.roughness || 1;
       imageMaterial.metallic = material.metallic || 0;
+      imageMaterial.maxSimultaneousLights = 8;
       mesh.material = imageMaterial;
       return;
     }
@@ -347,6 +361,7 @@ export class ThreeD {
       );
       pbrMaterial.roughness = material.roughness || 1;
       pbrMaterial.metallic = material.metallic || 0;
+      pbrMaterial.maxSimultaneousLights = 8;
       mesh.material = pbrMaterial;
       return;
     }
@@ -586,9 +601,10 @@ export class ThreeD {
       `./assets/env/${skybox.asset}.env`,
       this.scene
     );
-    this.scene.createDefaultSkybox(this.scene.environmentTexture);
+    this.skybox = this.scene.createDefaultSkybox(this.scene.environmentTexture);
   };
 
+  // Set the sky/background color
   public setSkyColor = (color: string) => {
     this.scene.clearColor = BABYLON.Color4.FromHexString(color);
   }
@@ -840,17 +856,6 @@ export class ThreeD {
     }
   };
 
-  // Enable ambient lighting
-  public ambientOn = (color: string) => {
-    this.ambientLight.diffuse = BABYLON.Color3.FromHexString(color);
-    this.ambientLight.setEnabled(true);
-  };
-
-  // Disable ambient lighting
-  public ambientOff = () => {
-    this.ambientLight.setEnabled(false);
-  };
-
   // Show a light on the scene to help with debugging
   public showLight = (lightBlock: LightBlock) => {
     let light = convertLightBlockToLightInScene(lightBlock, this.scene);
@@ -910,6 +915,12 @@ export class ThreeD {
       if (intensity < 0) intensity = 0;
       if (intensity > BRIGHTNESS_MAX) intensity = BRIGHTNESS_MAX;
       this.ambientLight.intensity = (intensity * BRIGHTNESS_MULTIPLIER) / 1000;
+    }
+    this.scene.environmentIntensity = intensity / 100;
+    this.scene.environmentTexture.level = intensity / 100;
+    if (this.skybox){
+      this.scene.createDefaultSkybox(this.scene.environmentTexture);
+      this.ambientLight.intensity = 0;
     }
   };
 

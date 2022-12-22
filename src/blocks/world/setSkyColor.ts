@@ -5,7 +5,7 @@ export let setSkyColor = {
   init: function () {
     this.appendDummyInput()
       .appendField("set color of sky to")
-      .appendField(new Blockly.FieldColour("#33334b", null), "COLOR");
+      .appendField(new Blockly.FieldColour("#000", null), "COLOR");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);

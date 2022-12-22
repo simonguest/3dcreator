@@ -808,14 +808,6 @@ export let toolbox = {
       contents: [
         {
           kind: "block",
-          type: "ambientOn",
-        },
-        {
-          kind: "block",
-          type: "ambientOff",
-        },
-        {
-          kind: "block",
           type: "setAmbientLightIntensity",
           inputs: {
             INTENSITY: {
