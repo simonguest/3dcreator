@@ -289,11 +289,9 @@ let ammo = null;
 async function run(reset?: boolean, physics?: boolean) {
   console.log("Running");
 
-  if (!ammo) {
-    console.log("Loading ammo physics lib");
-    ammo = await Ammo();
-    threeD.ammo = ammo;
-  }
+  console.log("Loading ammo physics lib");
+  ammo = await Ammo();
+  threeD.ammo = ammo;
 
   // Generate the required code
   let code = javascriptGenerator.workspaceToCode(workspace);
@@ -320,7 +318,7 @@ async function init() {
       physicsButton.classList.remove("physics-on");
       physicsButton.classList.add("physics-off");
     }
-  }
+  };
 
   physicsButton.onmouseup = async (e) => {
     e.preventDefault();
