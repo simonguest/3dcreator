@@ -382,7 +382,7 @@ export class ThreeD {
     if (this.physicsEnabled === true) {
       torus.physicsImpostor = new BABYLON.PhysicsImpostor(
         torus,
-        BABYLON.PhysicsImpostor.SphereImpostor,
+        BABYLON.PhysicsImpostor.ConvexHullImpostor,
         { mass: 1, restitution: 0.7, friction: 1.0 },
         this.scene
       );
@@ -414,7 +414,7 @@ export class ThreeD {
     ramp.actionManager = new BABYLON.ActionManager(this.scene);
     this.actionManagers.push(ramp.actionManager);
     if (this.physicsEnabled === true) {
-      ramp.physicsImpostor = new BABYLON.PhysicsImpostor(ramp, BABYLON.PhysicsImpostor.BoxImpostor, {
+      ramp.physicsImpostor = new BABYLON.PhysicsImpostor(ramp, BABYLON.PhysicsImpostor.ConvexHullImpostor, {
         mass: 1,
         restitution: 0.7,
         friction: 1.0,
@@ -437,7 +437,7 @@ export class ThreeD {
     if (this.physicsEnabled === true) {
       capsule.physicsImpostor = new BABYLON.PhysicsImpostor(
         capsule,
-        BABYLON.PhysicsImpostor.CylinderImpostor,
+        BABYLON.PhysicsImpostor.CapsuleImpostor,
         { mass: 1, restitution: 0.7, friction: 1.0 },
         this.scene
       );
@@ -460,7 +460,7 @@ export class ThreeD {
     if (this.physicsEnabled === true) {
       cone.physicsImpostor = new BABYLON.PhysicsImpostor(
         cone,
-        BABYLON.PhysicsImpostor.CylinderImpostor,
+        BABYLON.PhysicsImpostor.ConvexHullImpostor,
         { mass: 1, restitution: 0.7, friction: 1.0 },
         this.scene
       );

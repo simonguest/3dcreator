@@ -658,6 +658,41 @@ export let toolbox = {
         },
         {
           kind: "block",
+          type: "ramp",
+          inputs: {
+            W: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 10,
+                },
+              },
+            },
+            H: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 5,
+                },
+              },
+            },
+            L: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 10,
+                },
+              },
+            },
+            MATERIAL: {
+              shadow: {
+                type: "none",
+              },
+            },
+          },
+        },
+        {
+          kind: "block",
           type: "cylinder",
           inputs: {
             H: {
@@ -696,6 +731,68 @@ export let toolbox = {
               },
             },
             D: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 5,
+                },
+              },
+            },
+            MATERIAL: {
+              shadow: {
+                type: "none",
+              },
+            },
+          },
+        },
+        {
+          kind: "block",
+          type: "torus",
+          inputs: {
+            D: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 10,
+                },
+              },
+            },
+            T: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 5,
+                },
+              },
+            },
+            MATERIAL: {
+              shadow: {
+                type: "none",
+              },
+            },
+          },
+        },
+        {
+          kind: "block",
+          type: "cone",
+          inputs: {
+            H: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 10,
+                },
+              },
+            },
+            T: {
+              shadow: {
+                type: "math_number",
+                fields: {
+                  NUM: 1,
+                },
+              },
+            },
+            B: {
               shadow: {
                 type: "math_number",
                 fields: {

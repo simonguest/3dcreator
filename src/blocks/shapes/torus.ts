@@ -18,7 +18,7 @@ export let torus = {
     let material = javascriptGenerator.valueToCode(block, "MATERIAL", javascriptGenerator.ORDER_NONE);
 
     return [
-      `[{ id: "${block.id}", type: "torus", size: { d: ${d}, t: ${t}, s: 24}, material: ${material}}]`,
+      `[{ id: "${block.id}", type: "torus", size: { d: ${d}, t: ${t}, s: 16}, material: ${material}}]`,
       javascriptGenerator.ORDER_NONE,
     ];
   },
