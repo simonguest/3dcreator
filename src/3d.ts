@@ -1,6 +1,4 @@
 import * as BABYLON from "babylonjs";
-import * as CANNON from "cannon";
-window.CANNON = CANNON;
 
 const BRIGHTNESS_MULTIPLIER = 10;
 const BRIGHTNESS_MAX = 1000;
@@ -116,6 +114,7 @@ const convertMaterialBlockToMaterial = (materialBlock: MaterialBlock) => {
 export class ThreeD {
   private readonly canvas: any;
   public readonly engine: BABYLON.Engine;
+  public ammo: any;
   private cameraState: any;
   private camera: BABYLON.Camera;
   private cameraType: string;
@@ -226,7 +225,7 @@ export class ThreeD {
     this.restoreCameraState();
   };
 
-  public createScene = (reset?: boolean, physics?: boolean) => {
+  public createScene = async (reset?: boolean, physics?: boolean) => {
     console.log("Creating scene");
     // Unregister actions from previous scene
     if (this.scene) {
@@ -269,7 +268,7 @@ export class ThreeD {
     if (physics === true) {
       console.log("Enabling physics");
       let gravityVector = new BABYLON.Vector3(0, -90.81, 0);
-      let physicsPlugin = new BABYLON.CannonJSPlugin();
+      let physicsPlugin = new BABYLON.AmmoJSPlugin(true, this.ammo);
       this.scene.enablePhysics(gravityVector, physicsPlugin);
       this.physicsEnabled = true;
     } else {
@@ -560,6 +559,8 @@ export class ThreeD {
         { mass: 1, restitution: 0.7, friction: 1.0 },
         this.scene
       );
+      sphere.physicsImpostor.physicsBody.angularDamping = 0.4;
+      sphere.physicsImpostor.physicsBody.linearDamping = 0.4;
     }
   };
 

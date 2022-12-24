@@ -21,15 +21,17 @@
   },
   "homepage": "https://github.com/simonguest/3dlab#readme",
   "dependencies": {
+    "ammojs-typed": "^1.0.6",
     "babylonjs": "^5.28.0",
-    "blockly": "^9.0.0",
-    "cannon": "^0.6.2",
-    "uuid": "^9.0.0"
+    "blockly": "^9.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",
     "babylonjs-inspector": "^5.35.1",
+    "buffer": "^5.7.1",
     "parcel": "^2.8.0",
-    "parcel-reporter-static-files-copy": "^1.4.0"
+    "parcel-reporter-static-files-copy": "^1.4.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10"
   }
 }

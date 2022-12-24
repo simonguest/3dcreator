@@ -1,4 +1,3 @@
-import { v4 as uuid } from "uuid";
 import { javascriptGenerator } from "blockly/javascript";
 
 export let ground = {

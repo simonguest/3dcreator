@@ -1,6 +1,8 @@
 import Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
 
+import Ammo from "ammojs-typed";
+
 import * as shapes from "./blocks/shapes";
 import * as world from "./blocks/world";
 import * as materials from "./blocks/materials";
@@ -280,10 +282,18 @@ let physicsButton = document.getElementById("physics");
 let fullscreenButton = document.getElementById("fullscreen");
 let debugButton = document.getElementById("debug");
 let examplesButton = document.getElementById("examples");
-let examplesDropDown = document.getElementById("examples-dropdown")
+let examplesDropDown = document.getElementById("examples-dropdown");
+
+let ammo = null;
 
 async function run(reset?: boolean, physics?: boolean) {
   console.log("Running");
+
+  if (!ammo) {
+    console.log("Loading ammo physics lib");
+    ammo = await Ammo();
+    threeD.ammo = ammo;
+  }
 
   // Generate the required code
   let code = javascriptGenerator.workspaceToCode(workspace);
