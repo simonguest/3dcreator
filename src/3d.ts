@@ -652,7 +652,7 @@ export class ThreeD {
     this.addTo(shapeBlock, parent);
   };
 
-  private getAxisAlignedBoundingBox = (mesh: BABYLON.AbstractMesh) => {
+  private getAxisAlignedBoundingInfo = (mesh: BABYLON.AbstractMesh) => {
     let clone = mesh.clone("mesh", null);
     let vertices = clone.getVerticesData("position");
     let min = new BABYLON.Vector3(1e10, 1e10, 1e10),
@@ -668,7 +668,7 @@ export class ThreeD {
     }
     let parent = new BABYLON.Mesh("parent", this.scene);
     parent.setBoundingInfo(new BABYLON.BoundingInfo(min, max));
-    parent.showBoundingBox = true;
+    // DEBUG parent.showBoundingBox = true;
     clone.dispose();
 
     return new BABYLON.BoundingInfo(min, max);
@@ -679,61 +679,22 @@ export class ThreeD {
     let child = convertShapeBlockToMesh(childBlock, this.scene);
     let parent = convertShapeBlockToMesh(parentBlock, this.scene);
     if (child && parent) {
-      console.log("Parent " + parent.position);
-      console.log(parent.getBoundingInfo().maximum);
-      let parentAABB = this.getAxisAlignedBoundingBox(parent);
-      console.log(parentAABB.maximum);
-      console.log("Child " + child.position);
-      console.log(child.getBoundingInfo().maximum);
-      let childAABB = this.getAxisAlignedBoundingBox(child);
-      console.log(childAABB.maximum);
-
-      // parentAABB = parent.getBoundingInfo();
-      // childAABB = child.getBoundingInfo();
-      // let parentMaxX = parentAABB.maximum.x + parent.position.x;
-      // let parentMaxY = parentAABB.maximum.y + parent.position.y;
-      // let parentMaxZ = parentAABB.maximum.z + parent.position.z;
-      // let parentMinX = parentAABB.minimum.x + parent.position.x;
-      // let parentMinY = parentAABB.minimum.y + parent.position.y;
-      // let parentMinZ = parentAABB.minimum.z + parent.position.z;
-      // let childMaxX = childAABB.maximum.x + child.position.x;
-      // let childMaxY = childAABB.maximum.y + child.position.y;
-      // let childMaxZ = childAABB.maximum.z + child.position.z;
-      // let childMinX = childAABB.minimum.x + child.position.x;
-      // let childMinY = childAABB.minimum.y + child.position.y;
-      // let childMinZ = childAABB.minimum.z + child.position.z;
-
-      let parentMaxX = parentAABB.maximum.x;
-      let parentMaxY = parentAABB.maximum.y;
-      let parentMaxZ = parentAABB.maximum.z;
-      let parentMinX = parentAABB.minimum.x;
-      let parentMinY = parentAABB.minimum.y;
-      let parentMinZ = parentAABB.minimum.z;
-      let childMaxX = childAABB.maximum.x;
-      let childMaxY = childAABB.maximum.y;
-      let childMaxZ = childAABB.maximum.z;
-      let childMinX = childAABB.minimum.x;
-      let childMinY = childAABB.minimum.y;
-      let childMinZ = childAABB.minimum.z;
+      let parentAABB = this.getAxisAlignedBoundingInfo(parent);
+      let childAABB = this.getAxisAlignedBoundingInfo(child);
       
-      let aggMaxX = Math.max(parentMaxX, childMaxX);
-      let aggMaxY = Math.max(parentMaxY, childMaxY);
-      let aggMaxZ = Math.max(parentMaxZ, childMaxZ);
-      let aggMinX = Math.min(parentMinX, childMinX);
-      let aggMinY = Math.min(parentMinY, childMinY);
-      let aggMinZ = Math.min(parentMinZ, childMinZ);
-      console.log(aggMaxX, aggMaxY, aggMaxZ);
-      console.log(aggMinX, aggMinY, aggMinZ);
+      let aggMaxX = Math.max(parentAABB.maximum.x, childAABB.maximum.x);
+      let aggMaxY = Math.max(parentAABB.maximum.y, childAABB.maximum.y);
+      let aggMaxZ = Math.max(parentAABB.maximum.z, childAABB.maximum.z);
+      let aggMinX = Math.min(parentAABB.minimum.x, childAABB.minimum.x);
+      let aggMinY = Math.min(parentAABB.minimum.y, childAABB.minimum.y);
+      let aggMinZ = Math.min(parentAABB.minimum.z, childAABB.minimum.z);
       let deltaX = (aggMinX + aggMaxX) / 2;
       let deltaY = (aggMinY + aggMaxY) / 2;
       let deltaZ = (aggMinZ + aggMaxZ) / 2;
       let deltaPosition = new BABYLON.Vector3(deltaX, deltaY, deltaZ);
-      console.log(deltaPosition);
 
       let newParentPosition = parent.position.subtract(deltaPosition);
-      console.log("New Parent " + newParentPosition);
       let newChildPosition = child.position.subtract(deltaPosition);
-      console.log("New Child " + newChildPosition);
 
       parent.position = newParentPosition;
       child.position = newChildPosition;
@@ -747,7 +708,6 @@ export class ThreeD {
       );
       mergedMesh.id = parent.id;
       mergedMesh.position = mergedMesh.position.add(deltaPosition);
-      console.log("New position " + mergedMesh.position);
 
       mergedMesh.actionManager = new BABYLON.ActionManager(this.scene);
       this.actionManagers.push(mergedMesh.actionManager);
