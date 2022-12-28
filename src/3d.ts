@@ -1,4 +1,5 @@
 import * as BABYLON from "babylonjs";
+import { BabylonFileLoaderConfiguration } from "babylonjs";
 
 const BRIGHTNESS_MULTIPLIER = 10;
 const BRIGHTNESS_MAX = 1000;
@@ -291,7 +292,7 @@ export class ThreeD {
   // Sets the material of a mesh based on the material block
   private setMaterial = (mesh: BABYLON.Mesh, materialBlock: MaterialBlock) => {
     let material = convertMaterialBlockToMaterial(materialBlock);
-    if (material === null) material = { texture: "matte", color: "#cccccc" };// default material for "none"
+    if (material === null) material = { texture: "matte", color: "#cccccc" }; // default material for "none"
 
     if (material.texture === "matte") {
       var matte = new BABYLON.PBRMetallicRoughnessMaterial("metal", this.scene);
@@ -608,7 +609,7 @@ export class ThreeD {
   // Set the sky/background color
   public setSkyColor = (color: string) => {
     this.scene.clearColor = BABYLON.Color4.FromHexString(color);
-  }
+  };
 
   // Creates a shape
   public createShape = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
@@ -649,30 +650,118 @@ export class ThreeD {
   public createShapeAndAddTo = (shapeBlock: ShapeBlock, parent: ShapeBlock, coordsBlock: CoordsBlock) => {
     this.createShape(shapeBlock, coordsBlock);
     this.addTo(shapeBlock, parent);
+  };
+
+  private getAxisAlignedBoundingBox = (mesh: BABYLON.AbstractMesh) => {
+    let clone = mesh.clone("mesh", null);
+    let vertices = clone.getVerticesData("position");
+    let min = new BABYLON.Vector3(1e10, 1e10, 1e10),
+        max = new BABYLON.Vector3(-1e10, -1e10, -1e10),
+        m = clone.getWorldMatrix();
+    
+    let v = new BABYLON.Vector3();
+    for (let i = 0; i < vertices.length / 3; ++i) {
+        v.copyFromFloats(vertices[i * 3 + 0], vertices[i * 3 + 1], vertices[i * 3 + 2]);
+        BABYLON.Vector3.TransformCoordinatesToRef(v, m, v);
+        min.minimizeInPlace(v);
+        max.maximizeInPlace(v);
+    }
+    let parent = new BABYLON.Mesh("parent", this.scene);
+    parent.setBoundingInfo(new BABYLON.BoundingInfo(min, max));
+    parent.showBoundingBox = true;
+    clone.dispose();
+
+    return new BABYLON.BoundingInfo(min, max);
   }
 
   // Adds a shape to a parent
-  public addTo = (shapeBlock: ShapeBlock, parent: ShapeBlock) => {
-    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
-    let parentMesh = convertShapeBlockToMesh(parent, this.scene);
-    if (mesh && parentMesh) {
-      let meshes = [];
-      meshes.push(parentMesh);
-      meshes.push(mesh);
-      let mergedMesh = BABYLON.Mesh.MergeMeshes(meshes, true, true, undefined, false, true);
-      mergedMesh.id = parentMesh.id;
+  public addTo = (childBlock: ShapeBlock, parentBlock: ShapeBlock) => {
+    let child = convertShapeBlockToMesh(childBlock, this.scene);
+    let parent = convertShapeBlockToMesh(parentBlock, this.scene);
+    if (child && parent) {
+      console.log("Parent " + parent.position);
+      console.log(parent.getBoundingInfo().maximum);
+      let parentAABB = this.getAxisAlignedBoundingBox(parent);
+      console.log(parentAABB.maximum);
+      console.log("Child " + child.position);
+      console.log(child.getBoundingInfo().maximum);
+      let childAABB = this.getAxisAlignedBoundingBox(child);
+      console.log(childAABB.maximum);
+
+      // parentAABB = parent.getBoundingInfo();
+      // childAABB = child.getBoundingInfo();
+      // let parentMaxX = parentAABB.maximum.x + parent.position.x;
+      // let parentMaxY = parentAABB.maximum.y + parent.position.y;
+      // let parentMaxZ = parentAABB.maximum.z + parent.position.z;
+      // let parentMinX = parentAABB.minimum.x + parent.position.x;
+      // let parentMinY = parentAABB.minimum.y + parent.position.y;
+      // let parentMinZ = parentAABB.minimum.z + parent.position.z;
+      // let childMaxX = childAABB.maximum.x + child.position.x;
+      // let childMaxY = childAABB.maximum.y + child.position.y;
+      // let childMaxZ = childAABB.maximum.z + child.position.z;
+      // let childMinX = childAABB.minimum.x + child.position.x;
+      // let childMinY = childAABB.minimum.y + child.position.y;
+      // let childMinZ = childAABB.minimum.z + child.position.z;
+
+      let parentMaxX = parentAABB.maximum.x;
+      let parentMaxY = parentAABB.maximum.y;
+      let parentMaxZ = parentAABB.maximum.z;
+      let parentMinX = parentAABB.minimum.x;
+      let parentMinY = parentAABB.minimum.y;
+      let parentMinZ = parentAABB.minimum.z;
+      let childMaxX = childAABB.maximum.x;
+      let childMaxY = childAABB.maximum.y;
+      let childMaxZ = childAABB.maximum.z;
+      let childMinX = childAABB.minimum.x;
+      let childMinY = childAABB.minimum.y;
+      let childMinZ = childAABB.minimum.z;
+      
+      let aggMaxX = Math.max(parentMaxX, childMaxX);
+      let aggMaxY = Math.max(parentMaxY, childMaxY);
+      let aggMaxZ = Math.max(parentMaxZ, childMaxZ);
+      let aggMinX = Math.min(parentMinX, childMinX);
+      let aggMinY = Math.min(parentMinY, childMinY);
+      let aggMinZ = Math.min(parentMinZ, childMinZ);
+      console.log(aggMaxX, aggMaxY, aggMaxZ);
+      console.log(aggMinX, aggMinY, aggMinZ);
+      let deltaX = (aggMinX + aggMaxX) / 2;
+      let deltaY = (aggMinY + aggMaxY) / 2;
+      let deltaZ = (aggMinZ + aggMaxZ) / 2;
+      let deltaPosition = new BABYLON.Vector3(deltaX, deltaY, deltaZ);
+      console.log(deltaPosition);
+
+      let newParentPosition = parent.position.subtract(deltaPosition);
+      console.log("New Parent " + newParentPosition);
+      let newChildPosition = child.position.subtract(deltaPosition);
+      console.log("New Child " + newChildPosition);
+
+      parent.position = newParentPosition;
+      child.position = newChildPosition;
+      let mergedMesh = BABYLON.Mesh.MergeMeshes(
+        [parent as BABYLON.Mesh, child as BABYLON.Mesh],
+        true,
+        true,
+        undefined,
+        false,
+        true
+      );
+      mergedMesh.id = parent.id;
+      mergedMesh.position = mergedMesh.position.add(deltaPosition);
+      console.log("New position " + mergedMesh.position);
+
       mergedMesh.actionManager = new BABYLON.ActionManager(this.scene);
       this.actionManagers.push(mergedMesh.actionManager);
+
       if (this.physicsEnabled === true) {
         mergedMesh.physicsImpostor = new BABYLON.PhysicsImpostor(
           mergedMesh,
-          BABYLON.PhysicsImpostor.BoxImpostor,
-          { mass: 1, restitution: 0.7, friction: 1.0 },
+          BABYLON.PhysicsImpostor.ConvexHullImpostor,
+          { mass: 1, restitution: 0.1, friction: 1.0 },
           this.scene
         );
       }
     }
-  }
+  };
 
   // Creates a light bulb, light comes from all directions
   public createLightBulb = (light: Light, coords: Coords) => {
@@ -919,7 +1008,7 @@ export class ThreeD {
     }
     this.scene.environmentIntensity = intensity / 100;
     this.scene.environmentTexture.level = intensity / 100;
-    if (this.skybox){
+    if (this.skybox) {
       this.scene.createDefaultSkybox(this.scene.environmentTexture);
       this.ambientLight.intensity = 0;
     }
@@ -998,5 +1087,5 @@ export class ThreeD {
 
   public disableInspector = () => {
     this.scene.debugLayer.hide();
-  }
+  };
 }
