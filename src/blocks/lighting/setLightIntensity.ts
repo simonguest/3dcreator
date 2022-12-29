@@ -27,6 +27,6 @@ export let setLightIntensity = {
     let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
     let intensity = javascriptGenerator.valueToCode(block, 'INTENSITY', javascriptGenerator.ORDER_NONE);
 
-    return `threeD.setLightIntensity(${variable}, "${intensity}");`;
+    return `threeD.setLightIntensity(${variable}, ${intensity});`;
   },
 };

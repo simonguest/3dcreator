@@ -542,7 +542,7 @@ export class ThreeD {
   // Creates a sphere
   private createSphere = (shape: Shape, coords: Coords) => {
     let sphere = BABYLON.MeshBuilder.CreateSphere(shape.id, {
-      segments: 32,
+      segments: 16,
       diameterX: shape.size.w,
       diameterY: shape.size.h,
       diameterZ: shape.size.l,
