@@ -557,7 +557,7 @@ export class ThreeD {
       sphere.physicsImpostor = new BABYLON.PhysicsImpostor(
         sphere,
         BABYLON.PhysicsImpostor.SphereImpostor,
-        { mass: 1, restitution: 0.7, friction: 1.0 },
+        { mass: 1, restitution: 0.7, friction: 3 },
         this.scene
       );
       sphere.physicsImpostor.physicsBody.angularDamping = 0.4;
@@ -656,15 +656,15 @@ export class ThreeD {
     let clone = mesh.clone("mesh", null);
     let vertices = clone.getVerticesData("position");
     let min = new BABYLON.Vector3(1e10, 1e10, 1e10),
-        max = new BABYLON.Vector3(-1e10, -1e10, -1e10),
-        m = clone.getWorldMatrix();
-    
+      max = new BABYLON.Vector3(-1e10, -1e10, -1e10),
+      m = clone.getWorldMatrix();
+
     let v = new BABYLON.Vector3();
     for (let i = 0; i < vertices.length / 3; ++i) {
-        v.copyFromFloats(vertices[i * 3 + 0], vertices[i * 3 + 1], vertices[i * 3 + 2]);
-        BABYLON.Vector3.TransformCoordinatesToRef(v, m, v);
-        min.minimizeInPlace(v);
-        max.maximizeInPlace(v);
+      v.copyFromFloats(vertices[i * 3 + 0], vertices[i * 3 + 1], vertices[i * 3 + 2]);
+      BABYLON.Vector3.TransformCoordinatesToRef(v, m, v);
+      min.minimizeInPlace(v);
+      max.maximizeInPlace(v);
     }
     let parent = new BABYLON.Mesh("parent", this.scene);
     parent.setBoundingInfo(new BABYLON.BoundingInfo(min, max));
@@ -672,7 +672,7 @@ export class ThreeD {
     clone.dispose();
 
     return new BABYLON.BoundingInfo(min, max);
-  }
+  };
 
   // Adds a shape to a parent
   public addTo = (childBlock: ShapeBlock, parentBlock: ShapeBlock) => {
@@ -681,7 +681,7 @@ export class ThreeD {
     if (child && parent) {
       let parentAABB = this.getAxisAlignedBoundingInfo(parent);
       let childAABB = this.getAxisAlignedBoundingInfo(child);
-      
+
       let aggMaxX = Math.max(parentAABB.maximum.x, childAABB.maximum.x);
       let aggMaxY = Math.max(parentAABB.maximum.y, childAABB.maximum.y);
       let aggMaxZ = Math.max(parentAABB.maximum.z, childAABB.maximum.z);
@@ -787,6 +787,10 @@ export class ThreeD {
   public remove = (shapeBlock: ShapeBlock) => {
     let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
     if (mesh) {
+      // remove any physics imposters first
+      if (mesh.physicsImpostor) {
+        mesh.physicsImpostor.dispose();
+      }
       this.scene.removeMesh(mesh);
     }
   };
