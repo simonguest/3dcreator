@@ -6,7 +6,7 @@ export let snow = {
         let input = this.appendDummyInput()
             .appendField('snow: ');
         let options = [
-            [{'src': '../assets/materials/snow/Snow004_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Snow004'}, 'snow/Snow004'],
+            [{'src': './assets/materials/snow/Snow004_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Snow004'}, 'snow/Snow004'],
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
         this.setOutput(true, "MATERIAL");

@@ -6,7 +6,7 @@ export let codeorg = {
         let input = this.appendDummyInput()
             .appendField('code.org: ');
         let options = [
-            [{'src': '../assets/materials/codeorg/CodeOrg.jpg', 'width': 25, 'height': 25, 'alt': 'Code.org Logo'}, 'codeorg/CodeOrg.jpg'],
+            [{'src': './assets/materials/codeorg/CodeOrg.jpg', 'width': 25, 'height': 25, 'alt': 'Code.org Logo'}, 'codeorg/CodeOrg.jpg'],
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
         this.setOutput(true, "MATERIAL");

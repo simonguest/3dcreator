@@ -6,10 +6,10 @@ export let chip = {
         let input = this.appendDummyInput()
             .appendField('circuit board: ');
         let options = [
-            [{'src': '../assets/materials/chip/Chip001_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Chip001'}, 'chip/Chip001'],
-            [{'src': '../assets/materials/chip/Chip002_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Chip002'}, 'chip/Chip002'],
-            [{'src': '../assets/materials/chip/Chip004_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Chip004'}, 'chip/Chip004'],
-            [{'src': '../assets/materials/chip/Chip005_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Chip005'}, 'chip/Chip005'],
+            [{'src': './assets/materials/chip/Chip001_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Chip001'}, 'chip/Chip001'],
+            [{'src': './assets/materials/chip/Chip002_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Chip002'}, 'chip/Chip002'],
+            [{'src': './assets/materials/chip/Chip004_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Chip004'}, 'chip/Chip004'],
+            [{'src': './assets/materials/chip/Chip005_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'Chip005'}, 'chip/Chip005'],
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
         this.setOutput(true, "MATERIAL");

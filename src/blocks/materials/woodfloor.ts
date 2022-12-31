@@ -6,7 +6,7 @@ export let woodfloor = {
         let input = this.appendDummyInput()
             .appendField('wood floor: ');
         let options = [
-            [{'src': '../assets/materials/woodfloor/WoodFloor042_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'WoodFloor042'}, 'woodfloor/WoodFloor042'],
+            [{'src': './assets/materials/woodfloor/WoodFloor042_PREVIEW.jpg', 'width': 25, 'height': 25, 'alt': 'WoodFloor042'}, 'woodfloor/WoodFloor042'],
         ];
         input.appendField(new Blockly.FieldDropdown(options), 'MATERIAL');
         this.setOutput(true, "MATERIAL");
