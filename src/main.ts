@@ -290,7 +290,7 @@ async function run(reset?: boolean, physics?: boolean) {
   console.log("Running");
 
   console.log("Loading ammo physics lib");
-  ammo = await Ammo();
+  ammo = await Ammo.bind(window)();
   threeD.ammo = ammo;
 
   // Generate the required code
