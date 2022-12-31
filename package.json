@@ -1,25 +1,22 @@
 {
-  "name": "3dlab",
+  "name": "3dcreator",
   "version": "1.0.0",
   "description": "",
-  "directories": {
-    "example": "examples",
-    "lib": "lib"
-  },
   "scripts": {
     "build": "rm -rf ./dist && rm -rf ./.parcel-cache && npx parcel build index.html",
+    "build-ghpages": "rm -rf ./dist && rm -rf ./.parcel-cache && npx parcel build --public-url '.' index.html",
     "server": "npm run build && npx parcel serve index.html -p 55000"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simonguest/3dlab.git"
+    "url": "git+https://github.com/simonguest/3dcreator.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/simonguest/3dlab/issues"
+    "url": "https://github.com/simonguest/3dcreator/issues"
   },
-  "homepage": "https://github.com/simonguest/3dlab#readme",
+  "homepage": "https://github.com/simonguest/3dcreator#readme",
   "dependencies": {
     "ammojs-typed": "^1.0.6",
     "babylonjs": "^5.28.0",
