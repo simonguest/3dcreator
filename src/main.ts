@@ -428,11 +428,12 @@ async function init() {
     window.dispatchEvent(columnResizedEvent);
   };
 
-  document.getElementById("columnResizer").onmousedown = () => {
-    document.addEventListener("mousemove", broadcastColumnResize);
-    document.onmouseup = () => {
+  // Column resizer control using pointer events to support mouse and touch
+  document.getElementById("columnResizer").onpointerdown = () => {
+    document.addEventListener("pointermove", broadcastColumnResize);
+    document.onpointerup = () => {
       console.log("resize complete");
-      document.removeEventListener("mousemove", broadcastColumnResize);
+      document.removeEventListener("pointermove", broadcastColumnResize);
     };
   };
 
