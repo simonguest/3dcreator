@@ -221,12 +221,13 @@ export class ThreeD {
         }
         this.scene.removeCamera(this.scene.getCameraById("camera"));
         this.camera = new BABYLON.VRDeviceOrientationFreeCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
+        break;
     }
     this.camera.attachControl(this.canvas, true);
     this.restoreCameraState();
   };
 
-  public createScene = async (reset?: boolean, physics?: boolean) => {
+  public createScene = async (reset?: boolean, physics?: boolean, xr?: boolean) => {
     console.log("Creating scene");
     // Unregister actions from previous scene
     if (this.scene) {
@@ -275,6 +276,11 @@ export class ThreeD {
     } else {
       this.physicsEnabled = false;
       this.scene.disablePhysicsEngine();
+    }
+
+    if (xr === true) {
+      // Enable WebXR if compatible device
+      const xrHelper = await this.scene.createDefaultXRExperienceAsync();
     }
   };
 

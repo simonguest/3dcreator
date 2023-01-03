@@ -126,6 +126,11 @@ body {
   background-repeat: no-repeat;
 }
 
+#xr {
+  background-image: url(../static/icons/xr.svg);
+  background-repeat: no-repeat;
+}
+
 #debug {
   background-image: url(../static/icons/debug.svg);
   background-repeat: no-repeat;
