@@ -1,8 +1,8 @@
 import * as BABYLON from "babylonjs";
 import { BabylonFileLoaderConfiguration } from "babylonjs";
 
-const BRIGHTNESS_MULTIPLIER = 10;
-const BRIGHTNESS_MAX = 1000;
+const BRIGHTNESS_MULTIPLIER = 1;
+const BRIGHTNESS_MAX = 10000;
 
 type Material = {
   texture: string;
@@ -190,7 +190,7 @@ export class ThreeD {
           "camera",
           BABYLON.Tools.ToRadians(-90),
           BABYLON.Tools.ToRadians(65),
-          100,
+          5,
           BABYLON.Vector3.Zero(),
           this.scene
         );
@@ -269,7 +269,7 @@ export class ThreeD {
     this.scene.actionManager = new BABYLON.ActionManager();
     if (physics === true) {
       console.log("Enabling physics");
-      let gravityVector = new BABYLON.Vector3(0, -90.81, 0);
+      let gravityVector = new BABYLON.Vector3(0, -9.81, 0);
       let physicsPlugin = new BABYLON.AmmoJSPlugin(true, this.ammo);
       this.scene.enablePhysics(gravityVector, physicsPlugin);
       this.physicsEnabled = true;
@@ -891,7 +891,7 @@ export class ThreeD {
   // Sets overall gravity for the scene
   public setGravity = (units: number) => {
     if (this.physicsEnabled) {
-      this.scene.getPhysicsEngine().setGravity(new BABYLON.Vector3(0, 0 - units * 10, 0));
+      this.scene.getPhysicsEngine().setGravity(new BABYLON.Vector3(0, 0 - units, 0));
     }
   };
 

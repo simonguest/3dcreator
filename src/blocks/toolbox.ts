@@ -255,7 +255,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 50,
+                  NUM: 5,
                 },
               },
             },
@@ -263,7 +263,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 50,
+                  NUM: 5,
                 },
               },
             },
@@ -271,7 +271,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 50,
+                  NUM: 2.5,
                 },
               },
             },
@@ -302,7 +302,7 @@ export let toolbox = {
                     shadow: {
                       type: "math_number",
                       fields: {
-                        NUM: 5,
+                        NUM: .5,
                       },
                     },
                   },
@@ -339,7 +339,7 @@ export let toolbox = {
                     shadow: {
                       type: "math_number",
                       fields: {
-                        NUM: 5,
+                        NUM: .5,
                       },
                     },
                   },
@@ -376,7 +376,7 @@ export let toolbox = {
                     shadow: {
                       type: "math_number",
                       fields: {
-                        NUM: 5,
+                        NUM: .5,
                       },
                     },
                   },
@@ -438,7 +438,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -551,7 +551,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -559,7 +559,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -567,7 +567,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -586,7 +586,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -594,7 +594,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -602,7 +602,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -621,7 +621,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 50,
+                  NUM: 5,
                 },
               },
             },
@@ -629,7 +629,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 50,
+                  NUM: 5,
                 },
               },
             },
@@ -637,7 +637,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 5,
+                  NUM: 1,
                 },
               },
             },
@@ -664,7 +664,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -672,7 +672,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 5,
+                  NUM: .5,
                 },
               },
             },
@@ -680,7 +680,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -699,7 +699,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -707,7 +707,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -726,7 +726,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -734,7 +734,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 5,
+                  NUM: .5,
                 },
               },
             },
@@ -753,7 +753,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -761,7 +761,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 5,
+                  NUM: .5,
                 },
               },
             },
@@ -780,7 +780,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -788,7 +788,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 1,
+                  NUM: .1,
                 },
               },
             },
@@ -796,7 +796,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 5,
+                  NUM: .5,
                 },
               },
             },
@@ -1017,7 +1017,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },
@@ -1096,7 +1096,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 50,
+                  NUM: 1,
                 },
               },
             },
@@ -1114,7 +1114,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 100,
+                  NUM: 10,
                 },
               },
             },
@@ -1148,7 +1148,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 50,
+                  NUM: 5,
                 },
               },
             },
@@ -1162,7 +1162,7 @@ export let toolbox = {
               shadow: {
                 type: "math_number",
                 fields: {
-                  NUM: 10,
+                  NUM: 1,
                 },
               },
             },

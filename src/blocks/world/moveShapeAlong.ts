@@ -19,8 +19,6 @@ export let moveShapeAlong = {
             .appendField("along")
             .appendField(new Blockly.FieldDropdown([["x", "x"], ["y", "y"], ["z", "z"]]), "AXIS")
             .appendField("axis by");
-        this.appendDummyInput()
-            .appendField("steps");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
