@@ -181,6 +181,20 @@ const getUniqueNameForField = (prefix, block) => {
 let physicsEnabled = false;
 let inspectorEnabled = false;
 
+const server = new WebSocket("ws://localhost:8080");
+const publisher = new URLSearchParams(window.location.search).get("p");
+const subscriber = new URLSearchParams(window.location.search).get("s");
+
+// listen for remote workspace changes
+if (subscriber) {
+  server.addEventListener("message", async (ev) => {
+    console.log("Received workspace update from remote server");
+    console.log(ev.data);
+    sessionStorage.setItem("workspace", JSON.stringify(ev.data));
+    Blockly.serialization.workspaces.load(JSON.parse(ev.data), workspace);
+  });
+}
+
 workspace.addChangeListener(async (ev) => {
   if (
     ev.type === Blockly.Events.BLOCK_MOVE ||
@@ -263,6 +277,11 @@ workspace.addChangeListener(async (ev) => {
     let json = Blockly.serialization.workspaces.save(workspace);
     sessionStorage.setItem("workspace", JSON.stringify(json));
 
+    // Broadcast to server
+    if (server.readyState === WebSocket.OPEN && publisher) {
+      server.send(JSON.stringify(json));
+    }
+
     // Refresh the scene
     await run(false, physicsEnabled);
   }
@@ -297,7 +316,11 @@ async function run(reset?: boolean, physics?: boolean) {
   // Generate the required code
   let code = javascriptGenerator.workspaceToCode(workspace);
   console.log(`CODE: ${code}`);
+  try {
   eval(`threeD.createScene(${reset}, ${physics}); ${code} threeD.createCamera();`);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 async function init() {
@@ -340,7 +363,7 @@ async function init() {
     e.preventDefault();
     console.log("xr button pressed");
     await threeD.enableXR();
-  }
+  };
 
   debugButton.onmouseup = async (e) => {
     e.preventDefault();

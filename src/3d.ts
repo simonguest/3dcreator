@@ -123,6 +123,7 @@ export class ThreeD {
   private skybox: BABYLON.Mesh;
   private ambientLight: BABYLON.HemisphericLight;
   private ground: BABYLON.Mesh;
+  private defaultXRExperience: BABYLON.WebXRDefaultExperience;
 
   constructor(canvas) {
     this.canvas = canvas;
@@ -238,6 +239,16 @@ export class ThreeD {
         });
       }
     }
+
+    if (this.defaultXRExperience) {
+      if (this.defaultXRExperience.baseExperience.state === BABYLON.WebXRState.IN_XR) {
+        // We're in XR mode, so we'll need to disable it before constructing a new scene
+        console.log("disabling XR mode");
+        await this.defaultXRExperience.baseExperience.exitXRAsync();
+        this.defaultXRExperience = null;
+      }
+    }
+
     // Now, create a new scene
     this.scene = new BABYLON.Scene(this.engine);
     this.cameraType = "ArcRotate";
@@ -277,12 +288,13 @@ export class ThreeD {
       this.physicsEnabled = false;
       this.scene.disablePhysicsEngine();
     }
+
   };
 
   public runRenderLoop = () => {
     this.engine.runRenderLoop(
       function () {
-        if (this.scene) {
+        if (this.scene && this.scene.cameras.length > 0) {
           this.scene.render();
           document.getElementById("fpsCounter").innerHTML = this.engine.getFps().toFixed() + " fps";
         }
@@ -1054,13 +1066,23 @@ export class ThreeD {
     this.scene.debugLayer.hide();
   };
 
+  public disableXR = async  () => {
+    if (this.defaultXRExperience) {
+      await this.defaultXRExperience.baseExperience.exitXRAsync();
+      delete this.defaultXRExperience;
+    }
+  };
+
   public enableXR = async () => {
-    let defaultXRExperience = await this.scene.createDefaultXRExperienceAsync({floorMeshes: [this.ground], disableDefaultUI: true});
-    if (!defaultXRExperience.baseExperience) {
-       console.error("XR not supported on this device");
+    this.defaultXRExperience = await this.scene.createDefaultXRExperienceAsync({
+      floorMeshes: [this.ground],
+      disableDefaultUI: true,
+    });
+    if (!this.defaultXRExperience.baseExperience) {
+      console.error("XR not supported on this device");
     } else {
       console.log("Entering XR immersive mode");
-      defaultXRExperience.baseExperience.enterXRAsync("immersive-vr", "local-floor");
+      this.defaultXRExperience.baseExperience.enterXRAsync("immersive-vr", "local-floor");
     }
-  }
+  };
 }
