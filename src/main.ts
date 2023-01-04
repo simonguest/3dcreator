@@ -179,7 +179,6 @@ const getUniqueNameForField = (prefix, block) => {
 };
 
 let physicsEnabled = false;
-let xrEnabled = false;
 let inspectorEnabled = false;
 
 workspace.addChangeListener(async (ev) => {
@@ -265,7 +264,7 @@ workspace.addChangeListener(async (ev) => {
     sessionStorage.setItem("workspace", JSON.stringify(json));
 
     // Refresh the scene
-    await run(false, physicsEnabled, xrEnabled);
+    await run(false, physicsEnabled);
   }
 });
 
@@ -288,7 +287,7 @@ let examplesDropDown = document.getElementById("examples-dropdown");
 
 let ammo = null;
 
-async function run(reset?: boolean, physics?: boolean, xr?: boolean) {
+async function run(reset?: boolean, physics?: boolean) {
   console.log("Running");
 
   console.log("Loading ammo physics lib");
@@ -298,7 +297,7 @@ async function run(reset?: boolean, physics?: boolean, xr?: boolean) {
   // Generate the required code
   let code = javascriptGenerator.workspaceToCode(workspace);
   console.log(`CODE: ${code}`);
-  eval(`threeD.createScene(${reset}, ${physics}, ${xr}); ${code} threeD.createCamera();`);
+  eval(`threeD.createScene(${reset}, ${physics}); ${code} threeD.createCamera();`);
 }
 
 async function init() {
@@ -309,7 +308,7 @@ async function init() {
   resetButton.onmouseup = async (e) => {
     e.preventDefault();
     console.log("reset button pressed");
-    await run(true, physicsEnabled, xrEnabled);
+    await run(true, physicsEnabled);
   };
 
   const setPhysicsButton = () => {
@@ -327,21 +326,20 @@ async function init() {
     console.log("physics button pressed");
     physicsEnabled = !physicsEnabled;
     setPhysicsButton();
-    await run(false, physicsEnabled, xrEnabled);
+    await run(false, physicsEnabled);
   };
 
   fullscreenButton.onmouseup = async (e) => {
     e.preventDefault();
     console.log("full screen button pressed");
     threeD.engine.enterFullscreen(false);
-    await run(false, physicsEnabled, xrEnabled);
+    await run(false, physicsEnabled);
   };
 
   xrButton.onmouseup = async (e) => {
     e.preventDefault();
     console.log("xr button pressed");
-    xrEnabled = !xrEnabled;
-    await run(false, physicsEnabled, xrEnabled);
+    await threeD.enableXR();
   }
 
   debugButton.onmouseup = async (e) => {
@@ -389,7 +387,7 @@ async function init() {
         examplesDropDown.style.display = "none";
       }
       // reset the scene to get default camera angle
-      await run(true, physicsEnabled, xrEnabled);
+      await run(true, physicsEnabled);
     });
   });
 
@@ -447,7 +445,7 @@ async function init() {
   };
 
   // Initial scene creation
-  await run(true, physicsEnabled, xrEnabled);
+  await run(true, physicsEnabled);
 }
 
 init().then();

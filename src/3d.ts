@@ -227,7 +227,7 @@ export class ThreeD {
     this.restoreCameraState();
   };
 
-  public createScene = async (reset?: boolean, physics?: boolean, xr?: boolean) => {
+  public createScene = async (reset?: boolean, physics?: boolean) => {
     console.log("Creating scene");
     // Unregister actions from previous scene
     if (this.scene) {
@@ -276,11 +276,6 @@ export class ThreeD {
     } else {
       this.physicsEnabled = false;
       this.scene.disablePhysicsEngine();
-    }
-
-    if (xr === true) {
-      // Enable WebXR if compatible device
-      const xrHelper = await this.scene.createDefaultXRExperienceAsync();
     }
   };
 
@@ -1058,4 +1053,14 @@ export class ThreeD {
   public disableInspector = () => {
     this.scene.debugLayer.hide();
   };
+
+  public enableXR = async () => {
+    let defaultXRExperience = await this.scene.createDefaultXRExperienceAsync({floorMeshes: [this.ground], disableDefaultUI: true});
+    if (!defaultXRExperience.baseExperience) {
+       console.error("XR not supported on this device");
+    } else {
+      console.log("Entering XR immersive mode");
+      defaultXRExperience.baseExperience.enterXRAsync("immersive-vr", "local-floor");
+    }
+  }
 }
