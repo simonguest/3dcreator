@@ -8,8 +8,6 @@ export let moveCameraAlong = {
             .appendField("move camera along")
             .appendField(new Blockly.FieldDropdown([["x", "x"], ["y", "y"], ["z", "z"]]), "AXIS")
             .appendField("axis by");
-        this.appendDummyInput()
-            .appendField("units");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
