@@ -221,7 +221,7 @@ export class ThreeD {
           this.clearCameraState();
         }
         this.scene.removeCamera(this.scene.getCameraById("camera"));
-        this.camera = new BABYLON.VRDeviceOrientationFreeCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
+        this.camera = new BABYLON.VRDeviceOrientationFreeCamera("camera", new BABYLON.Vector3(0, 1, -3), this.scene);
         break;
     }
     this.camera.attachControl(this.canvas, true);
@@ -251,7 +251,6 @@ export class ThreeD {
 
     // Now, create a new scene
     this.scene = new BABYLON.Scene(this.engine);
-    this.cameraType = "ArcRotate";
     if (reset === true) {
       delete this.camera;
       this.clearCameraState();

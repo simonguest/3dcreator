@@ -1049,10 +1049,6 @@ export let toolbox = {
       contents: [
         {
           kind: "block",
-          type: "setCameraType"
-        },
-        {
-          kind: "block",
           type: "moveCamera",
           inputs: {
             COORDS: {

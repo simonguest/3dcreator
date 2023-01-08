@@ -126,8 +126,8 @@ body {
   background-repeat: no-repeat;
 }
 
-#xr {
-  background-image: url(../static/icons/xr.svg);
+#vr {
+  background-image: url(../static/icons/vr.svg);
   background-repeat: no-repeat;
 }
 
@@ -178,12 +178,31 @@ body {
   margin-bottom: 2;
 }
 
+#vr-dropdown {
+  position:absolute;
+  display: none;
+  flex-direction: column;
+  top: 45px;
+  left: 245px;
+  width: 200px;
+  background-color: #5d5d73;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+
+#vr-dropdown button {
+  font-weight: bold;
+  font-family: "Roboto Mono";
+  text-align: left;
+}
+
 #examples-dropdown {
   position:absolute;
   display: none;
   flex-direction: column;
   top: 45px;
-  left: 345px;
+  left: 350px;
   width: 200px;
   background-color: #5d5d73;
   min-width: 160px;

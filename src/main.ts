@@ -299,15 +299,20 @@ window.addEventListener("resize", function () {
 let resetButton = document.getElementById("reset");
 let physicsButton = document.getElementById("physics");
 let fullscreenButton = document.getElementById("fullscreen");
-let xrButton = document.getElementById("xr");
 let debugButton = document.getElementById("debug");
 let examplesButton = document.getElementById("examples");
 let examplesDropDown = document.getElementById("examples-dropdown");
+let vrButton = document.getElementById("vr");
+let vrDropDown = document.getElementById("vr-dropdown");
+let oculusQuestButton = document.getElementById("oculusQuestButton");
+let googleCardboardButton = document.getElementById("googleCardboardButton");
+let exitVRButton = document.getElementById("exitVRButton");
 
 let ammo = null;
+let activeCamera = "ArcRotate";
 
 async function run(reset?: boolean, physics?: boolean) {
-  console.log("Running");
+  console.log(`Running with camera: ${activeCamera}`);
 
   console.log("Loading ammo physics lib");
   ammo = await Ammo.bind(window)();
@@ -317,7 +322,7 @@ async function run(reset?: boolean, physics?: boolean) {
   let code = javascriptGenerator.workspaceToCode(workspace);
   console.log(`CODE: ${code}`);
   try {
-  eval(`threeD.createScene(${reset}, ${physics}); ${code} threeD.createCamera();`);
+    eval(`threeD.setCameraType("${activeCamera}"); threeD.createScene(${reset}, ${physics}); ${code} threeD.createCamera();`);
   } catch (err) {
     console.error(err);
   }
@@ -359,12 +364,6 @@ async function init() {
     await run(false, physicsEnabled);
   };
 
-  xrButton.onmouseup = async (e) => {
-    e.preventDefault();
-    console.log("xr button pressed");
-    await threeD.enableXR();
-  };
-
   debugButton.onmouseup = async (e) => {
     e.preventDefault();
     console.log("debug button pressed");
@@ -384,8 +383,42 @@ async function init() {
     }
   };
 
+  vrButton.onmouseup = async (e) => {
+    e.preventDefault();
+    examplesDropDown.style.display = "none";
+    if (getComputedStyle(vrDropDown).display === "none") {
+      vrDropDown.style.display = "flex";
+    } else {
+      vrDropDown.style.display = "none";
+    }
+  };
+
+  oculusQuestButton.onmouseup = async (e) => {
+    e.preventDefault();
+    vrDropDown.style.display = "none";
+    console.log("oculus quest button pressed");
+    await threeD.enableXR();
+  };
+
+  googleCardboardButton.onmouseup = async (e) => {
+    e.preventDefault();
+    vrDropDown.style.display = "none";
+    console.log("google cardboard button pressed");
+    activeCamera = "VRDeviceOrientationFreeCamera";
+    await run(false, physicsEnabled);
+  };
+
+  exitVRButton.onmouseup = async (e) => {
+    e.preventDefault();
+    vrDropDown.style.display = "none";
+    console.log("exit vr button pressed");
+    activeCamera = "ArcRotate";
+    await run(false, physicsEnabled);
+  };
+
   examplesButton.onmouseup = async (e) => {
     e.preventDefault();
+    vrDropDown.style.display = "none";
     if (getComputedStyle(examplesDropDown).display === "none") {
       examplesDropDown.style.display = "flex";
     } else {
