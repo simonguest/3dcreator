@@ -184,6 +184,8 @@ let inspectorEnabled = false;
 const server = new WebSocket("ws://localhost:8080");
 const publisher = new URLSearchParams(window.location.search).get("p");
 const subscriber = new URLSearchParams(window.location.search).get("s");
+const sample = new URLSearchParams(window.location.search).get("sample");
+const phys = new URLSearchParams(window.location.search).get("phys");
 
 // listen for remote workspace changes
 if (subscriber) {
@@ -446,6 +448,17 @@ async function init() {
       await run(true, physicsEnabled);
     });
   });
+
+  // see whether should load sample from url params
+  if (sample && phys) {
+    const response = await fetch(`./examples/${sample}`);
+    const json = await response.json();
+    Blockly.serialization.workspaces.load(json, workspace);
+    physicsEnabled = phys === "1" ? true : false;
+    setPhysicsButton();
+    // reset the scene to get default camera angle
+    await run(true, physicsEnabled);
+  }
 
   document.getElementById("export").onclick = () => {
     console.log("export workspace button pressed");
