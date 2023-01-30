@@ -1,5 +1,5 @@
-3D Creator
-==========
+3D Creator Prototype
+====================
 
 3D Creator is a prototype that shows how students (grades 7-12) can use block-based programming to create immersive 3D scenes. It's designed such that students only need knowledge of x, y, and z planes, and gently introduces more complex topics over time.
 
@@ -35,10 +35,21 @@ From left to right, the toolbar offers the following functionality:
 - **VR Mode:** Displays the current scene on an Oculus Quest (using WebXR) or Google Cardboard.
 - **Scene Debug:** Enables the debug view for object debugging.
 
-- **Examples:** Open an example project.
+- **Samples:** Open a sample project.
 - **Open:** Open a previously saved workspace file.
 - **Download:** Download the workspace to a file.
 - **Clear:** Clear the current workspace and scene.
+
+# Sample Projects
+
+Sample projects can be opened via the toolbar (as shown above) or via direct URLs:
+
+- [TV Room](https://simonguest.github.io/3dcreator/?sample=tv-room.json&phys=0)
+- [Spinning Code.org](https://simonguest.github.io/3dcreator/?sample=spinning-codeorg.json&phys=0)
+- [Solar System](https://simonguest.github.io/3dcreator/?sample=solar-system.json&phys=0)
+- [Red Pill, Blue Pill](https://simonguest.github.io/3dcreator/?sample=redpill-bluepill.json&phys=1) (Click on the scene and press A to add more and B to release.)
+- [Pegboard Game](https://simonguest.github.io/3dcreator/?sample=pegboard.json&phys=1) (Click on the scene and press A and D to move, S to release.)
+
 
 # Browser Support
 
