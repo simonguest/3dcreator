@@ -19,7 +19,7 @@ Drag blocks on to the workspace to build your scene:
 
 ![image](https://user-images.githubusercontent.com/769225/212596959-0d439e17-6e8c-4bca-b618-dca98529d1aa.png)
 
-The example projects (fourth button from the right) demonstrate some of the more advanced features of 3D Creator:
+The sample projects (fourth button from the right on the toolbar) demonstrate some of the more advanced features of 3D Creator:
 
 ![image](https://user-images.githubusercontent.com/769225/212597590-d016abe5-8880-47d6-b952-6bf68242f6bd.png)
 
@@ -55,7 +55,7 @@ Sample projects can be opened via the toolbar (as shown above) or via direct URL
 
 3D Creator has been tested on Firefox, Chrome, and Safari. It also is touch-responsive, so should work well on most tablets (tested on iPad Air), but is not responsive for an iPhone/smart phone form factor.
 
-# Building and Running 3D Creator Locally
+# Building and Running Locally
 
 Clone the repo and run ```npm install``` to install the required dependencies.
 
