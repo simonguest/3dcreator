@@ -5,7 +5,7 @@
   "scripts": {
     "build": "rm -rf ./dist && rm -rf ./.parcel-cache && npx parcel build --public-url '.' index.html",
     "commit-ghpages": "git add -A && git commit -m \"Deploy to GitHub Pages\"",
-    "prepublish":"npm run build && npm run commit-ghpages",
+    "prepublish": "npm run build && npm run commit-ghpages",
     "publish": "git subtree push --prefix dist origin gh-pages",
     "server": "npm run build && npx parcel serve index.html -p 55000"
   },
@@ -20,8 +20,7 @@
   },
   "homepage": "https://github.com/simonguest/3dcreator#readme",
   "dependencies": {
-    "ammojs-typed": "^1.0.6",
-    "babylonjs": "^5.28.0",
+    "babylonjs": "^5.46.0",
     "blockly": "^9.0.0"
   },
   "devDependencies": {
