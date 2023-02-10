@@ -25,6 +25,6 @@ export let showLight = {
   transpile: function (block) {
     let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
 
-    return `threeD.showLight(${variable});`;
+    return `threeD.showLight(${variable}, scene);`;
   },
 };

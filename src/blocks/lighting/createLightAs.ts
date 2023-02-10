@@ -35,6 +35,6 @@ export let createLightAs = {
     if (light === "") return "";
     if (coords === "") return "";
 
-    return `${variable} = ${light}; threeD.createLight(${variable}, ${coords});`;
+    return `${variable} = ${light}; threeD.createLight(${variable}, ${coords}, scene);`;
   },
 };

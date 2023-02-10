@@ -1,83 +1,6 @@
 import * as BABYLON from "babylonjs";
-import { BabylonFileLoaderConfiguration } from "babylonjs";
 
-const BRIGHTNESS_MULTIPLIER = 1;
-const BRIGHTNESS_MAX = 10000;
-
-type Material = {
-  texture: string;
-  color: string;
-  pbr?: string;
-  image?: string;
-  metallic?: number;
-  roughness?: number;
-};
-
-type MaterialBlock = [material: Material];
-
-type Shape = {
-  id: string;
-  type: string;
-  size: {
-    w?: number; // width
-    h?: number; // height
-    l?: number; // length
-    r?: number; // radius
-    d?: number; // diameter
-    t?: number; // diameter of top
-    b?: number; // diameter of bottom
-    s?: number; // tile size
-  };
-  tileSize?: number; // tile size for walls and ground
-  material: MaterialBlock;
-};
-
-type ShapeBlock = [shape: Shape];
-
-type Coords = {
-  x: number;
-  y: number;
-  z: number;
-};
-
-type CoordsBlock = [coords: Coords];
-
-type Light = {
-  id: string;
-  type: string;
-  props: {
-    b?: number; // brightness
-    c?: string; // color
-    s?: number; // beam size
-    r?: number; // range
-    x?: number; // x position of directionality
-    y?: number; // y position of directionality
-    z?: number; // z position of directionality
-  };
-};
-
-type LightBlock = [light: Light];
-
-const convertLightBlockToLight = (lightBlock: LightBlock) => {
-  if (!lightBlock) return null;
-  if (!lightBlock[0]) return null;
-  let light = lightBlock[0];
-  if (light === null) return null;
-  return light;
-};
-
-const convertLightBlockToLightInScene = (lightBlock: LightBlock, scene: BABYLON.Scene) => {
-  if (!lightBlock) return null;
-  if (!lightBlock[0]) return null;
-  let light = lightBlock[0];
-  if (light === null) return null;
-  let lightInScene = scene.getLightById(light.id);
-  return lightInScene;
-};
-
-type Skybox = {
-  asset: string;
-};
+import * as lighting from "./lighting";
 
 const convertShapeBlockToMesh = (shapeBlock: ShapeBlock, scene: BABYLON.Scene) => {
   if (!shapeBlock) return null;
@@ -125,7 +48,7 @@ export class ThreeD {
   private ground: BABYLON.Mesh;
   private defaultXRExperience: BABYLON.WebXRDefaultExperience;
 
-  constructor(canvas) {
+  constructor(canvas: HTMLElement) {
     this.canvas = canvas;
     this.engine = new BABYLON.Engine(this.canvas, true, { preserveDrawingBuffer: true, stencil: true });
   }
@@ -133,6 +56,14 @@ export class ThreeD {
   private runningAnimations = {};
   private actionManagers = [];
   private physicsEnabled: boolean = false;
+
+  // Lighting functions
+  public createLight = lighting.createLight;
+  public showLight = lighting.showLight;
+  public moveLight = lighting.moveLight;
+  public moveLightAlong = lighting.moveLightAlong;
+  public setLightColor = lighting.setLightColor;
+  public setLightIntensity = lighting.setLightIntensity;
 
   private saveCameraState = () => {
     this.cameraState = this.camera.serialize();
@@ -287,7 +218,7 @@ export class ThreeD {
       this.physicsEnabled = false;
       this.scene.disablePhysicsEngine();
     }
-
+    return this.scene;
   };
 
   public runRenderLoop = () => {
@@ -299,6 +230,21 @@ export class ThreeD {
         }
       }.bind(this)
     );
+  };
+
+  // Sets the ambient light intensity
+  public setAmbientLightIntensity = (intensity: number) => {
+    if (this.ambientLight) {
+      if (intensity < 0) intensity = 0;
+      if (intensity > lighting.BRIGHTNESS_MAX) intensity = lighting.BRIGHTNESS_MAX;
+      this.ambientLight.intensity = (intensity * lighting.BRIGHTNESS_MULTIPLIER) / 1000;
+    }
+    this.scene.environmentIntensity = intensity / 100;
+    this.scene.environmentTexture.level = intensity / 100;
+    if (this.skybox) {
+      this.scene.createDefaultSkybox(this.scene.environmentTexture);
+      this.ambientLight.intensity = 0;
+    }
   };
 
   // Sets the material of a mesh based on the material block
@@ -735,53 +681,7 @@ export class ThreeD {
     }
   };
 
-  // Creates a light bulb, light comes from all directions
-  public createLightBulb = (light: Light, coords: Coords) => {
-    let lightBulb = new BABYLON.PointLight(light.id, new BABYLON.Vector3(0, 0, 0), this.scene);
-    lightBulb.position.x = coords.x;
-    lightBulb.position.y = coords.y;
-    lightBulb.position.z = coords.z;
-    if (light.props.b < 0) light.props.b = 0;
-    if (light.props.b > BRIGHTNESS_MAX) light.props.b = BRIGHTNESS_MAX;
-    lightBulb.intensity = light.props.b * BRIGHTNESS_MULTIPLIER;
-    lightBulb.diffuse = BABYLON.Color3.FromHexString(light.props.c);
-  };
-
-  // Creates a spotlight, light comes from a specific direction
-  public createSpotlight = (light: Light, coords: Coords) => {
-    let spotlight = new BABYLON.SpotLight(
-      light.id,
-      new BABYLON.Vector3(0, 0, 0),
-      new BABYLON.Vector3(light.props.x, light.props.y, light.props.z), // direction
-      light.props.s, // beam size
-      light.props.r, // range
-      this.scene
-    );
-    spotlight.position.x = coords.x;
-    spotlight.position.y = coords.y;
-    spotlight.position.z = coords.z;
-    if (light.props.b < 0) light.props.b = 0;
-    if (light.props.b > 100) light.props.b = 100;
-    spotlight.intensity = light.props.b / 50;
-    spotlight.diffuse = BABYLON.Color3.FromHexString(light.props.c);
-  };
-
-  // Creates a light
-  public createLight = (lightBlock: LightBlock, coordsBlock: CoordsBlock) => {
-    let light = convertLightBlockToLight(lightBlock);
-    let coords = convertCoordsBlockToCoords(coordsBlock);
-
-    if (light && coords) {
-      switch (light.type) {
-        case "lightbulb":
-          this.createLightBulb(light, coords);
-          break;
-        case "spotlight":
-          this.createSpotlight(light, coords);
-          break;
-      }
-    }
-  };
+ 
 
   // Clone a shape into a new mesh and set the position
   public clone = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
@@ -922,73 +822,7 @@ export class ThreeD {
     }
   };
 
-  // Show a light on the scene to help with debugging
-  public showLight = (lightBlock: LightBlock) => {
-    let light = convertLightBlockToLightInScene(lightBlock, this.scene);
-    if (light) {
-      let lightSphere = BABYLON.CreateSphere("ls", { diameter: 5 });
-      let material = new BABYLON.StandardMaterial("lsm", this.scene);
-      material.emissiveColor = new BABYLON.Color3(1, 1, 0);
-      lightSphere.material = material;
-      lightSphere.position = light.getAbsolutePosition();
-    }
-  };
-
-  // Move a light to a new position
-  public moveLight = (lightBlock: LightBlock, coordsBlock: CoordsBlock) => {
-    let light = convertLightBlockToLightInScene(lightBlock, this.scene);
-    let coords = convertCoordsBlockToCoords(coordsBlock);
-    if (light && coords) {
-      //@ts-ignore (N/A as we don't allow use to create ambient light types)
-      light.position.x = coords.x;
-      //@ts-ignore
-      light.position.y = coords.y;
-      //@ts-ignore
-      light.position.z = coords.z;
-    }
-  };
-
-  // Move a light along an axis
-  public moveLightAlong = (lightBlock: LightBlock, axis: string, steps: number) => {
-    let light = convertLightBlockToLightInScene(lightBlock, this.scene);
-    if (light) {
-      //@ts-ignore
-      light.position[axis] += steps;
-    }
-  };
-
-  // Sets the color of a light
-  public setLightColor = (lightBlock: LightBlock, color: string) => {
-    let light = convertLightBlockToLightInScene(lightBlock, this.scene);
-    if (light) {
-      light.diffuse = BABYLON.Color3.FromHexString(color);
-    }
-  };
-
-  // Sets the intensity of a light
-  public setLightIntensity = (lightBlock: LightBlock, intensity: number) => {
-    let light = convertLightBlockToLightInScene(lightBlock, this.scene);
-    if (light) {
-      if (intensity < 0) intensity = 0;
-      if (intensity > BRIGHTNESS_MAX) intensity = BRIGHTNESS_MAX;
-      light.intensity = intensity * BRIGHTNESS_MULTIPLIER;
-    }
-  };
-
-  // Sets the ambient light intensity
-  public setAmbientLightIntensity = (intensity: number) => {
-    if (this.ambientLight) {
-      if (intensity < 0) intensity = 0;
-      if (intensity > BRIGHTNESS_MAX) intensity = BRIGHTNESS_MAX;
-      this.ambientLight.intensity = (intensity * BRIGHTNESS_MULTIPLIER) / 1000;
-    }
-    this.scene.environmentIntensity = intensity / 100;
-    this.scene.environmentTexture.level = intensity / 100;
-    if (this.skybox) {
-      this.scene.createDefaultSkybox(this.scene.environmentTexture);
-      this.ambientLight.intensity = 0;
-    }
-  };
+ 
 
   // Move the camera to a new position
   public moveCamera = (coordsBlock: CoordsBlock) => {
