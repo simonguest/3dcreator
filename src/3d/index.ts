@@ -3,13 +3,12 @@ import * as BABYLON from "babylonjs";
 import * as lighting from "./lighting";
 import * as world from "./world";
 import * as physics from "./physics";
-import * as utils from "./utils";
+import * as camera from "./camera";
 
 export class ThreeD {
   private readonly canvas: any;
   public readonly engine: BABYLON.Engine;
   public ammo: any;
-  private cameraState: any;
   private camera: BABYLON.Camera;
   private cameraType: string;
   private scene: BABYLON.Scene;
@@ -57,103 +56,32 @@ export class ThreeD {
   public applyForce = physics.applyForce;
   public setMass = physics.setMass;
 
-
-
-  private saveCameraState = () => {
-    this.cameraState = this.camera.serialize();
+  // Camera functions
+  public setCameraType = (cameraType: string) => {
+    this.cameraType = cameraType;
   };
   
-  private clearCameraState = () => {
-    delete this.cameraState;
-  };
-  
-  private restoreCameraState = () => {
-    if (this.cameraState) {
-      if (this.camera instanceof BABYLON.ArcRotateCamera) {
-        this.camera.alpha = this.cameraState.alpha;
-        this.camera.beta = this.cameraState.beta;
-        this.camera.radius = this.cameraState.radius;
-      }
-      if (this.camera instanceof BABYLON.UniversalCamera) {
-        this.camera.position = new BABYLON.Vector3(
-          this.cameraState.position[0],
-          this.cameraState.position[1],
-          this.cameraState.position[2]
-        );
-        this.camera.rotation = new BABYLON.Vector3(
-          this.cameraState.rotation[0],
-          this.cameraState.rotation[1],
-          this.cameraState.rotation[2]
-        );
-      }
-      if (this.camera instanceof BABYLON.FollowCamera) {
-        this.camera.position = new BABYLON.Vector3(
-          this.cameraState.position[0],
-          this.cameraState.position[1],
-          this.cameraState.position[2]
-        );
-      }
-      if (this.camera instanceof BABYLON.VRDeviceOrientationFreeCamera) {
-        this.camera.position = new BABYLON.Vector3(
-          this.cameraState.position[0],
-          this.cameraState.position[1],
-          this.cameraState.position[2]
-        );
-      }
-    }
-  };
-  
-  public createCamera = () => {
-    switch (this.cameraType) {
-      case "ArcRotate":
-        if (this.camera instanceof BABYLON.ArcRotateCamera) {
-          this.saveCameraState();
-        } else {
-          this.clearCameraState();
-        }
-        this.scene.removeCamera(this.scene.getCameraById("camera"));
-        this.camera = new BABYLON.ArcRotateCamera(
-          "camera",
-          BABYLON.Tools.ToRadians(-90),
-          BABYLON.Tools.ToRadians(65),
-          5,
-          BABYLON.Vector3.Zero(),
-          this.scene
-        );
-        break;
-      case "UniversalCamera":
-        if (this.camera instanceof BABYLON.UniversalCamera) {
-          this.saveCameraState();
-        } else {
-          this.clearCameraState();
-        }
-        this.scene.removeCamera(this.scene.getCameraById("camera"));
-        this.camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
-        break;
-      case "FollowCamera":
-        if (this.camera instanceof BABYLON.FollowCamera) {
-          this.saveCameraState();
-        } else {
-          this.clearCameraState();
-        }
-        this.scene.removeCamera(this.scene.getCameraById("camera"));
-        this.camera = new BABYLON.FollowCamera("camera", new BABYLON.Vector3(0, 10, -100), this.scene);
-        break;
-      case "VRDeviceOrientationFreeCamera":
-        if (this.camera instanceof BABYLON.VRDeviceOrientationFreeCamera) {
-          this.saveCameraState();
-        } else {
-          this.clearCameraState();
-        }
-        this.scene.removeCamera(this.scene.getCameraById("camera"));
-        this.camera = new BABYLON.VRDeviceOrientationFreeCamera("camera", new BABYLON.Vector3(0, 1, -3), this.scene);
-        break;
-    }
-    this.camera.attachControl(this.canvas, true);
-    this.restoreCameraState();
+  public createCamera = (scene: BABYLON.Scene) => {
+    this.camera = camera.createCamera(this.cameraType, this.camera, scene, this.canvas);
   };
 
+  public moveCamera = (coordsBlock: CoordsBlock) => {
+    camera.moveCamera(coordsBlock, this.camera);
+  };
 
+  public moveCameraAlong = (axis: string, units: number) => {
+    camera.moveCameraAlong(axis, units, this.camera);
+  };
+
+  public pointCameraTowards = (shapeBlock: ShapeBlock, scene: BABYLON.Scene) => {
+    camera.pointCameraTowards(shapeBlock, this.camera, scene);
+  };
+
+  public keepDistanceOf = (units: number) => {
+    camera.keepDistanceOf(units, this.camera);
+  };
+
+  // Scene functions
   public createScene = async (reset?: boolean, physics?: boolean) => {
     console.log("Creating scene");
     // Unregister actions from previous scene
@@ -179,7 +107,6 @@ export class ThreeD {
     this.scene = new BABYLON.Scene(this.engine);
     if (reset === true) {
       delete this.camera;
-      this.clearCameraState();
     }
 
     // Create default env for metal and glass shapes
@@ -296,72 +223,6 @@ export class ThreeD {
   };
 
 
-  // Move the camera to a new position
-  public moveCamera = (coordsBlock: CoordsBlock) => {
-    let coords = world.convertCoordsBlockToCoords(coordsBlock);
-    if (coords) {
-      if (this.camera instanceof BABYLON.ArcRotateCamera) {
-        this.camera.setPosition(new BABYLON.Vector3(coords.x, coords.y, coords.z));
-      }
-      if (this.camera instanceof BABYLON.UniversalCamera) {
-        this.camera.position = new BABYLON.Vector3(coords.x, coords.y, coords.z);
-      }
-    }
-  };
-
-  // Move the camera along an axis
-  public moveCameraAlong = (axis: string, units: number) => {
-    if (this.camera instanceof BABYLON.ArcRotateCamera) {
-      switch (axis) {
-        case "x":
-          this.camera.alpha += utils.convertToRadians(units);
-          break;
-        case "y":
-          this.camera.beta += utils.convertToRadians(units);
-          break;
-        case "z":
-          this.camera.radius += utils.convertToRadians(units);
-          break;
-      }
-    }
-    if (this.camera instanceof BABYLON.UniversalCamera) {
-      this.camera.position[axis] = this.camera.position[axis] += units;
-    }
-    if (this.camera instanceof BABYLON.VRDeviceOrientationFreeCamera) {
-      this.camera.position[axis] = this.camera.position[axis] += units;
-    }
-  };
-
-  // Set the camera to a new type
-  public setCameraType = (cameraType: string) => {
-    this.cameraType = cameraType;
-  };
-
-  // Point the camera towards a shape
-  public pointCameraTowards = (shapeBlock: ShapeBlock) => {
-    let mesh = world.convertShapeBlockToMesh(shapeBlock, this.scene);
-    if (mesh) {
-      if (this.camera instanceof BABYLON.FollowCamera) {
-        this.camera.lockedTarget = mesh;
-      }
-      if (this.camera instanceof BABYLON.UniversalCamera) {
-        this.camera.target = mesh.position;
-      }
-      if (this.camera instanceof BABYLON.ArcRotateCamera) {
-        this.camera.focusOn([mesh], true);
-      }
-    }
-  };
-
-  // Set the camera distance for follow cameras
-  public keepDistanceOf = (units: number) => {
-    if (this.camera instanceof BABYLON.FollowCamera) {
-      this.camera.radius = units;
-    }
-    if (this.camera instanceof BABYLON.ArcRotateCamera) {
-      this.camera.radius = units;
-    }
-  };
   
   public enableInspector = () => {
     this.scene.debugLayer.show({ embedMode: false });
