@@ -28,6 +28,6 @@ export let moveShape = {
         let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
         if (coords === "") return "";
 
-        return `threeD.moveShape(${variable}, ${coords});`;
+        return `threeD.moveShape(${variable}, ${coords}, scene);`;
     }
 };

@@ -32,6 +32,6 @@ export let rotate = {
         let axis = block.getFieldValue("AXIS");
         let degrees = javascriptGenerator.valueToCode(block, 'DEGREES', javascriptGenerator.ORDER_NONE);
 
-        return `threeD.rotate(${variable}, "${axis}", ${degrees});`;
+        return `threeD.rotate(${variable}, "${axis}", ${degrees}, scene);`;
     }
 };

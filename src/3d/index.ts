@@ -1,23 +1,11 @@
 import * as BABYLON from "babylonjs";
 
 import * as lighting from "./lighting";
+import * as materials from "./materials";
+import * as world from "./world";
+import * as utils from "./utils";
 
-const convertShapeBlockToMesh = (shapeBlock: ShapeBlock, scene: BABYLON.Scene) => {
-  if (!shapeBlock) return null;
-  if (!shapeBlock[0]) return null;
-  let shape = shapeBlock[0];
-  if (shape === null) return null;
-  let mesh = scene.getMeshById(shape.id);
-  return mesh;
-};
 
-const convertShapeBlockToShape = (shapeBlock: ShapeBlock) => {
-  if (!shapeBlock) return null;
-  if (!shapeBlock[0]) return null;
-  let shape = shapeBlock[0];
-  if (shape === null) return null;
-  return shape;
-};
 
 const convertCoordsBlockToCoords = (coordsBlock: CoordsBlock) => {
   if (!coordsBlock) return null;
@@ -25,14 +13,6 @@ const convertCoordsBlockToCoords = (coordsBlock: CoordsBlock) => {
   let coords = coordsBlock[0];
   if (coords === null) return null;
   return coords;
-};
-
-const convertMaterialBlockToMaterial = (materialBlock: MaterialBlock) => {
-  if (!materialBlock) return null;
-  if (!materialBlock[0]) return null;
-  let material = materialBlock[0];
-  if (material === null) return null;
-  return material;
 };
 
 export class ThreeD {
@@ -54,7 +34,7 @@ export class ThreeD {
   }
 
   private runningAnimations = {};
-  private actionManagers = [];
+  private actionManagers: BABYLON.AbstractActionManager[] = [];
   private physicsEnabled: boolean = false;
 
   // Lighting functions
@@ -65,14 +45,29 @@ export class ThreeD {
   public setLightColor = lighting.setLightColor;
   public setLightIntensity = lighting.setLightIntensity;
 
+  // World functions
+  public createShape = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock, scene: BABYLON.Scene) => {
+    world.createShape(shapeBlock, coordsBlock, scene, this.actionManagers);
+  };
+
+  public createShapeAndAddTo = (shapeBlock: ShapeBlock, parentBlock: ShapeBlock, coordsBlock: CoordsBlock, scene: BABYLON.Scene) => {
+    world.createShapeAndAddTo(shapeBlock, parentBlock, coordsBlock, scene, this.actionManagers);
+  };
+
+  public clone = world.clone;
+  public remove = world.remove;
+  public moveShape = world.moveShape;
+  public moveShapeAlong = world.moveShapeAlong;
+  public rotate = world.rotate;
+
   private saveCameraState = () => {
     this.cameraState = this.camera.serialize();
   };
-
+  
   private clearCameraState = () => {
     delete this.cameraState;
   };
-
+  
   private restoreCameraState = () => {
     if (this.cameraState) {
       if (this.camera instanceof BABYLON.ArcRotateCamera) {
@@ -108,7 +103,7 @@ export class ThreeD {
       }
     }
   };
-
+  
   public createCamera = () => {
     switch (this.cameraType) {
       case "ArcRotate":
@@ -158,6 +153,7 @@ export class ThreeD {
     this.camera.attachControl(this.canvas, true);
     this.restoreCameraState();
   };
+
 
   public createScene = async (reset?: boolean, physics?: boolean) => {
     console.log("Creating scene");
@@ -247,282 +243,6 @@ export class ThreeD {
     }
   };
 
-  // Sets the material of a mesh based on the material block
-  private setMaterial = (mesh: BABYLON.Mesh, materialBlock: MaterialBlock) => {
-    let material = convertMaterialBlockToMaterial(materialBlock);
-    if (material === null) material = { texture: "matte", color: "#cccccc" }; // default material for "none"
-
-    if (material.texture === "matte") {
-      var matte = new BABYLON.PBRMetallicRoughnessMaterial("metal", this.scene);
-      matte.baseColor = BABYLON.Color3.FromHexString(material.color);
-      matte.roughness = 1.0;
-      matte.maxSimultaneousLights = 8;
-      mesh.material = matte;
-      return;
-    }
-
-    if (material.texture === "metal") {
-      var metal = new BABYLON.PBRMaterial("metal", this.scene);
-      metal.albedoColor = BABYLON.Color3.FromHexString(material.color);
-      metal.metallic = 1.0;
-      metal.roughness = 0;
-      metal.usePhysicalLightFalloff = false;
-      metal.maxSimultaneousLights = 8;
-      mesh.material = metal;
-      return;
-    }
-
-    if (material.texture === "gloss") {
-      var gloss = new BABYLON.PBRMetallicRoughnessMaterial("metal", this.scene);
-      gloss.baseColor = BABYLON.Color3.FromHexString(material.color);
-      gloss.metallic = 1.0;
-      gloss.roughness = 1.0;
-      gloss.clearCoat.isEnabled = true;
-      gloss.maxSimultaneousLights = 8;
-      mesh.material = gloss;
-      return;
-    }
-
-    if (material.texture === "glass") {
-      var glass = new BABYLON.PBRMaterial("glass", this.scene);
-      glass.alpha = 0.9;
-      glass.subSurface.tintColor = BABYLON.Color3.FromHexString(material.color);
-      glass.metallic = 0.0;
-      glass.roughness = 0;
-      glass.subSurface.isRefractionEnabled = true;
-      glass.subSurface.indexOfRefraction = 1.4;
-      glass.usePhysicalLightFalloff = false;
-      glass.maxSimultaneousLights = 8;
-      mesh.material = glass;
-      return;
-    }
-
-    if (material.image) {
-      let imageMaterial = new BABYLON.PBRMetallicRoughnessMaterial("Material", this.scene);
-      imageMaterial.baseTexture = new BABYLON.Texture(`./assets/materials/${material.image}`);
-      imageMaterial.roughness = material.roughness || 1;
-      imageMaterial.metallic = material.metallic || 0;
-      imageMaterial.maxSimultaneousLights = 8;
-      mesh.material = imageMaterial;
-      return;
-    }
-
-    if (material.pbr) {
-      const PBR_RESOLUTION = "1K";
-      let pbrMaterial = new BABYLON.PBRMetallicRoughnessMaterial("PBRMaterial", this.scene);
-      pbrMaterial.baseTexture = new BABYLON.Texture(`./assets/materials/${material.pbr}_${PBR_RESOLUTION}_Color.jpg`);
-      pbrMaterial.metallicRoughnessTexture = new BABYLON.Texture(
-        `./assets/materials/${material.pbr}_${PBR_RESOLUTION}_Roughness.jpg`
-      );
-      pbrMaterial.normalTexture = new BABYLON.Texture(
-        `./assets/materials/${material.pbr}_${PBR_RESOLUTION}_NormalDX.jpg`
-      );
-      pbrMaterial.roughness = material.roughness || 1;
-      pbrMaterial.metallic = material.metallic || 0;
-      pbrMaterial.maxSimultaneousLights = 8;
-      mesh.material = pbrMaterial;
-      return;
-    }
-  };
-
-  // Creates a torus
-  private createTorus = (shape: Shape, coords: Coords) => {
-    let torus = BABYLON.MeshBuilder.CreateTorus(shape.id, {
-      diameter: shape.size.d,
-      thickness: shape.size.t,
-      tessellation: shape.size.s,
-    });
-    torus.position.x = coords.x;
-    torus.position.y = coords.y;
-    torus.position.z = coords.z;
-    this.setMaterial(torus, shape.material);
-    torus.actionManager = new BABYLON.ActionManager(this.scene);
-    this.actionManagers.push(torus.actionManager);
-    if (this.physicsEnabled === true) {
-      torus.physicsImpostor = new BABYLON.PhysicsImpostor(
-        torus,
-        BABYLON.PhysicsImpostor.ConvexHullImpostor,
-        { mass: 1, restitution: 0.7, friction: 1.0 },
-        this.scene
-      );
-    }
-  };
-
-  // Creates a ramp from a triangle shape
-  private createRamp = (shape: Shape, coords: Coords) => {
-    // Halve the w, h, and l to position the triangle in the middle prior to extrusion
-    let width = shape.size.w / 2;
-    let height = shape.size.h / 2;
-    let length = shape.size.l / 2;
-    var triangle = [
-      new BABYLON.Vector3(0 - width, 0 - height, 0),
-      new BABYLON.Vector3(width, 0 - height, 0),
-      new BABYLON.Vector3(width, height, 0),
-    ];
-    triangle.push(triangle[0]);
-    let extrudePath = [new BABYLON.Vector3(0, 0, 0 - length), new BABYLON.Vector3(0, 0, length)];
-    let ramp = BABYLON.MeshBuilder.ExtrudeShape(
-      shape.id,
-      { shape: triangle, path: extrudePath, cap: BABYLON.Mesh.CAP_ALL },
-      this.scene
-    );
-    ramp.position.x = coords.x;
-    ramp.position.y = coords.y;
-    ramp.position.z = coords.z;
-    this.setMaterial(ramp, shape.material);
-    ramp.actionManager = new BABYLON.ActionManager(this.scene);
-    this.actionManagers.push(ramp.actionManager);
-    if (this.physicsEnabled === true) {
-      ramp.physicsImpostor = new BABYLON.PhysicsImpostor(ramp, BABYLON.PhysicsImpostor.ConvexHullImpostor, {
-        mass: 1,
-        restitution: 0.7,
-        friction: 1.0,
-      });
-    }
-  };
-
-  // Creates a capsule shape
-  private createCapsule = (shape: Shape, coords: Coords) => {
-    let capsule = BABYLON.MeshBuilder.CreateCapsule(shape.id, {
-      height: shape.size.h,
-      radius: shape.size.d / 2,
-    });
-    capsule.position.x = coords.x;
-    capsule.position.y = coords.y;
-    capsule.position.z = coords.z;
-    this.setMaterial(capsule, shape.material);
-    capsule.actionManager = new BABYLON.ActionManager(this.scene);
-    this.actionManagers.push(capsule.actionManager);
-    if (this.physicsEnabled === true) {
-      capsule.physicsImpostor = new BABYLON.PhysicsImpostor(
-        capsule,
-        BABYLON.PhysicsImpostor.CapsuleImpostor,
-        { mass: 1, restitution: 0.7, friction: 1.0 },
-        this.scene
-      );
-    }
-  };
-
-  // Creates a cone with a base and a top
-  private createCone = (shape: Shape, coords: Coords) => {
-    let cone = BABYLON.MeshBuilder.CreateCylinder(shape.id, {
-      height: shape.size.h,
-      diameterTop: shape.size.t,
-      diameterBottom: shape.size.b,
-    });
-    cone.position.x = coords.x;
-    cone.position.y = coords.y;
-    cone.position.z = coords.z;
-    this.setMaterial(cone, shape.material);
-    cone.actionManager = new BABYLON.ActionManager(this.scene);
-    this.actionManagers.push(cone.actionManager);
-    if (this.physicsEnabled === true) {
-      cone.physicsImpostor = new BABYLON.PhysicsImpostor(
-        cone,
-        BABYLON.PhysicsImpostor.ConvexHullImpostor,
-        { mass: 1, restitution: 0.7, friction: 1.0 },
-        this.scene
-      );
-    }
-  };
-
-  // Creates a cylinder
-  private createCylinder = (shape: Shape, coords: Coords) => {
-    let cylinder = BABYLON.MeshBuilder.CreateCylinder(shape.id, {
-      height: shape.size.h,
-      diameter: shape.size.d,
-    });
-    cylinder.position.x = coords.x;
-    cylinder.position.y = coords.y;
-    cylinder.position.z = coords.z;
-    this.setMaterial(cylinder, shape.material);
-    cylinder.actionManager = new BABYLON.ActionManager(this.scene);
-    this.actionManagers.push(cylinder.actionManager);
-    if (this.physicsEnabled === true) {
-      cylinder.physicsImpostor = new BABYLON.PhysicsImpostor(
-        cylinder,
-        BABYLON.PhysicsImpostor.CylinderImpostor,
-        { mass: 1, restitution: 0.7, friction: 1.0 },
-        this.scene
-      );
-    }
-  };
-
-  // Creates a box
-  private createBox = (shape: Shape, coords: Coords) => {
-    let box = BABYLON.MeshBuilder.CreateBox(shape.id, {
-      height: shape.size.h,
-      width: shape.size.w,
-      depth: shape.size.l,
-    });
-    box.position.x = coords.x;
-    box.position.y = coords.y;
-    box.position.z = coords.z;
-    this.setMaterial(box, shape.material);
-    box.actionManager = new BABYLON.ActionManager(this.scene);
-    this.actionManagers.push(box.actionManager);
-    if (this.physicsEnabled === true) {
-      box.physicsImpostor = new BABYLON.PhysicsImpostor(
-        box,
-        BABYLON.PhysicsImpostor.BoxImpostor,
-        { mass: 1, restitution: 0.7, friction: 1.0 },
-        this.scene
-      );
-    }
-  };
-
-  // Creates a wall
-  private createWall = (shape: Shape, coords: Coords) => {
-    let wall = BABYLON.MeshBuilder.CreateTiledPlane(shape.id, {
-      height: shape.size.h,
-      width: shape.size.w,
-      tileSize: shape.size.s,
-    });
-    wall.position.x = coords.x;
-    wall.position.y = coords.y;
-    wall.position.z = coords.z;
-    if (shape.size.r < 0) shape.size.r = 0;
-    if (shape.size.r > 360) shape.size.r = 360;
-    wall.rotation.y = this.convertToRadians(shape.size.r);
-    this.setMaterial(wall, shape.material);
-    wall.actionManager = new BABYLON.ActionManager(this.scene);
-    this.actionManagers.push(wall.actionManager);
-    if (this.physicsEnabled === true) {
-      wall.physicsImpostor = new BABYLON.PhysicsImpostor(
-        wall,
-        BABYLON.PhysicsImpostor.BoxImpostor,
-        { mass: 0, restitution: 0.7, friction: 1.0 },
-        this.scene
-      );
-    }
-  };
-
-  // Creates a sphere
-  private createSphere = (shape: Shape, coords: Coords) => {
-    let sphere = BABYLON.MeshBuilder.CreateSphere(shape.id, {
-      segments: 16,
-      diameterX: shape.size.w,
-      diameterY: shape.size.h,
-      diameterZ: shape.size.l,
-    });
-    sphere.position.x = coords.x;
-    sphere.position.y = coords.y;
-    sphere.position.z = coords.z;
-    this.setMaterial(sphere, shape.material);
-    sphere.actionManager = new BABYLON.ActionManager(this.scene);
-    this.actionManagers.push(sphere.actionManager);
-    if (this.physicsEnabled === true) {
-      sphere.physicsImpostor = new BABYLON.PhysicsImpostor(
-        sphere,
-        BABYLON.PhysicsImpostor.SphereImpostor,
-        { mass: 1, restitution: 0.7, friction: 3 },
-        this.scene
-      );
-      sphere.physicsImpostor.physicsBody.angularDamping = 0.4;
-      sphere.physicsImpostor.physicsBody.linearDamping = 0.4;
-    }
-  };
-
   // Creates the ground
   public createGround = (shape: Shape) => {
     if (this.ground) this.ground.dispose();
@@ -544,7 +264,7 @@ export class ThreeD {
       subdivisions: grid,
     });
 
-    this.setMaterial(this.ground, shape.material);
+    materials.setMaterial(this.ground, shape.material, this.scene);
     if (this.physicsEnabled === true) {
       this.ground.physicsImpostor = new BABYLON.PhysicsImpostor(
         this.ground,
@@ -569,176 +289,6 @@ export class ThreeD {
     this.scene.clearColor = BABYLON.Color4.FromHexString(color);
   };
 
-  // Creates a shape
-  public createShape = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
-    let shape = convertShapeBlockToShape(shapeBlock);
-    let coords = convertCoordsBlockToCoords(coordsBlock);
-
-    if (shape && coords) {
-      switch (shape.type) {
-        case "sphere":
-          this.createSphere(shape, coords);
-          break;
-        case "box":
-          this.createBox(shape, coords);
-          break;
-        case "wall":
-          this.createWall(shape, coords);
-          break;
-        case "cylinder":
-          this.createCylinder(shape, coords);
-          break;
-        case "cone":
-          this.createCone(shape, coords);
-          break;
-        case "torus":
-          this.createTorus(shape, coords);
-          break;
-        case "capsule":
-          this.createCapsule(shape, coords);
-          break;
-        case "ramp":
-          this.createRamp(shape, coords);
-          break;
-      }
-    }
-  };
-
-  // Creates a shape and adds it to a parent
-  public createShapeAndAddTo = (shapeBlock: ShapeBlock, parent: ShapeBlock, coordsBlock: CoordsBlock) => {
-    this.createShape(shapeBlock, coordsBlock);
-    this.addTo(shapeBlock, parent);
-  };
-
-  private getAxisAlignedBoundingInfo = (mesh: BABYLON.AbstractMesh) => {
-    let clone = mesh.clone("mesh", null);
-    let vertices = clone.getVerticesData("position");
-    let min = new BABYLON.Vector3(1e10, 1e10, 1e10),
-      max = new BABYLON.Vector3(-1e10, -1e10, -1e10),
-      m = clone.getWorldMatrix();
-
-    let v = new BABYLON.Vector3();
-    for (let i = 0; i < vertices.length / 3; ++i) {
-      v.copyFromFloats(vertices[i * 3 + 0], vertices[i * 3 + 1], vertices[i * 3 + 2]);
-      BABYLON.Vector3.TransformCoordinatesToRef(v, m, v);
-      min.minimizeInPlace(v);
-      max.maximizeInPlace(v);
-    }
-    let parent = new BABYLON.Mesh("parent", this.scene);
-    parent.setBoundingInfo(new BABYLON.BoundingInfo(min, max));
-    // DEBUG parent.showBoundingBox = true;
-    clone.dispose();
-
-    return new BABYLON.BoundingInfo(min, max);
-  };
-
-  // Adds a shape to a parent
-  public addTo = (childBlock: ShapeBlock, parentBlock: ShapeBlock) => {
-    let child = convertShapeBlockToMesh(childBlock, this.scene);
-    let parent = convertShapeBlockToMesh(parentBlock, this.scene);
-    if (child && parent) {
-      let parentAABB = this.getAxisAlignedBoundingInfo(parent);
-      let childAABB = this.getAxisAlignedBoundingInfo(child);
-
-      let aggMaxX = Math.max(parentAABB.maximum.x, childAABB.maximum.x);
-      let aggMaxY = Math.max(parentAABB.maximum.y, childAABB.maximum.y);
-      let aggMaxZ = Math.max(parentAABB.maximum.z, childAABB.maximum.z);
-      let aggMinX = Math.min(parentAABB.minimum.x, childAABB.minimum.x);
-      let aggMinY = Math.min(parentAABB.minimum.y, childAABB.minimum.y);
-      let aggMinZ = Math.min(parentAABB.minimum.z, childAABB.minimum.z);
-      let deltaX = (aggMinX + aggMaxX) / 2;
-      let deltaY = (aggMinY + aggMaxY) / 2;
-      let deltaZ = (aggMinZ + aggMaxZ) / 2;
-      let deltaPosition = new BABYLON.Vector3(deltaX, deltaY, deltaZ);
-
-      let newParentPosition = parent.position.subtract(deltaPosition);
-      let newChildPosition = child.position.subtract(deltaPosition);
-
-      parent.position = newParentPosition;
-      child.position = newChildPosition;
-      let mergedMesh = BABYLON.Mesh.MergeMeshes(
-        [parent as BABYLON.Mesh, child as BABYLON.Mesh],
-        true,
-        true,
-        undefined,
-        false,
-        true
-      );
-      mergedMesh.id = parent.id;
-      mergedMesh.position = mergedMesh.position.add(deltaPosition);
-
-      mergedMesh.actionManager = new BABYLON.ActionManager(this.scene);
-      this.actionManagers.push(mergedMesh.actionManager);
-
-      if (this.physicsEnabled === true) {
-        mergedMesh.physicsImpostor = new BABYLON.PhysicsImpostor(
-          mergedMesh,
-          BABYLON.PhysicsImpostor.ConvexHullImpostor,
-          { mass: 1, restitution: 0.1, friction: 1.0 },
-          this.scene
-        );
-      }
-    }
-  };
-
- 
-
-  // Clone a shape into a new mesh and set the position
-  public clone = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
-    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
-    let coords = convertCoordsBlockToCoords(coordsBlock);
-    if (mesh && coords) {
-      let clonedMesh = mesh.clone(`${mesh.id}-clone`, null, null);
-      clonedMesh.position.x = coords.x;
-      clonedMesh.position.y = coords.y;
-      clonedMesh.position.z = coords.z;
-    }
-  };
-
-  // Remove a shape from the scene
-  public remove = (shapeBlock: ShapeBlock) => {
-    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
-    if (mesh) {
-      // remove any physics imposters first
-      if (mesh.physicsImpostor) {
-        mesh.physicsImpostor.dispose();
-      }
-      this.scene.removeMesh(mesh);
-    }
-  };
-
-  // Move a shape to a new position
-  public moveShape = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
-    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
-    let coords = convertCoordsBlockToCoords(coordsBlock);
-    if (mesh && coords) {
-      mesh.position.x = coords.x;
-      mesh.position.y = coords.y;
-      mesh.position.z = coords.z;
-    }
-  };
-
-  // Move a shape along an axis
-  public moveShapeAlong = (shapeBlock: ShapeBlock, axis: string, steps: number) => {
-    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
-    if (mesh) {
-      mesh.position[axis] += steps;
-    }
-  };
-
-  // Convert degrees to radians
-  private convertToRadians = (degrees: number) => {
-    return degrees * (Math.PI / 180);
-  };
-
-  // Rotate a shape
-  public rotate = (shapeBlock: ShapeBlock, axis: string, degrees: number) => {
-    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
-    if (mesh) {
-      mesh.rotate(BABYLON.Axis[axis], this.convertToRadians(degrees));
-    }
-  };
-
   // Create an animation loop
   public createAnimationLoop = (name: string, statements) => {
     {
@@ -760,7 +310,7 @@ export class ThreeD {
 
   // On click event handler
   public onClick = (shapeBlock: ShapeBlock, statements: any) => {
-    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
+    let mesh = world.convertShapeBlockToMesh(shapeBlock, this.scene);
     if (mesh) {
       mesh.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
@@ -788,7 +338,7 @@ export class ThreeD {
 
   // Get the position of a shape
   public getPosition = (shapeBlock: ShapeBlock, axis: string) => {
-    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
+    let mesh = world.convertShapeBlockToMesh(shapeBlock, this.scene);
     if (mesh) {
       return mesh.position[axis];
     }
@@ -803,7 +353,7 @@ export class ThreeD {
 
   // Apply a force to a shape
   public applyForce = (shapeBlock: ShapeBlock, axis: string, units: number) => {
-    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
+    let mesh = world.convertShapeBlockToMesh(shapeBlock, this.scene);
     if (mesh && this.physicsEnabled === true) {
       let vector = { x: 0, y: 0, z: 0 };
       vector[axis] = units;
@@ -816,13 +366,11 @@ export class ThreeD {
 
   // Set the mass of a shape
   public setMass = (shapeBlock: ShapeBlock, mass: number) => {
-    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
+    let mesh = world.convertShapeBlockToMesh(shapeBlock, this.scene);
     if (mesh && this.physicsEnabled === true) {
       mesh.physicsImpostor.mass = mass;
     }
   };
-
- 
 
   // Move the camera to a new position
   public moveCamera = (coordsBlock: CoordsBlock) => {
@@ -842,13 +390,13 @@ export class ThreeD {
     if (this.camera instanceof BABYLON.ArcRotateCamera) {
       switch (axis) {
         case "x":
-          this.camera.alpha += this.convertToRadians(units);
+          this.camera.alpha += utils.convertToRadians(units);
           break;
         case "y":
-          this.camera.beta += this.convertToRadians(units);
+          this.camera.beta += utils.convertToRadians(units);
           break;
         case "z":
-          this.camera.radius += this.convertToRadians(units);
+          this.camera.radius += utils.convertToRadians(units);
           break;
       }
     }
@@ -867,7 +415,7 @@ export class ThreeD {
 
   // Point the camera towards a shape
   public pointCameraTowards = (shapeBlock: ShapeBlock) => {
-    let mesh = convertShapeBlockToMesh(shapeBlock, this.scene);
+    let mesh = world.convertShapeBlockToMesh(shapeBlock, this.scene);
     if (mesh) {
       if (this.camera instanceof BABYLON.FollowCamera) {
         this.camera.lockedTarget = mesh;
@@ -899,7 +447,7 @@ export class ThreeD {
     this.scene.debugLayer.hide();
   };
 
-  public disableXR = async  () => {
+  public disableXR = async () => {
     if (this.defaultXRExperience) {
       await this.defaultXRExperience.baseExperience.exitXRAsync();
       delete this.defaultXRExperience;

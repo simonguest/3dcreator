@@ -32,6 +32,6 @@ export let createShapeAndAddTo = {
     if (shape === "") return "";
     if (coords === "") return "";
 
-    return `threeD.createShapeAndAddTo(${shape}, ${variable}, ${coords});`;
+    return `threeD.createShapeAndAddTo(${shape}, ${variable}, ${coords}, scene);`;
   },
 };

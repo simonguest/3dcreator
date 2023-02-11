@@ -32,6 +32,6 @@ export let moveShapeAlong = {
 
         if (steps === "") return "";
 
-        return `threeD.moveShapeAlong(${variable}, "${axis}", ${steps});`;
+        return `threeD.moveShapeAlong(${variable}, "${axis}", ${steps}, scene);`;
     }
 };
