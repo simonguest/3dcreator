@@ -1,19 +1,9 @@
 import * as BABYLON from "babylonjs";
 
 import * as lighting from "./lighting";
-import * as materials from "./materials";
 import * as world from "./world";
+import * as physics from "./physics";
 import * as utils from "./utils";
-
-
-
-const convertCoordsBlockToCoords = (coordsBlock: CoordsBlock) => {
-  if (!coordsBlock) return null;
-  if (!coordsBlock[0]) return null;
-  let coords = coordsBlock[0];
-  if (coords === null) return null;
-  return coords;
-};
 
 export class ThreeD {
   private readonly canvas: any;
@@ -35,7 +25,6 @@ export class ThreeD {
 
   private runningAnimations = {};
   private actionManagers: BABYLON.AbstractActionManager[] = [];
-  private physicsEnabled: boolean = false;
 
   // Lighting functions
   public createLight = lighting.createLight;
@@ -59,6 +48,16 @@ export class ThreeD {
   public moveShape = world.moveShape;
   public moveShapeAlong = world.moveShapeAlong;
   public rotate = world.rotate;
+  public createGround = world.createGround;
+  public createSkybox = world.createSkybox;
+  public setSkyColor = world.setSkyColor;
+
+  // Physics functions
+  public setGravity = physics.setGravity;
+  public applyForce = physics.applyForce;
+  public setMass = physics.setMass;
+
+
 
   private saveCameraState = () => {
     this.cameraState = this.camera.serialize();
@@ -209,9 +208,7 @@ export class ThreeD {
       let gravityVector = new BABYLON.Vector3(0, -9.81, 0);
       let physicsPlugin = new BABYLON.AmmoJSPlugin(true, this.ammo);
       this.scene.enablePhysics(gravityVector, physicsPlugin);
-      this.physicsEnabled = true;
     } else {
-      this.physicsEnabled = false;
       this.scene.disablePhysicsEngine();
     }
     return this.scene;
@@ -243,54 +240,8 @@ export class ThreeD {
     }
   };
 
-  // Creates the ground
-  public createGround = (shape: Shape) => {
-    if (this.ground) this.ground.dispose();
-    if (shape.tileSize <= 0) shape.tileSize = 1;
-    let width = shape.size.w;
-    let length = shape.size.l;
-    let tileSize = shape.tileSize;
-
-    let grid = {
-      h: length / tileSize,
-      w: width / tileSize,
-    };
-
-    this.ground = BABYLON.MeshBuilder.CreateTiledGround(shape.id, {
-      xmin: 0 - width / 2,
-      zmin: 0 - length / 2,
-      xmax: width / 2,
-      zmax: length / 2,
-      subdivisions: grid,
-    });
-
-    materials.setMaterial(this.ground, shape.material, this.scene);
-    if (this.physicsEnabled === true) {
-      this.ground.physicsImpostor = new BABYLON.PhysicsImpostor(
-        this.ground,
-        BABYLON.PhysicsImpostor.BoxImpostor,
-        { mass: 0, restitution: 0.7, friction: 1.0 },
-        this.scene
-      );
-    }
-  };
-
-  // Creates the skybox
-  public createSkybox = (skybox: Skybox) => {
-    this.scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
-      `./assets/env/${skybox.asset}.env`,
-      this.scene
-    );
-    this.skybox = this.scene.createDefaultSkybox(this.scene.environmentTexture);
-  };
-
-  // Set the sky/background color
-  public setSkyColor = (color: string) => {
-    this.scene.clearColor = BABYLON.Color4.FromHexString(color);
-  };
-
   // Create an animation loop
-  public createAnimationLoop = (name: string, statements) => {
+  public createAnimationLoop = (name: string, statements: any) => {
     {
       this.scene.onBeforeRenderObservable.add(() => {
         if (this.runningAnimations[name] === true) statements();
@@ -336,7 +287,7 @@ export class ThreeD {
     );
   };
 
-  // Get the position of a shape
+  // // Get the position of a shape
   public getPosition = (shapeBlock: ShapeBlock, axis: string) => {
     let mesh = world.convertShapeBlockToMesh(shapeBlock, this.scene);
     if (mesh) {
@@ -344,37 +295,10 @@ export class ThreeD {
     }
   };
 
-  // Sets overall gravity for the scene
-  public setGravity = (units: number) => {
-    if (this.physicsEnabled) {
-      this.scene.getPhysicsEngine().setGravity(new BABYLON.Vector3(0, 0 - units, 0));
-    }
-  };
-
-  // Apply a force to a shape
-  public applyForce = (shapeBlock: ShapeBlock, axis: string, units: number) => {
-    let mesh = world.convertShapeBlockToMesh(shapeBlock, this.scene);
-    if (mesh && this.physicsEnabled === true) {
-      let vector = { x: 0, y: 0, z: 0 };
-      vector[axis] = units;
-      let direction = new BABYLON.Vector3(vector.x, vector.y, vector.z);
-      if (mesh.physicsImpostor) {
-        mesh.physicsImpostor.applyForce(direction.scale(50), mesh.getAbsolutePosition());
-      }
-    }
-  };
-
-  // Set the mass of a shape
-  public setMass = (shapeBlock: ShapeBlock, mass: number) => {
-    let mesh = world.convertShapeBlockToMesh(shapeBlock, this.scene);
-    if (mesh && this.physicsEnabled === true) {
-      mesh.physicsImpostor.mass = mass;
-    }
-  };
 
   // Move the camera to a new position
   public moveCamera = (coordsBlock: CoordsBlock) => {
-    let coords = convertCoordsBlockToCoords(coordsBlock);
+    let coords = world.convertCoordsBlockToCoords(coordsBlock);
     if (coords) {
       if (this.camera instanceof BABYLON.ArcRotateCamera) {
         this.camera.setPosition(new BABYLON.Vector3(coords.x, coords.y, coords.z));
@@ -438,7 +362,7 @@ export class ThreeD {
       this.camera.radius = units;
     }
   };
-
+  
   public enableInspector = () => {
     this.scene.debugLayer.show({ embedMode: false });
   };

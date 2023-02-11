@@ -27,6 +27,6 @@ export let setMass = {
     let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
     let mass = javascriptGenerator.valueToCode(block, 'MASS', javascriptGenerator.ORDER_NONE);
 
-    return `threeD.setMass(${variable}, ${mass});`;
+    return `threeD.setMass(${variable}, ${mass}, scene);`;
   },
 };

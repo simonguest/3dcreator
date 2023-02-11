@@ -435,4 +435,50 @@ const rotate = (shapeBlock: ShapeBlock, axis: string, degrees: number, scene: BA
   }
 };
 
-export { createShape, createShapeAndAddTo, clone, remove, moveShape, moveShapeAlong, rotate, convertCoordsBlockToCoords, convertShapeBlockToMesh }
+// Creates the ground
+const createGround = (shape: Shape, scene: BABYLON.Scene) => {
+  // if (this.ground) this.ground.dispose();
+  if (shape.tileSize <= 0) shape.tileSize = 1;
+  let width = shape.size.w;
+  let length = shape.size.l;
+  let tileSize = shape.tileSize;
+
+  let grid = {
+    h: length / tileSize,
+    w: width / tileSize,
+  };
+
+  let ground = BABYLON.MeshBuilder.CreateTiledGround(shape.id, {
+    xmin: 0 - width / 2,
+    zmin: 0 - length / 2,
+    xmax: width / 2,
+    zmax: length / 2,
+    subdivisions: grid,
+  });
+
+  setMaterial(ground, shape.material, scene);
+  if (scene.isPhysicsEnabled() === true) {
+    ground.physicsImpostor = new BABYLON.PhysicsImpostor(
+      ground,
+      BABYLON.PhysicsImpostor.BoxImpostor,
+      { mass: 0, restitution: 0.7, friction: 1.0 },
+      scene
+    );
+  }
+};
+
+// Creates the skybox
+const createSkybox = (skybox: Skybox, scene: BABYLON.Scene) => {
+  scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
+    `./assets/env/${skybox.asset}.env`,
+    scene
+  );
+  scene.createDefaultSkybox(scene.environmentTexture);
+};
+
+// Set the sky/background color
+const setSkyColor = (color: string, scene: BABYLON.Scene) => {
+  scene.clearColor = BABYLON.Color4.FromHexString(color);
+};
+
+export { createShape, createShapeAndAddTo, clone, remove, moveShape, moveShapeAlong, rotate, createGround, createSkybox, setSkyColor, convertCoordsBlockToCoords, convertShapeBlockToMesh }

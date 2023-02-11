@@ -34,6 +34,6 @@ export let applyForce = {
 
         if (units === "") return "";
 
-        return `threeD.applyForce(${variable}, "${axis}", ${units});`;
+        return `threeD.applyForce(${variable}, "${axis}", ${units}, scene);`;
     }
 };
