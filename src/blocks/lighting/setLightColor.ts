@@ -27,6 +27,6 @@ export let setLightColor = {
     let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
     let color = block.getFieldValue("COLOR");
 
-    return `threeD.setLightColor(${variable}, "${color}", scene);`;
+    return `threeD.setLightColor(${variable}, "${color}");`;
   },
 };

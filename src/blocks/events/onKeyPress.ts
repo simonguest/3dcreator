@@ -20,6 +20,6 @@ export let onKeyPress = {
     let key = block.getFieldValue("KEY");
     let statements = javascriptGenerator.statementToCode(block, "EVENT");
 
-    return `threeD.onKeyPress("${key}", () => {${statements}}, scene);`;
+    return `threeD.onKeyPress("${key}", () => {${statements}});`;
   },
 };

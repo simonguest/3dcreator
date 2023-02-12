@@ -25,45 +25,13 @@ export class ThreeD {
     this.engine = new BABYLON.Engine(this.canvas, true, { preserveDrawingBuffer: true, stencil: true });
   }
 
-  // Lighting functions
-  public createLight = lighting.createLight;
-  public showLight = lighting.showLight;
-  public moveLight = lighting.moveLight;
-  public moveLightAlong = lighting.moveLightAlong;
-  public setLightColor = lighting.setLightColor;
-  public setLightIntensity = lighting.setLightIntensity;
-
-  // World functions
-  public createShape = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock, scene: BABYLON.Scene) => {
-    world.createShape(shapeBlock, coordsBlock, scene, this.actionManagers);
-  };
-
-  public createShapeAndAddTo = (shapeBlock: ShapeBlock, parentBlock: ShapeBlock, coordsBlock: CoordsBlock, scene: BABYLON.Scene) => {
-    world.createShapeAndAddTo(shapeBlock, parentBlock, coordsBlock, scene, this.actionManagers);
-  };
-
-  public clone = world.clone;
-  public remove = world.remove;
-  public moveShape = world.moveShape;
-  public moveShapeAlong = world.moveShapeAlong;
-  public rotate = world.rotate;
-  public getPosition = world.getPosition;
-  public createGround = world.createGround;
-  public createSkybox = world.createSkybox;
-  public setSkyColor = world.setSkyColor;
-
-  // Physics functions
-  public setGravity = physics.setGravity;
-  public applyForce = physics.applyForce;
-  public setMass = physics.setMass;
-
   // Camera functions
   public setCameraType = (cameraType: string) => {
     this.cameraType = cameraType;
   };
-  
-  public createCamera = (scene: BABYLON.Scene) => {
-    this.camera = camera.createCamera(this.cameraType, this.camera, scene, this.canvas);
+
+  public createCamera = () => {
+    this.camera = camera.createCamera(this.cameraType, this.camera, this.scene, this.canvas);
   };
 
   public moveCamera = (coordsBlock: CoordsBlock) => {
@@ -74,8 +42,8 @@ export class ThreeD {
     camera.moveCameraAlong(axis, units, this.camera);
   };
 
-  public pointCameraTowards = (shapeBlock: ShapeBlock, scene: BABYLON.Scene) => {
-    camera.pointCameraTowards(shapeBlock, this.camera, scene);
+  public pointCameraTowards = (shapeBlock: ShapeBlock) => {
+    camera.pointCameraTowards(shapeBlock, this.camera, this.scene);
   };
 
   public keepDistanceOf = (units: number) => {
@@ -83,9 +51,111 @@ export class ThreeD {
   };
 
   // Event functions
-  public onClick = events.onClick;
-  public onKeyPress = events.onKeyPress;
+  public onClick = (shapeBlock: ShapeBlock, statements: any) => {
+    events.onClick(shapeBlock, statements, this.scene);
+  };
 
+  public onKeyPress = (key: string, statements: any) => {
+    events.onKeyPress(key, statements, this.scene);
+  };
+
+  // Lighting functions
+  public createLight = (lightBlock: LightBlock, coordsBlock: CoordsBlock) => {
+    lighting.createLight(lightBlock, coordsBlock, this.scene);
+  };
+
+  public showLight = (lightBlock: LightBlock) => {
+    lighting.showLight(lightBlock, this.scene);
+  };
+
+  public moveLight = (lightBlock: LightBlock, coordsBlock: CoordsBlock) => {
+    lighting.moveLight(lightBlock, coordsBlock, this.scene);
+  };
+
+  public moveLightAlong = (lightBlock: LightBlock, axis: string, steps: number) => {
+    lighting.moveLightAlong(lightBlock, axis, steps, this.scene);
+  };
+
+  public setLightColor = (lightBlock: LightBlock, color: string) => {
+    lighting.setLightColor(lightBlock, color, this.scene);
+  };
+
+  public setLightIntensity = (lightBlock: LightBlock, intensity: number) => {
+    lighting.setLightIntensity(lightBlock, intensity, this.scene);
+  };
+
+  // Sets the ambient light intensity
+  public setAmbientLightIntensity = (intensity: number) => {
+    if (this.ambientLight) {
+      if (intensity < 0) intensity = 0;
+      if (intensity > lighting.BRIGHTNESS_MAX) intensity = lighting.BRIGHTNESS_MAX;
+      this.ambientLight.intensity = (intensity * lighting.BRIGHTNESS_MULTIPLIER) / 1000;
+    }
+    this.scene.environmentIntensity = intensity / 100;
+    this.scene.environmentTexture.level = intensity / 100;
+    if (this.skybox) {
+      this.scene.createDefaultSkybox(this.scene.environmentTexture);
+      this.ambientLight.intensity = 0;
+    }
+  };
+
+  // World functions
+  public createShape = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
+    world.createShape(shapeBlock, coordsBlock, this.scene, this.actionManagers);
+  };
+
+  public createShapeAndAddTo = (shapeBlock: ShapeBlock, parentBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
+    world.createShapeAndAddTo(shapeBlock, parentBlock, coordsBlock, this.scene, this.actionManagers);
+  };
+
+  public clone = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
+    world.clone(shapeBlock, coordsBlock, this.scene);
+  };
+
+  public remove = (shapeBlock: ShapeBlock) => {
+    world.remove(shapeBlock, this.scene);
+  };
+
+  public moveShape = (shapeBlock: ShapeBlock, coordsBlock: CoordsBlock) => {
+    world.moveShape(shapeBlock, coordsBlock, this.scene);
+  };
+
+  public moveShapeAlong = (shapeBlock: ShapeBlock, axis: string, steps: number) => {
+    world.moveShapeAlong(shapeBlock, axis, steps, this.scene);
+  };
+
+  public rotate = (shapeBlock: ShapeBlock, axis: string, degrees: number) => {
+    world.rotate(shapeBlock, axis, degrees, this.scene);
+  };
+
+  public getPosition = (shapeBlock: ShapeBlock, axis: string) => {
+    return world.getPosition(shapeBlock, axis, this.scene);
+  };
+
+  public createGround = (shape: Shape) => {
+    world.createGround(shape, this.scene);
+  };
+
+  public createSkybox = (skybox: Skybox) => {
+    world.createSkybox(skybox, this.scene);
+  };
+
+  public setSkyColor = (color: string) => {
+    world.setSkyColor(color, this.scene);
+  };
+
+  // Physics functions
+  public setGravity = (units: number) => {
+    physics.setGravity(units, this.scene);
+  };
+
+  public applyForce = (shapeBlock: ShapeBlock, axis: string, units: number) => {
+    physics.applyForce(shapeBlock, axis, units, this.scene);
+  };
+
+  public setMass = (shapeBlock: ShapeBlock, mass: number) => {
+    physics.setMass(shapeBlock, mass, this.scene);
+  };
 
   // Scene functions
   public createScene = async (reset?: boolean, physics?: boolean) => {
@@ -155,21 +225,6 @@ export class ThreeD {
         }
       }.bind(this)
     );
-  };
-
-  // Sets the ambient light intensity
-  public setAmbientLightIntensity = (intensity: number) => {
-    if (this.ambientLight) {
-      if (intensity < 0) intensity = 0;
-      if (intensity > lighting.BRIGHTNESS_MAX) intensity = lighting.BRIGHTNESS_MAX;
-      this.ambientLight.intensity = (intensity * lighting.BRIGHTNESS_MULTIPLIER) / 1000;
-    }
-    this.scene.environmentIntensity = intensity / 100;
-    this.scene.environmentTexture.level = intensity / 100;
-    if (this.skybox) {
-      this.scene.createDefaultSkybox(this.scene.environmentTexture);
-      this.ambientLight.intensity = 0;
-    }
   };
 
   // Create an animation loop

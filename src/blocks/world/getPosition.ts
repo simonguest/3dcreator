@@ -32,6 +32,6 @@ export let getPosition = {
     let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
     let axis = block.getFieldValue("AXIS");
 
-    return [`threeD.getPosition(${variable}, "${axis}", scene)`, javascriptGenerator.ORDER_NONE];
+    return [`threeD.getPosition(${variable}, "${axis}")`, javascriptGenerator.ORDER_NONE];
   },
 };

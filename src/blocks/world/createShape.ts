@@ -20,6 +20,6 @@ export let createShape = {
         if (shape === "") return "";
         if (coords === "") return "";
 
-        return `threeD.createShape(${shape}, ${coords}, scene);`;
+        return `threeD.createShape(${shape}, ${coords});`;
     }
 };

@@ -24,6 +24,6 @@ export let skybox = {
     transpile: function (block) {
         let skybox = block.getFieldValue('SKYBOX');
 
-        return `threeD.createSkybox({ asset: "${skybox}"}, scene);`;
+        return `threeD.createSkybox({ asset: "${skybox}"});`;
     }
 };

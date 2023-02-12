@@ -324,7 +324,7 @@ async function run(reset?: boolean, physics?: boolean) {
   let code = javascriptGenerator.workspaceToCode(workspace);
   console.log(`CODE: ${code}`);
   try {
-    eval(`const run = async () => { threeD.setCameraType("${activeCamera}"); scene = await threeD.createScene(${reset}, ${physics}); ${code} threeD.createCamera(scene);}; run();`);
+    eval(`const run = async () => { threeD.setCameraType("${activeCamera}"); await threeD.createScene(${reset}, ${physics}); ${code} threeD.createCamera();}; run();`);
   } catch (err) {
     console.error(err);
   }

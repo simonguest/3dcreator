@@ -23,6 +23,6 @@ export let pointCameraTowards = {
     transpile: function (block) {
         let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
 
-        return `threeD.pointCameraTowards(${variable}, scene);`;
+        return `threeD.pointCameraTowards(${variable});`;
     }
 };

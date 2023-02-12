@@ -24,6 +24,6 @@ export let remove = {
     transpile: function (block) {
         let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
 
-        return `threeD.remove(${variable}, scene);`;
+        return `threeD.remove(${variable});`;
     }
 };

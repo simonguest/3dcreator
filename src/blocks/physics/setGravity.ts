@@ -14,6 +14,6 @@ export let setGravity = {
   transpile: function (block) {
     let ms = javascriptGenerator.valueToCode(block, "MS", javascriptGenerator.ORDER_NONE);
 
-    return `threeD.setGravity(${ms}, scene);`;
+    return `threeD.setGravity(${ms});`;
   },
 };

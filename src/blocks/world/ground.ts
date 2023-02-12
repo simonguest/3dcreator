@@ -21,6 +21,6 @@ export let ground = {
     let tileSize = javascriptGenerator.valueToCode(block, "TILESIZE", javascriptGenerator.ORDER_NONE);
     let material = javascriptGenerator.valueToCode(block, "MATERIAL", javascriptGenerator.ORDER_NONE);
 
-    return `threeD.createGround({ id: "${block.id}}", type: "ground", size: { w: ${width}, l:${length}}, tileSize: ${tileSize}, material:${material} }, scene);`;
+    return `threeD.createGround({ id: "${block.id}}", type: "ground", size: { w: ${width}, l:${length}}, tileSize: ${tileSize}, material:${material} });`;
   },
 };

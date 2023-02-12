@@ -25,6 +25,6 @@ export let onClick = {
         let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
         let statements = javascriptGenerator.statementToCode(block, 'EVENT');
 
-        return `threeD.onClick(${variable}, () => {${statements}}, scene);`;
+        return `threeD.onClick(${variable}, () => {${statements}});`;
     }
 };

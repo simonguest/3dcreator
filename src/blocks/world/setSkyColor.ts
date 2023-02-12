@@ -15,6 +15,6 @@ export let setSkyColor = {
   transpile: function (block) {
     let color = block.getFieldValue("COLOR");
 
-    return `threeD.setSkyColor("${color}", scene);`;
+    return `threeD.setSkyColor("${color}");`;
   },
 };

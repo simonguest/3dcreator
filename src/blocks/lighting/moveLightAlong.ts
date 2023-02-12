@@ -32,6 +32,6 @@ export let moveLightAlong = {
 
         if (steps === "") return "";
 
-        return `threeD.moveLightAlong(${variable}, "${axis}", ${steps}, scene);`;
+        return `threeD.moveLightAlong(${variable}, "${axis}", ${steps});`;
     }
 };

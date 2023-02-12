@@ -36,6 +36,6 @@ export let createShapeAs = {
     if (shape === "") return "";
     if (coords === "") return "";
 
-    return `${variable} = ${shape}; threeD.createShape(${variable}, ${coords}, scene);`;
+    return `${variable} = ${shape}; threeD.createShape(${variable}, ${coords});`;
   },
 };

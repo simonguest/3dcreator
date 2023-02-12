@@ -1,3 +1,5 @@
+import * as BABYLON from "babylonjs";
+
 import { convertCoordsBlockToCoords } from "../world";
 
 const BRIGHTNESS_MULTIPLIER = 1;

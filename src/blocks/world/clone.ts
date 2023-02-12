@@ -28,6 +28,6 @@ export let clone = {
         let variable = javascriptGenerator.nameDB_.getName(block.getFieldValue("VAR"), "VARIABLE");
         if (coords === "") return "";
 
-        return `threeD.clone(${variable}, ${coords}, scene);`;
+        return `threeD.clone(${variable}, ${coords});`;
     }
 };
