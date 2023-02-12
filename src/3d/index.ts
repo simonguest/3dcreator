@@ -4,6 +4,7 @@ import * as lighting from "./lighting";
 import * as world from "./world";
 import * as physics from "./physics";
 import * as camera from "./camera";
+import * as events from "./events";
 
 export class ThreeD {
   private readonly canvas: any;
@@ -16,14 +17,13 @@ export class ThreeD {
   private ambientLight: BABYLON.HemisphericLight;
   private ground: BABYLON.Mesh;
   private defaultXRExperience: BABYLON.WebXRDefaultExperience;
+  private runningAnimations = {};
+  private actionManagers: BABYLON.AbstractActionManager[] = [];
 
   constructor(canvas: HTMLElement) {
     this.canvas = canvas;
     this.engine = new BABYLON.Engine(this.canvas, true, { preserveDrawingBuffer: true, stencil: true });
   }
-
-  private runningAnimations = {};
-  private actionManagers: BABYLON.AbstractActionManager[] = [];
 
   // Lighting functions
   public createLight = lighting.createLight;
@@ -81,6 +81,11 @@ export class ThreeD {
     camera.keepDistanceOf(units, this.camera);
   };
 
+  // Event functions
+  public onClick = events.onClick;
+  public onKeyPress = events.onKeyPress;
+
+
   // Scene functions
   public createScene = async (reset?: boolean, physics?: boolean) => {
     console.log("Creating scene");
@@ -116,7 +121,6 @@ export class ThreeD {
     );
     this.skybox = null;
     this.scene.clearColor = BABYLON.Color4.FromHexString("#000000");
-
     this.ambientLight = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
     this.ambientLight.intensity = 1.0;
     this.runningAnimations = {};
@@ -186,34 +190,6 @@ export class ThreeD {
     delete this.runningAnimations[name];
   };
 
-  // On click event handler
-  public onClick = (shapeBlock: ShapeBlock, statements: any) => {
-    let mesh = world.convertShapeBlockToMesh(shapeBlock, this.scene);
-    if (mesh) {
-      mesh.actionManager.registerAction(
-        new BABYLON.ExecuteCodeAction(
-          {
-            trigger: BABYLON.ActionManager.OnPickTrigger,
-          },
-          statements
-        )
-      );
-    }
-  };
-
-  // On key press event handler
-  public onKeyPress = (key: string, statements: any) => {
-    this.scene.actionManager.registerAction(
-      new BABYLON.ExecuteCodeAction(
-        {
-          trigger: BABYLON.ActionManager.OnKeyDownTrigger,
-          parameter: key,
-        },
-        statements
-      )
-    );
-  };
-
   // // Get the position of a shape
   public getPosition = (shapeBlock: ShapeBlock, axis: string) => {
     let mesh = world.convertShapeBlockToMesh(shapeBlock, this.scene);
@@ -222,8 +198,6 @@ export class ThreeD {
     }
   };
 
-
-  
   public enableInspector = () => {
     this.scene.debugLayer.show({ embedMode: false });
   };
