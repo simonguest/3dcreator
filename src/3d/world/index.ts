@@ -330,7 +330,12 @@ const getAxisAlignedBoundingInfo = (mesh: BABYLON.AbstractMesh, scene: BABYLON.S
 };
 
 // Adds a shape to a parent
-const addTo = (childBlock: ShapeBlock, parentBlock: ShapeBlock, scene: BABYLON.Scene, actionManagers: BABYLON.AbstractActionManager[]) => {
+const addTo = (
+  childBlock: ShapeBlock,
+  parentBlock: ShapeBlock,
+  scene: BABYLON.Scene,
+  actionManagers: BABYLON.AbstractActionManager[]
+) => {
   let child = convertShapeBlockToMesh(childBlock, scene);
   let parent = convertShapeBlockToMesh(parentBlock, scene);
   if (child && parent) {
@@ -379,7 +384,13 @@ const addTo = (childBlock: ShapeBlock, parentBlock: ShapeBlock, scene: BABYLON.S
 };
 
 // Creates a shape and adds it to a parent
-const createShapeAndAddTo = (shapeBlock: ShapeBlock, parent: ShapeBlock, coordsBlock: CoordsBlock, scene: BABYLON.Scene, actionManagers: BABYLON.AbstractActionManager[]) => {
+const createShapeAndAddTo = (
+  shapeBlock: ShapeBlock,
+  parent: ShapeBlock,
+  coordsBlock: CoordsBlock,
+  scene: BABYLON.Scene,
+  actionManagers: BABYLON.AbstractActionManager[]
+) => {
   createShape(shapeBlock, coordsBlock, scene, actionManagers);
   addTo(shapeBlock, parent, scene, actionManagers);
 };
@@ -435,6 +446,14 @@ const rotate = (shapeBlock: ShapeBlock, axis: string, degrees: number, scene: BA
   }
 };
 
+// Get the position of a shape
+const getPosition = (shapeBlock: ShapeBlock, axis: string, scene: BABYLON.Scene) => {
+  let mesh = convertShapeBlockToMesh(shapeBlock, scene);
+  if (mesh) {
+    return mesh.position[axis];
+  }
+};
+
 // Creates the ground
 const createGround = (shape: Shape, scene: BABYLON.Scene) => {
   // if (this.ground) this.ground.dispose();
@@ -469,10 +488,7 @@ const createGround = (shape: Shape, scene: BABYLON.Scene) => {
 
 // Creates the skybox
 const createSkybox = (skybox: Skybox, scene: BABYLON.Scene) => {
-  scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
-    `./assets/env/${skybox.asset}.env`,
-    scene
-  );
+  scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(`./assets/env/${skybox.asset}.env`, scene);
   scene.createDefaultSkybox(scene.environmentTexture);
 };
 
@@ -481,4 +497,18 @@ const setSkyColor = (color: string, scene: BABYLON.Scene) => {
   scene.clearColor = BABYLON.Color4.FromHexString(color);
 };
 
-export { createShape, createShapeAndAddTo, clone, remove, moveShape, moveShapeAlong, rotate, createGround, createSkybox, setSkyColor, convertCoordsBlockToCoords, convertShapeBlockToMesh }
+export {
+  createShape,
+  createShapeAndAddTo,
+  clone,
+  remove,
+  moveShape,
+  moveShapeAlong,
+  rotate,
+  getPosition,
+  createGround,
+  createSkybox,
+  setSkyColor,
+  convertCoordsBlockToCoords,
+  convertShapeBlockToMesh,
+};

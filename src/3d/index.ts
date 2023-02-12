@@ -47,6 +47,7 @@ export class ThreeD {
   public moveShape = world.moveShape;
   public moveShapeAlong = world.moveShapeAlong;
   public rotate = world.rotate;
+  public getPosition = world.getPosition;
   public createGround = world.createGround;
   public createSkybox = world.createSkybox;
   public setSkyColor = world.setSkyColor;
@@ -188,14 +189,6 @@ export class ThreeD {
   // Stop an animation loop
   public stopAnimation = (name: string) => {
     delete this.runningAnimations[name];
-  };
-
-  // // Get the position of a shape
-  public getPosition = (shapeBlock: ShapeBlock, axis: string) => {
-    let mesh = world.convertShapeBlockToMesh(shapeBlock, this.scene);
-    if (mesh) {
-      return mesh.position[axis];
-    }
   };
 
   public enableInspector = () => {
