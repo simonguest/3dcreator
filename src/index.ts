@@ -61,7 +61,15 @@ async function run(reset?: boolean, physics?: boolean) {
 async function init() {
   console.log("Loading workspace from session storage");
   let jsonStr = sessionStorage.getItem("workspace");
-  if (jsonStr) Blockly.serialization.workspaces.load(JSON.parse(jsonStr), workspace);
+  if (jsonStr) {
+    Blockly.serialization.workspaces.load(JSON.parse(jsonStr), workspace);
+  } else {
+    // Load the sample workspace
+    console.log("Loading starter workspace...");
+    const response = await fetch(`./examples/starter.json`);
+    const json = await response.json();
+    Blockly.serialization.workspaces.load(json, workspace);
+  }
 
   resetButton.onmouseup = async (e) => {
     e.preventDefault();
