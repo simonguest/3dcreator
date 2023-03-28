@@ -1,0 +1,90 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "skybox",
+        "id": "P5l=K{.P1W-@{AZ*^q=4",
+        "x": 55,
+        "y": 44,
+        "fields": { "SKYBOX": "puresky" },
+        "next": {
+          "block": {
+            "type": "ground",
+            "id": "n^CVoXxq]^=^(@qbI1n)",
+            "inputs": {
+              "LENGTH": { "shadow": { "type": "math_number", "id": "$5w}TkhEukAYJ6Fd)Meo", "fields": { "NUM": 5 } } },
+              "WIDTH": { "shadow": { "type": "math_number", "id": "B43[XSr((e@m7LS%J6Sl", "fields": { "NUM": 5 } } },
+              "TILESIZE": {
+                "shadow": { "type": "math_number", "id": "xS+KMULK0gqT5,70coxJ", "fields": { "NUM": 2.5 } }
+              },
+              "MATERIAL": {
+                "shadow": { "type": "none", "id": "Btg|!EiKQ;K#:`ZeIrAE" },
+                "block": {
+                  "type": "woodfloor",
+                  "id": ")Kzv7u,pW@P#=xy8!(47",
+                  "fields": { "MATERIAL": "woodfloor/WoodFloor042" }
+                }
+              }
+            },
+            "next": {
+              "block": {
+                "type": "createShapeAs",
+                "id": ".y*O(.h9IUkipW}l,vAe",
+                "fields": { "VAR": { "id": "!,bEhNKqdG$*L((%(S_o" } },
+                "inputs": {
+                  "SHAPE": {
+                    "block": {
+                      "type": "box",
+                      "id": "4,fCg(]E1h8)_.c:wB8p",
+                      "inputs": {
+                        "W": {
+                          "shadow": { "type": "math_number", "id": "aQvz^#+S:#Zh.$]}]{{F", "fields": { "NUM": 0.5 } }
+                        },
+                        "H": {
+                          "shadow": { "type": "math_number", "id": "Rxe`.F^FOHwvhSkdi/bn", "fields": { "NUM": 0.5 } }
+                        },
+                        "L": {
+                          "shadow": { "type": "math_number", "id": "]^IgA^.!d.Kway1Z+c?L", "fields": { "NUM": 0.5 } }
+                        },
+                        "MATERIAL": {
+                          "shadow": { "type": "none", "id": "Ap(PO~+u-=x7ee`o3Dyn" },
+                          "block": {
+                            "type": "codeorg",
+                            "id": "~:vYkjQP!VUPLEP{eD=7",
+                            "fields": { "MATERIAL": "codeorg/CodeOrg.jpg" }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "COORDS": {
+                    "block": {
+                      "type": "coordinates",
+                      "id": "q3@b]*snNV.)]-WIdHJ.",
+                      "inputs": {
+                        "X": {
+                          "shadow": { "type": "math_number", "id": "MjmNSPHY%q3/WlSKP-)t", "fields": { "NUM": 0 } }
+                        },
+                        "Y": {
+                          "shadow": { "type": "math_number", "id": "t0?at5EF[`WapwI).p9F", "fields": { "NUM": 0.25 } }
+                        },
+                        "Z": {
+                          "shadow": { "type": "math_number", "id": "DQ+iY]:!r-aw576%eOM?", "fields": { "NUM": 0 } }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "variables": [
+    { "name": "box", "id": "!,bEhNKqdG$*L((%(S_o", "type": "SHAPE" },
+    { "name": "sphere", "id": "oWS*EDe$kiS?r`(oo:AF", "type": "SHAPE" }
+  ]
+}
