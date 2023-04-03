@@ -1,4 +1,6 @@
 import Ammo from "../lib/ammo.js";
+import introJs from "intro.js";
+import 'intro.js/introjs.css';
 
 import Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
@@ -38,6 +40,7 @@ let vrDropDown = document.getElementById("vr-dropdown");
 let oculusQuestButton = document.getElementById("oculusQuestButton");
 let googleCardboardButton = document.getElementById("googleCardboardButton");
 let exitVRButton = document.getElementById("exitVRButton");
+let helpButton = document.getElementById("help");
 
 // Code execution
 async function run(reset?: boolean, physics?: boolean) {
@@ -226,6 +229,62 @@ async function init() {
       sessionStorage.setItem("workspace", json.toString());
     };
     reader.readAsText(file);
+  };
+
+  document.getElementById("help").onclick = () => {
+    console.log("help button pressed");
+    introJs()
+      .setOptions({
+        steps: [
+          {
+            intro: "Welcome to 3D Creator! This tour will show you how to use the app.",
+          },
+          {
+            element: "#blocklyDiv",
+            intro: "This is the code editor. You assemble blocks here to create 3D scenes.",
+          },
+          {
+            element: ".blocklyToolboxDiv",
+            intro: "This is the toolbox. You can drag and drop blocks from here to the code editor.",
+          },
+          {
+            element: "#runArea",
+            intro: "This is the 3D scene. Click on the scene and move the mouse to rotate the camera. Use the mouse wheel to zoom in and out.",
+          },
+          {
+            element: "#buttonrow",
+            intro: "These buttons control the main features of the app.",
+          },
+          {
+            element: "#reset",
+            intro: "Click this button to reset the scene to its default state.",
+          },
+          {
+            element: "#physics",
+            intro: "Click this button to toggle physics on and off.",
+          },
+          {
+            element: "#fullscreen",
+            intro: "Click this button to toggle fullscreen mode.",
+          },
+          {
+            element: "#vr",
+            intro: "Click this button to enter VR mode to view your scene with an Oculus Quest or Google Cardboard.",
+          },
+          {
+            element: "#examples",
+            intro: "Click this button to explore example projects.",
+          },
+          {
+            element: "#export",
+            intro: "Click this button to export your workspace to a JSON file.",
+          },
+          {
+            intro: "That's it! Enjoy creating 3D scenes with 3D Creator!"
+          },
+        ],
+      })
+      .start();
   };
 
   const broadcastColumnResize = (e) => {

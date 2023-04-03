@@ -88,7 +88,7 @@ body {
   flex-direction: row;
   justify-content: space-between;
   padding: 0 10px;
-  width: 500px;
+  width: 550px;
 }
 
 .button {
@@ -148,6 +148,11 @@ body {
 
 #examples {
   background-image: url(../static/icons/media.svg);
+  background-repeat: no-repeat;
+}
+
+#help {
+  background-image: url(../static/icons/help.svg);
   background-repeat: no-repeat;
 }
 

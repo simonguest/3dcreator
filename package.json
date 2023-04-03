@@ -21,7 +21,8 @@
   "homepage": "https://github.com/simonguest/3dcreator#readme",
   "dependencies": {
     "babylonjs": "^5.46.0",
-    "blockly": "^9.0.0"
+    "blockly": "^9.0.0",
+    "intro.js": "^7.0.1"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",
