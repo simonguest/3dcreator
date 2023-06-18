@@ -28,8 +28,8 @@
     "@types/node": "^18.11.9",
     "babylonjs-inspector": "^5.35.1",
     "buffer": "^5.7.1",
-    "parcel": "^2.8.0",
-    "parcel-reporter-static-files-copy": "^1.4.0",
+    "parcel": "^2.9.2",
+    "parcel-reporter-static-files-copy": "^1.5.0",
     "path-browserify": "^1.0.1",
     "process": "^0.11.10"
   }
