@@ -5,8 +5,8 @@
   "scripts": {
     "build": "rm -rf ./dist && rm -rf ./.parcel-cache && npx parcel build --public-url '.' index.html",
     "commit-ghpages": "git add -A && git commit -m \"Deploy to GitHub Pages\"",
-    "prepublish": "npm run build && npm run commit-ghpages",
-    "publish": "git subtree push --prefix dist origin gh-pages",
+    "preghpages": "npm run build && npm run commit-ghpages",
+    "ghpages": "git subtree push --prefix dist origin gh-pages",
     "server": "npm run build && npx parcel serve index.html -p 55000"
   },
   "repository": {
@@ -28,8 +28,8 @@
     "@types/node": "^18.11.9",
     "babylonjs-inspector": "^5.35.1",
     "buffer": "^5.7.1",
-    "parcel": "^2.8.0",
-    "parcel-reporter-static-files-copy": "^1.4.0",
+    "parcel": "^2.9.2",
+    "parcel-reporter-static-files-copy": "^1.5.0",
     "path-browserify": "^1.0.1",
     "process": "^0.11.10"
   }
