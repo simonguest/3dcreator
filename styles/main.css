@@ -17,7 +17,7 @@ body {
 
 #container {
   display: grid;
-  grid-template-rows: 60px calc(100% - 65px) 20px;
+  grid-template-rows: 60px calc(100% - 80px) 20px;
   height: 100%;
 }
 
