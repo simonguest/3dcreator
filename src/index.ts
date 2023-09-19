@@ -288,12 +288,15 @@ async function init() {
   };
 
   const broadcastColumnResize = (e) => {
+    // Add some hard limits to the column resizing
+    if (e.clientX < 200 || e.clientX > window.innerWidth - 200) return;
+    
     let windowWidth = window.innerWidth;
     let runArea = document.getElementById("runArea");
-    runArea.style.width = `${(e.clientX / windowWidth) * 100}%`;
+    runArea.style.width = `${((window.innerWidth - e.clientX) / windowWidth) * 100}%`;
 
     let blocklyArea = document.getElementById("blocklyArea");
-    blocklyArea.style.width = `${((window.innerWidth - e.clientX) / windowWidth) * 100}%`;
+    blocklyArea.style.width = `${(e.clientX / windowWidth) * 100}%`;
 
     let columnResizedEvent = new Event("resize");
     window.dispatchEvent(columnResizedEvent);

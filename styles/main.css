@@ -68,6 +68,11 @@ body {
   font-size: small;
 }
 
+#fpsCounter {
+  text-align: right;
+  padding-right: 10px;
+}
+
 .blocklyTreeLabel {
     font-family: "Roboto Mono";
   font-size: 12px !important;

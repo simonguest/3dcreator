@@ -221,7 +221,7 @@ export class ThreeD {
       function () {
         if (this.scene && this.scene.cameras.length > 0) {
           this.scene.render();
-          document.getElementById("fpsCounter").innerHTML = this.engine.getFps().toFixed() + "fps";
+          document.getElementById("fpsCounter").innerHTML = this.engine.getFps().toFixed() + " fps";
         }
       }.bind(this)
     );
