@@ -1,7 +1,7 @@
-3D Creator Prototype
-====================
+3D Creator
+==========
 
-3D Creator is a prototype that shows how students (grades 7-12) can use block-based programming to create immersive 3D scenes. It's designed such that students only need knowledge of x, y, and z planes, and gently introduces more complex topics over time.
+3D Creator is a prototype that shows how students (grades 7-12) can use block-based programming to create immersive 3D scenes. It's designed such that students only need knowledge of x, y, and z planes, and gently introduces more complex 3D topics over time.
 
 It provides an immediate feedback loop (when a block is added, the scene automatically updates, with no render time) and uses PBR (Physically Based Rendering) to create realistic materials, reflections, and lighting.
 
