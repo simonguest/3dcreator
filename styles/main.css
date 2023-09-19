@@ -17,7 +17,7 @@ body {
 
 #container {
   display: grid;
-  grid-template-rows: 45px calc(100% - 65px) 20px;
+  grid-template-rows: 60px calc(100% - 65px) 20px;
   height: 100%;
 }
 
@@ -64,7 +64,7 @@ body {
   grid-row: 3;
   background-color: #5d5d73;
   color: #fff;
-  font-family: 'Roboto Mono';
+  font-family: "Roboto Mono";
   font-size: small;
 }
 
@@ -74,7 +74,7 @@ body {
 }
 
 .blocklyTreeLabel {
-    font-family: "Roboto Mono";
+  font-family: "Roboto Mono";
   font-size: 12px !important;
 }
 
@@ -84,16 +84,17 @@ body {
 }
 
 #logo {
-  height: 40px;
-  padding-top: 2px;
+  height: 50px;
+  padding-top: 5px;
+  padding-left: 20px;
 }
 
 #buttonrow {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 10px;
-  width: 550px;
+  padding: 0 0px;
+  width: 725px;
 }
 
 .button {
@@ -105,6 +106,11 @@ body {
   margin-top: 7;
   margin-bottom: 7;
   cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-size: 12px;
+  font-family: "Roboto Mono";
 }
 
 .button:hover {
@@ -114,51 +120,61 @@ body {
 #reset {
   background-image: url(../static/icons/restart.svg);
   background-repeat: no-repeat;
+  padding-top: 30px;
 }
 
 .physics-on {
   background-image: url(../static/icons/toggle_on.svg);
   background-repeat: no-repeat;
+  padding-top: 30px;
 }
 
 .physics-off {
   background-image: url(../static/icons/toggle_off.svg);
   background-repeat: no-repeat;
+  padding-top: 30px;
 }
 
 #fullscreen {
   background-image: url(../static/icons/fullscreen.svg);
   background-repeat: no-repeat;
+  padding-top: 30px;
 }
 
 #vr {
   background-image: url(../static/icons/vr.svg);
   background-repeat: no-repeat;
+  padding-top: 30px;
 }
 
 #debug {
   background-image: url(../static/icons/debug.svg);
   background-repeat: no-repeat;
-}
-
-#clear {
-  background-image: url(../static/icons/delete.svg);
-  background-repeat: no-repeat;
-}
-
-#export {
-  background-image: url(../static/icons/download.svg);
-  background-repeat: no-repeat;
+  padding-top: 30px;
 }
 
 #examples {
   background-image: url(../static/icons/media.svg);
   background-repeat: no-repeat;
+  padding-top: 30px;
+}
+
+#clear {
+  background-image: url(../static/icons/delete.svg);
+  background-repeat: no-repeat;
+  padding-top: 30px;
+}
+
+#export {
+  background-image: url(../static/icons/download.svg);
+  background-repeat: no-repeat;
+  padding-top: 30px;
 }
 
 #help {
   background-image: url(../static/icons/help.svg);
   background-repeat: no-repeat;
+  padding-top: 30px;
 }
 
 #drag {
@@ -176,6 +192,20 @@ body {
 
 #image-upload>input {
   display: none;
+} 
+
+#image-upload-label {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center;    /* Center children horizontally */
+  cursor: pointer;        /* Indicate it's clickable */
+  color: white;
+  font-size: 12px;
+  font-family: "Roboto Mono";
+}
+
+#image-upload-label img.button {
+  margin-bottom: 0px;
 }
 
 #title3d {
@@ -189,7 +219,7 @@ body {
 }
 
 #vr-dropdown {
-  position:absolute;
+  position: absolute;
   display: none;
   flex-direction: column;
   top: 45px;
@@ -208,11 +238,11 @@ body {
 }
 
 #examples-dropdown {
-  position:absolute;
+  position: absolute;
   display: none;
   flex-direction: column;
-  top: 45px;
-  left: 350px;
+  top: 60px;
+  left: 375px;
   width: 200px;
   background-color: #5d5d73;
   min-width: 160px;
