@@ -1,6 +1,6 @@
 import { createLightAs } from "./createLightAs";
-import { lightBulb } from "./lightbulb";
-import { spotlight } from "./spotLight"
+import { lightBulb } from "./lightBulb";
+import { spotlight } from "./spotlight"
 import { showLight } from "./showLight";
 import { moveLight } from "./moveLight";
 import { moveLightAlong } from "./moveLightAlong";
