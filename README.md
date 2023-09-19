@@ -11,11 +11,7 @@ Designed to run on minimal hardware, 3D Creator is fully browser-based and requi
 
 # Using 3D Creator
 
-To launch 3D Creator, browse to https://simonguest.github.io/3dcreator
-
-![image](https://user-images.githubusercontent.com/769225/212595846-73db5a6a-0179-446e-9ce8-0c03839ba885.png)
-
-Drag blocks on to the workspace to build your scene:
+To launch 3D Creator, browse to https://simonguest.github.io/3dcreator. Drag blocks on to the workspace to build your scene:
 
 ![image](https://user-images.githubusercontent.com/769225/212596959-0d439e17-6e8c-4bca-b618-dca98529d1aa.png)
 
