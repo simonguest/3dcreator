@@ -222,8 +222,8 @@ body {
   position: absolute;
   display: none;
   flex-direction: column;
-  top: 45px;
-  left: 245px;
+  top: 60px;
+  left: 210px;
   width: 200px;
   background-color: #5d5d73;
   min-width: 160px;
