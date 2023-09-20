@@ -13,39 +13,39 @@ Designed to run on minimal hardware, 3D Creator is fully browser-based and requi
 
 To launch 3D Creator, browse to https://simonguest.github.io/3dcreator. Drag blocks on to the workspace to build your scene:
 
-![image](https://user-images.githubusercontent.com/769225/212596959-0d439e17-6e8c-4bca-b618-dca98529d1aa.png)
+![image](https://github.com/simonguest/3dcreator/assets/769225/9e44a78a-b3b0-4a27-a3ae-d21cf7a3a075)
 
 The sample projects (fourth button from the right on the toolbar) demonstrate some of the more advanced features of 3D Creator:
 
-![image](https://user-images.githubusercontent.com/769225/212597590-d016abe5-8880-47d6-b952-6bf68242f6bd.png)
+![image](https://github.com/simonguest/3dcreator/assets/769225/90c41afb-343c-40b3-a8b2-909cf3eaf8dc)
 
 # Toolbar Controls
 
-![image](https://user-images.githubusercontent.com/769225/212596338-cd9e2802-eaf8-4cec-b4e6-9eb734541876.png)
+![image](https://github.com/simonguest/3dcreator/assets/769225/7a0d0194-c774-4f57-ab2a-52e4a16bce09)
 
-From left to right, the toolbar offers the following functionality:
+From left to right, use the toolbar to:
 
 - **Reset:** Resets the camera view in the current scene.
-- **Enable Physics:** Enables the Ammo physics engine for the current scene.
-- **Full Screen:** Displays the current scene in full screen.
-- **VR Mode:** Displays the current scene on an Oculus Quest (using WebXR) or Google Cardboard.
-- **Scene Debug:** Enables the debug view for object debugging.
+- **Physics:** Enables the physics engine for the current scene.
+- **Full:** Displays the current scene in full screen mode. Hit Esc to exit full screen.
+- **VR:** Displays the current scene on an Oculus Quest (using WebXR) or Google Cardboard.
+- **Debugger:** Enables the debug view for object debugging.
 
-- **Samples:** Open a sample project.
-- **Open:** Open a previously saved workspace file.
-- **Download:** Download the workspace to a file.
+- **Examples:** Open an example project.
+- **Upload:** Upload a previously saved workspace file.
+- **Export:** Export the current workspace to a file.
 - **Clear:** Clear the current workspace and scene.
+- **Help:** Launch a short tutorial on how to use 3D Creator.
 
-# Sample Projects
+# Example Projects
 
-Sample projects can be opened via the toolbar (as shown above) or via direct URLs:
+Example projects can be opened via the toolbar (as shown above) or via direct URLs:
 
 - [TV Room](https://simonguest.github.io/3dcreator/?sample=tv-room.json&phys=0)
 - [Spinning Code.org](https://simonguest.github.io/3dcreator/?sample=spinning-codeorg.json&phys=0)
 - [Solar System](https://simonguest.github.io/3dcreator/?sample=solar-system.json&phys=0)
 - [Red Pill, Blue Pill](https://simonguest.github.io/3dcreator/?sample=redpill-bluepill.json&phys=1) (Click on the scene and press A to add more and B to release.)
 - [Pegboard Game](https://simonguest.github.io/3dcreator/?sample=pegboard.json&phys=1) (Click on the scene and press A and D to move, S to release.)
-
 
 # Browser Support
 
