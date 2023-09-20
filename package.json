@@ -1,7 +1,7 @@
 {
   "name": "3dcreator",
   "version": "1.0.0",
-  "description": "",
+  "description": "3D Creator is a prototype that shows how students (grades 7-12) can use block-based programming to create immersive 3D scenes.",
   "scripts": {
     "build": "rm -rf ./dist && rm -rf ./.parcel-cache && npx parcel build --public-url '.' index.html",
     "server": "npm run build && npx parcel serve index.html -p 55000"
@@ -10,8 +10,8 @@
     "type": "git",
     "url": "git+https://github.com/simonguest/3dcreator.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Simon Guest",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/simonguest/3dcreator/issues"
   },
