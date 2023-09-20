@@ -11,6 +11,7 @@ let inspectorEnabled = false;
 let ammo = null;
 let activeCamera = "ArcRotate";
 
+
 // Initialize Blockly and the workspace
 import { blocklyInit, workspace } from "./blocks/initializer";
 blocklyInit(async () => {
@@ -290,7 +291,7 @@ async function init() {
   const broadcastColumnResize = (e) => {
     // Add some hard limits to the column resizing
     if (e.clientX < 200 || e.clientX > window.innerWidth - 200) return;
-    
+
     let windowWidth = window.innerWidth;
     let runArea = document.getElementById("runArea");
     runArea.style.width = `${((window.innerWidth - e.clientX) / windowWidth) * 100}%`;

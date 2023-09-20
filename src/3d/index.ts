@@ -32,6 +32,15 @@ export class ThreeD {
 
   public createCamera = () => {
     this.camera = camera.createCamera(this.cameraType, this.camera, this.scene, this.canvas);
+    if (this.camera instanceof BABYLON.ArcRotateCamera) {
+      // Remove the ability to pinch and zoom on trackpads, but keep scroll wheel zoom
+      this.camera.pinchToPanMaxDistance = 0;
+      this.camera.inputs.removeByType("ArcRotateCameraMultiTouchInput");
+
+      // Set radius limits for the camera
+      this.camera.lowerRadiusLimit = 2;
+      this.camera.upperRadiusLimit = 50;
+    }
   };
 
   public moveCamera = (coordsBlock: CoordsBlock) => {

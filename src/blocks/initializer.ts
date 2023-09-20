@@ -45,7 +45,7 @@ let workspace = Blockly.inject("blocklyDiv", {
     wheel: true,
   },
   theme: "theme",
-  zoom: { controls: true, wheel: true, startScale: 0.9, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2 },
+  zoom: { controls: true, wheel: false, startScale: 0.9, maxScale: 3, minScale: 0.3, scaleSpeed: 1.2, pinch: false },
   trashcan: false,
 });
 
